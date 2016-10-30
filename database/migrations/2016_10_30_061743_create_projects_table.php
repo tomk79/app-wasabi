@@ -14,7 +14,13 @@ class CreateProjectsTable extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('user_id');
+            $table->string('name');
+            $table->string('account')->unique();
+            $table->integer('delete_flg');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users'); // foreignkey制約
         });
     }
 
