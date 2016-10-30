@@ -15,4 +15,19 @@ class Projects extends Model
      * @var array
      */
     protected $dates = ['deleted_at'];
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    // protected $table = 'projects';
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    // protected $fillable = ['user_id', 'name', 'account'];
+
 }

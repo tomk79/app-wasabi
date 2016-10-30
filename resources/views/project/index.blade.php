@@ -8,7 +8,34 @@
                 <div class="panel-heading">Projects</div>
 
                 <div class="panel-body">
-                    You are logged in!
+<div>
+    <a href="{{ url('/project/create') }}" class="btn btn-primary">投稿</a>
+</div>
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>プロジェクト名</th>
+            <th>物理名</th>
+            <th>作成日時</th>
+            <th>更新日時</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($projects as $project)
+        <tr>
+            <td>{{{ $project->name }}}</td>
+            <td>{{{ $project->account }}}</td>
+            <td>{{{ $project->created_at }}}</td>
+            <td>{{{ $project->updated_at }}}</td>
+            <td>
+                <a href="{{ url('/project/show/') }}{{{ $project->id }}}" class="btn btn-default btn-xs">詳細</a>
+                <a href="{{ url('/project/edit/') }}{{{ $project->id }}}" class="btn btn-success btn-xs">編集</a>
+            </td>
+        </tr>
+        @endforeach
+    </tbody>
+</table>
                 </div>
             </div>
         </div>
