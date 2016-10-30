@@ -137,6 +137,7 @@ return [
         Illuminate\Filesystem\FilesystemServiceProvider::class,
         Illuminate\Foundation\Providers\FoundationServiceProvider::class,
         Illuminate\Hashing\HashServiceProvider::class,
+        Collective\Html\HtmlServiceProvider::class,
         Illuminate\Mail\MailServiceProvider::class,
         Illuminate\Pagination\PaginationServiceProvider::class,
         Illuminate\Pipeline\PipelineServiceProvider::class,
@@ -202,6 +203,11 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
+        // 'File'=> 'Illuminate\Support\Facades\File',
+        'Form'=> Collective\Html\FormFacade::class,
+        // 'Hash'=> 'Illuminate\Support\Facades\Hash',
+        'HTML'=> Collective\Html\HtmlFacade::class,
+        // 'Input' => 'Illuminate\Support\Facades\Input',
     ],
 
 ];
