@@ -21,13 +21,13 @@ class Projects extends Model
      *
      * @var string
      */
-    // protected $table = 'projects';
+    protected $table = 'projects';
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    // protected $fillable = ['user_id', 'name', 'account'];
+    protected $fillable = ['user_id', 'name', 'account'];
 
 }

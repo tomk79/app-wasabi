@@ -9,7 +9,8 @@
 
                 <div class="panel-body">
 
-{!! Form::open() !!}
+{!! Form::open(['method'=>'put']) !!}
+{!! Form::input('hidden', 'user_id', 1, ['required', 'class' => 'form-control']) !!}
 <div class="form-group">
     <label>プロジェクト名</label>
     {!! Form::input('text', 'name', null, ['required', 'class' => 'form-control']) !!}

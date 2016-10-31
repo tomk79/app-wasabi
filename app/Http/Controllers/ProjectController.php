@@ -38,22 +38,26 @@ class ProjectController extends Controller
 
     public function create(Request $request)
     {
-        var_dump($request);
-        $data = $request->all();
-        var_dump($data);
-        // $this->project->fill($data);
-        // $this->project->save();
+        // var_dump($request);
+        // var_dump($request->all());
+        // var_dump($request->path());
+        // var_dump($request->url());
+        // var_dump($request->fullUrl());
+        // var_dump($request->input('name', 'default')); // 入力値 (第2引数はデフォルト値)
+        // var_dump($request->isMethod('post'));
+        // var_dump($request->isMethod('get'));
 
-        return redirect()->to('project');
-        // $projects = $this->project->all();
+        $projects = $this->project->all();
         // var_dump($projects);
         // var_dump(compact('projects'));
-        // return view('project/index')->with( compact('projects') );
+        return view('project/create')
+            ->with( compact('projects') )
+        ;
     }
 
     public function store()
     {
-        //
+        var_dump('---- store() ----');
     }
 
     public function show($id)
@@ -80,9 +84,14 @@ class ProjectController extends Controller
         return redirect()->to('project');
     }
 
-    public function update($id)
+    public function update($id, Request $request)
     {
-        //
+        // var_dump('---- update('.$id.') ----');
+        $data = $request->all();
+        // var_dump($data);
+        $this->project->fill($data);
+        $this->project->save();
+        return redirect()->to('project');
     }
 
     public function destroy($id)
