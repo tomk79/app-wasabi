@@ -22,6 +22,7 @@ class ProjectController extends Controller
      */
     public function __construct(Projects $project)
     {
+        $this->middleware('auth'); // 認証が必要
         $this->project = $project;
     }
 
