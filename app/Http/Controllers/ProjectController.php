@@ -29,8 +29,6 @@ class ProjectController extends Controller
     public function index()
     {
         $projects = $this->project->all();
-        // var_dump($projects);
-        // var_dump(compact('projects'));
         return view('project/index')
             ->with( compact('projects') )
         ;
@@ -38,21 +36,7 @@ class ProjectController extends Controller
 
     public function create(Request $request)
     {
-        // var_dump($request);
-        // var_dump($request->all());
-        // var_dump($request->path());
-        // var_dump($request->url());
-        // var_dump($request->fullUrl());
-        // var_dump($request->input('name', 'default')); // 入力値 (第2引数はデフォルト値)
-        // var_dump($request->isMethod('post'));
-        // var_dump($request->isMethod('get'));
-
-        $projects = $this->project->all();
-        // var_dump($projects);
-        // var_dump(compact('projects'));
-        return view('project/create')
-            ->with( compact('projects') )
-        ;
+        return view('project/create');
     }
 
     public function store(Request $request)
@@ -66,27 +50,16 @@ class ProjectController extends Controller
 
     public function show($id)
     {
-        // var_dump('---- show('.$id.') ----');
         $project = $this->project->find($id);
-        // var_dump($project);
-
         return view('project/show', compact('project'));
     }
 
     public function edit($id)
     {
-        var_dump('---- edit('.$id.') ----');
+        // var_dump('---- edit('.$id.') ----');
         $project = $this->project->find($id);
 
         return view('project/edit', compact('project'));
-
-        // $project = $this->project->find($id);
-        // $data = $request->all();
-        // $project->fill($data);
-        // $project->save();
-        //
-        // return redirect()->to('project');
-
     }
 
     public function update($id, Request $request)
@@ -105,7 +78,7 @@ class ProjectController extends Controller
 
     public function destroy($id)
     {
-        var_dump('---- destroy('.$id.') ----');
+        // var_dump('---- destroy('.$id.') ----');
         $project = $this->project->find($id);
         $project->delete();
         return redirect()->to('project');

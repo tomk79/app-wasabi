@@ -34,6 +34,14 @@
     </tbody>
 </table>
 
+<div>
+    <a href="{{ url('/project') }}/{{{ $project->id }}}/edit" class="btn btn-primary">編集する</a>
+</div>
+
+{!! Form::open(['method'=>'delete']) !!}
+<button type="submit" class="btn btn-danger">削除する</button>
+{!! Form::close() !!}
+
                 </div>
             </div>
         </div>
