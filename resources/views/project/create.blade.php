@@ -19,7 +19,7 @@
     <label>物理名</label>
     {!! Form::input('text', 'account', null, ['required', 'class' => 'form-control']) !!}
 </div>
-<button type="submit" class="btn btn-default">投稿</button>
+<button type="submit" class="btn btn-default">プロジェクト作成</button>
 {!! Form::close() !!}
 
                 </div>

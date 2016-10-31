@@ -22,6 +22,10 @@
     <button type="submit" class="btn btn-default">編集</button>
 {!! Form::close() !!}
 
+<div>
+    <a href="{{ url('/project') }}" class="btn btn-default">キャンセル</a>
+</div>
+
                 </div>
             </div>
         </div>

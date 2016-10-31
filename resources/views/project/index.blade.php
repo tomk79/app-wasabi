@@ -9,11 +9,12 @@
 
                 <div class="panel-body">
 <div>
-    <a href="{{ url('/project/create') }}" class="btn btn-primary">投稿</a>
+    <a href="{{ url('/project/create') }}" class="btn btn-primary">新規プロジェクト作成</a>
 </div>
 <table class="table table-striped table-hover">
     <thead>
         <tr>
+            <th>ID</th>
             <th>プロジェクト名</th>
             <th>物理名</th>
             <th>作成日時</th>
@@ -24,6 +25,7 @@
     <tbody>
         @foreach($projects as $project)
         <tr>
+            <td>{{{ $project->id }}}</td>
             <td>{{{ $project->name }}}</td>
             <td>{{{ $project->account }}}</td>
             <td>{{{ $project->created_at }}}</td>
