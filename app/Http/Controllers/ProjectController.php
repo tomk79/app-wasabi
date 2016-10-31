@@ -28,7 +28,10 @@ class ProjectController extends Controller
 
     public function index()
     {
-        $projects = $this->project->all();
+        $projects = $this->project
+            ->orderBy('account')
+            ->get();
+
         return view('project/index')
             ->with( compact('projects') )
         ;
