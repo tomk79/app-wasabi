@@ -9,7 +9,7 @@
 
                 <div class="panel-body">
 
-{!! Form::open(['method'=>'put']) !!}
+{!! Form::open(['method'=>'post', 'action' => ['ProjectController@store']]) !!}
 {!! Form::input('hidden', 'user_id', 1, ['required', 'class' => 'form-control']) !!}
 <div class="form-group">
     <label>プロジェクト名</label>

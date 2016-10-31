@@ -12,6 +12,10 @@
 <table class="table table-striped">
     <tbody>
         <tr>
+            <th>プロジェクトID</th>
+            <td>{{{ $project->id }}}</td>
+        </tr>
+        <tr>
             <th>プロジェクト名</th>
             <td>{{{ $project->name }}}</td>
         </tr>

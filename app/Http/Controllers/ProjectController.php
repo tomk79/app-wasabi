@@ -55,9 +55,13 @@ class ProjectController extends Controller
         ;
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        var_dump('---- store() ----');
+        // var_dump('---- store() ----');
+        $data = $request->all();
+        $this->project->fill($data);
+        $this->project->save();
+        return redirect()->to('project');
     }
 
     public function show($id)
@@ -71,33 +75,37 @@ class ProjectController extends Controller
 
     public function edit($id)
     {
+        var_dump('---- edit('.$id.') ----');
         $project = $this->project->find($id);
 
-        return view('project/edit')->withProject($project);
-    }
+        return view('project/edit', compact('project'));
 
-    public function postEdit($id)
-    {
-        $project = $this->project->find($id);
-        $data = $request->all();
-        $project->fill($data);
-        $project->save();
+        // $project = $this->project->find($id);
+        // $data = $request->all();
+        // $project->fill($data);
+        // $project->save();
+        //
+        // return redirect()->to('project');
 
-        return redirect()->to('project');
     }
 
     public function update($id, Request $request)
     {
         // var_dump('---- update('.$id.') ----');
         $data = $request->all();
-        // var_dump($data);
-        $this->project->fill($data);
-        $this->project->save();
-        return redirect()->to('project');
+        $this->project
+            ->where('id',$id)
+            ->update(array(
+                'name'=>$data['name'],
+                'account'=>$data['account'],
+            ))
+        ;
+        return redirect()->to('project/'.$id);
     }
 
     public function destroy($id)
     {
+        var_dump('---- destroy('.$id.') ----');
         $project = $this->project->find($id);
         $project->delete();
         return redirect()->to('project');
