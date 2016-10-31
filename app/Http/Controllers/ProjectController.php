@@ -94,7 +94,7 @@ class ProjectController extends Controller
         // var_dump('---- update('.$id.') ----');
         $data = $request->all();
         $this->project
-            ->where('id',$id)
+            ->find($id)
             ->update(array(
                 'name'=>$data['name'],
                 'account'=>$data['account'],
