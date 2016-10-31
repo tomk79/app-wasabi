@@ -62,9 +62,11 @@ class ProjectController extends Controller
 
     public function show($id)
     {
-        $projects = $this->project->find($id);
+        // var_dump('---- show('.$id.') ----');
+        $project = $this->project->find($id);
+        // var_dump($project);
 
-        return view('project/show', compact('projects'));
+        return view('project/show', compact('project'));
     }
 
     public function edit($id)
