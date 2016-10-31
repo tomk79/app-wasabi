@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Validator;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -18,17 +19,24 @@ class ProjectController extends Controller
     protected $project;
 
     /**
+     * @var User
+     */
+    protected $user;
+
+    /**
      * @param Article $project
      */
     public function __construct(Projects $project)
     {
         $this->middleware('auth'); // 認証が必要
+        $this->user = \Auth::user();
         $this->project = $project;
     }
 
     public function index()
     {
         $projects = $this->project
+            ->where('user_id', $this->user->id)
             ->orderBy('account')
             ->get();
 
@@ -46,6 +54,13 @@ class ProjectController extends Controller
     {
         // var_dump('---- store() ----');
         $data = $request->all();
+        $data['user_id'] = $this->user->id;//ログインユーザーのID
+
+        $this->validate($request, [
+            'name' => 'required|max:255',
+            'account' => 'required|min:4|max:1024|unique:projects,account',
+        ]);
+
         $this->project->fill($data);
         $this->project->save();
         return redirect()->to('project');
@@ -53,14 +68,20 @@ class ProjectController extends Controller
 
     public function show($id)
     {
-        $project = $this->project->find($id);
+        $project = $this->project
+            ->where('user_id', $this->user->id)
+            ->find($id)
+        ;
         return view('project/show', compact('project'));
     }
 
     public function edit($id)
     {
         // var_dump('---- edit('.$id.') ----');
-        $project = $this->project->find($id);
+        $project = $this->project
+            ->where('user_id', $this->user->id)
+            ->find($id)
+        ;
 
         return view('project/edit', compact('project'));
     }
@@ -69,7 +90,14 @@ class ProjectController extends Controller
     {
         // var_dump('---- update('.$id.') ----');
         $data = $request->all();
+
+        $this->validate($request, [
+            'name' => 'required|max:255',
+            'account' => 'required|min:4|max:1024|unique:projects,account,'.$id,
+        ]);
+
         $this->project
+            ->where('user_id', $this->user->id)
             ->find($id)
             ->update(array(
                 'name'=>$data['name'],
@@ -82,7 +110,10 @@ class ProjectController extends Controller
     public function destroy($id)
     {
         // var_dump('---- destroy('.$id.') ----');
-        $project = $this->project->find($id);
+        $project = $this->project
+            ->where('user_id', $this->user->id)
+            ->find($id)
+        ;
         $project->delete();
         return redirect()->to('project');
     }

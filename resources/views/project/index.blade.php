@@ -31,8 +31,8 @@
             <td>{{{ $project->created_at }}}</td>
             <td>{{{ $project->updated_at }}}</td>
             <td>
-                <a href="{{ url('/project') }}/{{{ $project->id }}}" class="btn btn-default btn-xs">詳細</a>
-                <a href="{{ url('/project') }}/{{{ $project->id }}}/edit" class="btn btn-success btn-xs">編集</a>
+                <a href="{{ url('/project') }}/{{{ $project->id }}}" class="btn btn-default">詳細</a>
+                <a href="{{ url('/project') }}/{{{ $project->id }}}/edit" class="btn btn-success">編集</a>
             </td>
         </tr>
         @endforeach

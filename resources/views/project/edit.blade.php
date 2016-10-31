@@ -9,8 +9,17 @@
 
                 <div class="panel-body">
 
+@if (count($errors) > 0)
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
 {!! Form::open(['method'=>'put', 'action' => ['ProjectController@update', $project->id]]) !!}
-{!! Form::input('hidden', 'user_id', $project->user_id, ['required', 'class' => 'form-control']) !!}
     <div class="form-group">
         <label>プロジェクト名</label>
         {!! Form::input('text', 'name', $project->name, ['required', 'class' => 'form-control']) !!}
@@ -19,7 +28,7 @@
         <label>物理名</label>
         {!! Form::input('text', 'account', $project->account, ['required', 'class' => 'form-control']) !!}
     </div>
-    <button type="submit" class="btn btn-default">編集</button>
+    <button type="submit" class="btn btn-primary">編集内容を保存する</button>
 {!! Form::close() !!}
 
 <div>

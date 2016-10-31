@@ -24,6 +24,10 @@
             <td>{{{ $project->account }}}</td>
         </tr>
         <tr>
+            <th>オーナーユーザーID</th>
+            <td>{{{ $project->user_id }}}</td>
+        </tr>
+        <tr>
             <th>作成日時</th>
             <td>{{{ $project->created_at }}}</td>
         </tr>
