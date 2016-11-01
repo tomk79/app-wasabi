@@ -66,6 +66,8 @@ class ProjectController extends Controller
             'user_id'=>$this->user->id,//ログインユーザーのID
             'name'=>$data['name'],
             'account'=>$data['account'],
+            'created_at'=>date('Y-m-d H:i:s'),
+            'updated_at'=>date('Y-m-d H:i:s'),
         ));
 
         // insert relay table
@@ -73,6 +75,8 @@ class ProjectController extends Controller
             'user_id'=>$this->user->id,
             'project_id'=>$id,
             'authority'=>10,
+            'created_at'=>date('Y-m-d H:i:s'),
+            'updated_at'=>date('Y-m-d H:i:s'),
         ));
 
         // $this->project->fill($data);
