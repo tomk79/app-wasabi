@@ -8,29 +8,31 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use App\Projects; // Projectsモデルをインポート
+// Import models
+use App\Projects;
+use App\relayUsersXProjects;
 
 class ProjectController extends Controller
 {
 
-    /**
-     * @var Project
-     */
+    /** @var Project */
     protected $project;
 
-    /**
-     * @var User
-     */
+    /** @var relayUsersXProjects */
+    protected $relay_users_x_projects;
+
+    /** @var User */
     protected $user;
 
     /**
      * @param Article $project
      */
-    public function __construct(Projects $project)
+    public function __construct(Projects $project, relayUsersXProjects $relay_users_x_projects)
     {
         $this->middleware('auth'); // 認証が必要
         $this->user = \Auth::user();
         $this->project = $project;
+        $this->relay_users_x_projects = $relay_users_x_projects;
     }
 
     public function index()
@@ -54,15 +56,27 @@ class ProjectController extends Controller
     {
         // var_dump('---- store() ----');
         $data = $request->all();
-        $data['user_id'] = $this->user->id;//ログインユーザーのID
 
         $this->validate($request, [
             'name' => 'required|max:255',
             'account' => 'required|min:4|max:1024|unique:projects,account',
         ]);
 
-        $this->project->fill($data);
-        $this->project->save();
+        $id = $this->project->insertGetId(array(
+            'user_id'=>$this->user->id,//ログインユーザーのID
+            'name'=>$data['name'],
+            'account'=>$data['account'],
+        ));
+
+        // insert relay table
+        $this->relay_users_x_projects->insert(array(
+            'user_id'=>$this->user->id,
+            'project_id'=>$id,
+            'authority'=>10,
+        ));
+
+        // $this->project->fill($data);
+        // $this->project->save();
         return redirect()->to('project');
     }
 
