@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRelayUserXProjectsTable extends Migration
+class CreateRelayUsersXProjectsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +12,7 @@ class CreateRelayUserXProjectsTable extends Migration
      */
     public function up()
     {
-        Schema::create('relay_user_x_projects', function (Blueprint $table) {
+        Schema::create('relay_users_x_projects', function (Blueprint $table) {
             $table->integer('user_id');
             $table->integer('project_id');
             $table->integer('authority');
@@ -31,6 +31,6 @@ class CreateRelayUserXProjectsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('relay_user_x_projects');
+        Schema::drop('relay_users_x_projects');
     }
 }
