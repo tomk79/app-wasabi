@@ -48,6 +48,9 @@
 
 @if (count($members) > 0)
     <h2>Member list</h2>
+    <div>
+        <a href="{{ url('/projectMember/create') }}?project_id={{{ $project->id }}}" class="btn btn-primary">追加する</a>
+    </div>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -64,7 +67,11 @@
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->authority }}</td>
                     <td>
-                        <!-- <button type="button" class="btn btn-danger" onclick="return confirm('realy!?');">削除する</button> -->
+                        {!! Form::open(['url'=>url('/projectMember/'.$project->id), 'method'=>'delete']) !!}
+                        <input type="hidden" name="user_id" value="{{{ $user->user_id }}}" />
+                        <input type="hidden" name="project_id" value="{{{ $user->project_id }}}" />
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('realy!?');">削除する</button>
+                        {!! Form::close() !!}
                     </td>
                 </tr>
             @endforeach
@@ -72,6 +79,8 @@
     </table>
 @endif
 
+@endsection
 
 
+@section('foot')
 @endsection

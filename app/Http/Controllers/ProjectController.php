@@ -22,15 +22,15 @@ class ProjectController extends Controller
     protected $relay_users_x_projects;
 
     /** @var User */
-    protected $user;
+    protected $me;
 
     /**
-     * @param Article $project
+     * @param Project $project
      */
     public function __construct(Projects $project, relayUsersXProjects $relay_users_x_projects)
     {
         $this->middleware('auth'); // 認証が必要
-        $this->user = \Auth::user();
+        $this->me = \Auth::user();
         $this->project = $project;
         $this->relay_users_x_projects = $relay_users_x_projects;
     }
@@ -38,7 +38,7 @@ class ProjectController extends Controller
     public function index()
     {
         $projects = $this->project
-            ->where('user_id', $this->user->id)
+            ->where('user_id', $this->me->id)
             ->orderBy('account')
             ->get();
 
@@ -63,7 +63,7 @@ class ProjectController extends Controller
         ]);
 
         $id = $this->project->insertGetId(array(
-            'user_id'=>$this->user->id,//ログインユーザーのID
+            'user_id'=>$this->me->id,//ログインユーザーのID
             'name'=>$data['name'],
             'account'=>$data['account'],
             'created_at'=>date('Y-m-d H:i:s'),
@@ -72,7 +72,7 @@ class ProjectController extends Controller
 
         // insert relay table
         $this->relay_users_x_projects->insert(array(
-            'user_id'=>$this->user->id,
+            'user_id'=>$this->me->id,
             'project_id'=>$id,
             'authority'=>10,
             'created_at'=>date('Y-m-d H:i:s'),
@@ -87,13 +87,14 @@ class ProjectController extends Controller
     public function show($id)
     {
         $project = $this->project
-            ->where('user_id', $this->user->id)
+            ->where('user_id', $this->me->id)
             ->find($id)
         ;
 
         $members = $this->relay_users_x_projects
             ->leftJoin('users', 'relay_users_x_projects.user_id', '=', 'users.id')
             ->where('project_id', $project['id'])
+            ->orderBy('relay_users_x_projects.authority', 'users.email')
             ->get();
 
         return view('project/show', compact('project', 'members'));
@@ -103,7 +104,7 @@ class ProjectController extends Controller
     {
         // var_dump('---- edit('.$id.') ----');
         $project = $this->project
-            ->where('user_id', $this->user->id)
+            ->where('user_id', $this->me->id)
             ->find($id)
         ;
 
@@ -121,7 +122,7 @@ class ProjectController extends Controller
         ]);
 
         $this->project
-            ->where('user_id', $this->user->id)
+            ->where('user_id', $this->me->id)
             ->find($id)
             ->update(array(
                 'name'=>$data['name'],
@@ -135,7 +136,7 @@ class ProjectController extends Controller
     {
         // var_dump('---- destroy('.$id.') ----');
         $project = $this->project
-            ->where('user_id', $this->user->id)
+            ->where('user_id', $this->me->id)
             ->find($id)
         ;
         $project->delete();
