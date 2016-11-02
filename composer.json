@@ -1,7 +1,7 @@
 {
-    "name": "laravel/laravel",
+    "name": "tomk79/wasabi",
     "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "keywords": ["pickles"],
     "license": "MIT",
     "type": "project",
     "require": {
