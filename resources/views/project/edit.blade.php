@@ -1,13 +1,7 @@
-@extends('../layouts/app')
+@extends('../layouts/default')
 
+@section('title', 'Edit &quot;'.$project->name.'&quot;')
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <div class="panel panel-default">
-                <div class="panel-heading">Projects - Edit</div>
-
-                <div class="panel-body">
 
 @if (count($errors) > 0)
     <div class="alert alert-danger">
@@ -35,9 +29,4 @@
     <a href="{{ url('/project') }}" class="btn btn-default">キャンセル</a>
 </div>
 
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 @endsection

@@ -1,13 +1,8 @@
-@extends('../layouts/app')
+@extends('../layouts/default')
 
+@section('title', 'Projects')
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <div class="panel panel-default">
-                <div class="panel-heading">Projects</div>
 
-                <div class="panel-body">
 <div>
     <a href="{{ url('/project/create') }}" class="btn btn-primary">新規プロジェクト作成</a>
 </div>
@@ -38,9 +33,5 @@
         @endforeach
     </tbody>
 </table>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+
 @endsection

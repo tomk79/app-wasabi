@@ -1,13 +1,7 @@
-@extends('../layouts/app')
+@extends('../layouts/default')
 
+@section('title', $project->name)
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <div class="panel panel-default">
-                <div class="panel-heading">Projects - Property</div>
-
-                <div class="panel-body">
 
 <table class="table table-striped">
     <tbody>
@@ -43,16 +37,11 @@
 </div>
 
 {!! Form::open(['method'=>'delete']) !!}
-<button type="submit" class="btn btn-danger">削除する</button>
+<button type="submit" class="btn btn-danger" onclick="return confirm('realy!?');">削除する</button>
 {!! Form::close() !!}
 
 <div>
     <a href="{{ url('/project') }}" class="btn btn-default">一覧へ戻る</a>
 </div>
 
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 @endsection
