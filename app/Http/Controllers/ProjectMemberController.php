@@ -11,7 +11,7 @@ use App\Http\Controllers\Controller;
 // Import models
 use App\User;
 use App\Projects;
-use App\relayUsersXProjects;
+use App\ProjectMembers;
 
 class ProjectMemberController extends Controller
 {
@@ -19,13 +19,13 @@ class ProjectMemberController extends Controller
     /**
      * @param ProjectMember $project
      */
-    public function __construct(User $user, Projects $project, relayUsersXProjects $relay_users_x_projects)
+    public function __construct(User $user, Projects $project, ProjectMembers $project_members)
     {
         $this->middleware('auth'); // 認証が必要
         $this->me = \Auth::user(); // ログインユーザー
         $this->user = $user;
         $this->project = $project;
-        $this->relay_users_x_projects = $relay_users_x_projects;
+        $this->project_members = $project_members;
     }
 
     public function create(Request $request)
@@ -55,7 +55,7 @@ class ProjectMemberController extends Controller
             return redirect()->to('project/'.$data['project_id']);
         }
 
-        $member = $this->relay_users_x_projects
+        $member = $this->project_members
             ->where('user_id', $this->me->id)
             ->where('project_id', $data['project_id'])
             ->first();
@@ -70,13 +70,13 @@ class ProjectMemberController extends Controller
             ->first();
 
         // 一旦 delete
-        $this->relay_users_x_projects
+        $this->project_members
             ->where('user_id', $user->id)
             ->where('project_id', $data['project_id'])
             ->delete();
 
         // insert relay table
-        $this->relay_users_x_projects->insert(array(
+        $this->project_members->insert(array(
             'user_id'=>$user->id,
             'project_id'=>$data['project_id'],
             'authority'=>$data['authority'],
@@ -99,7 +99,7 @@ class ProjectMemberController extends Controller
             return redirect()->to('project/'.$data['project_id']);
         }
 
-        $member = $this->relay_users_x_projects
+        $member = $this->project_members
             ->where('user_id', $this->me->id)
             ->where('project_id', $data['project_id'])
             ->first();
@@ -109,7 +109,7 @@ class ProjectMemberController extends Controller
             return redirect()->to('project/'.$data['project_id']);
         }
 
-        $this->relay_users_x_projects
+        $this->project_members
             ->where('user_id', $data['user_id'])
             ->where('project_id', $data['project_id'])
             ->delete()

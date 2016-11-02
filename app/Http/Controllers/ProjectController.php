@@ -10,7 +10,7 @@ use App\Http\Controllers\Controller;
 
 // Import models
 use App\Projects;
-use App\relayUsersXProjects;
+use App\ProjectMembers;
 
 class ProjectController extends Controller
 {
@@ -18,8 +18,8 @@ class ProjectController extends Controller
     /** @var Project */
     protected $project;
 
-    /** @var relayUsersXProjects */
-    protected $relay_users_x_projects;
+    /** @var ProjectMembers */
+    protected $project_members;
 
     /** @var User */
     protected $me;
@@ -27,12 +27,12 @@ class ProjectController extends Controller
     /**
      * @param Project $project
      */
-    public function __construct(Projects $project, relayUsersXProjects $relay_users_x_projects)
+    public function __construct(Projects $project, ProjectMembers $project_members)
     {
         $this->middleware('auth'); // 認証が必要
         $this->me = \Auth::user();
         $this->project = $project;
-        $this->relay_users_x_projects = $relay_users_x_projects;
+        $this->project_members = $project_members;
     }
 
     public function index()
@@ -71,7 +71,7 @@ class ProjectController extends Controller
         ));
 
         // insert relay table
-        $this->relay_users_x_projects->insert(array(
+        $this->project_members->insert(array(
             'user_id'=>$this->me->id,
             'project_id'=>$id,
             'authority'=>10,
@@ -91,10 +91,10 @@ class ProjectController extends Controller
             ->find($id)
         ;
 
-        $members = $this->relay_users_x_projects
-            ->leftJoin('users', 'relay_users_x_projects.user_id', '=', 'users.id')
+        $members = $this->project_members
+            ->leftJoin('users', 'project_members.user_id', '=', 'users.id')
             ->where('project_id', $project['id'])
-            ->orderBy('relay_users_x_projects.authority', 'users.email')
+            ->orderBy('project_members.authority', 'users.email')
             ->get();
 
         return view('project/show', compact('project', 'members'));

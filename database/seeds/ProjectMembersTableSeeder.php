@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class relayUsersXProjectsTableSeeder extends Seeder
+class ProjectMembersTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,21 +11,21 @@ class relayUsersXProjectsTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('relay_users_x_projects')->insert(array(
+        DB::table('project_members')->insert(array(
             'user_id' => 1,
             'project_id' => 1,
             'authority' => 10,
             'created_at'=>date('Y-m-d H:i:s'),
             'updated_at'=>date('Y-m-d H:i:s'),
         ));
-        DB::table('relay_users_x_projects')->insert(array(
+        DB::table('project_members')->insert(array(
             'user_id' => 2,
             'project_id' => 2,
             'authority' => 10,
             'created_at'=>date('Y-m-d H:i:s'),
             'updated_at'=>date('Y-m-d H:i:s'),
         ));
-        DB::table('relay_users_x_projects')->insert(array(
+        DB::table('project_members')->insert(array(
             'user_id' => 2,
             'project_id' => 1,
             'authority' => 5,
