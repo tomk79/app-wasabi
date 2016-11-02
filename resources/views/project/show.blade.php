@@ -3,6 +3,7 @@
 @section('title', $project->name)
 @section('content')
 
+<h2>Project data</h2>
 <table class="table table-striped">
     <tbody>
         <tr>
@@ -43,5 +44,34 @@
 <div>
     <a href="{{ url('/project') }}" class="btn btn-default">一覧へ戻る</a>
 </div>
+
+
+@if (count($members) > 0)
+    <h2>Member list</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>name</th>
+                <th>email</th>
+                <th>authority</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($members as $user)
+                <tr>
+                    <td>{{ $user->name }}</td>
+                    <td>{{ $user->email }}</td>
+                    <td>{{ $user->authority }}</td>
+                    <td>
+                        <!-- <button type="button" class="btn btn-danger" onclick="return confirm('realy!?');">削除する</button> -->
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+@endif
+
+
 
 @endsection

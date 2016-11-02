@@ -90,7 +90,13 @@ class ProjectController extends Controller
             ->where('user_id', $this->user->id)
             ->find($id)
         ;
-        return view('project/show', compact('project'));
+
+        $members = $this->relay_users_x_projects
+            ->leftJoin('users', 'relay_users_x_projects.user_id', '=', 'users.id')
+            ->where('project_id', $project['id'])
+            ->get();
+
+        return view('project/show', compact('project', 'members'));
     }
 
     public function edit($id)
