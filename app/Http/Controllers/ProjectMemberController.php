@@ -50,6 +50,21 @@ class ProjectMemberController extends Controller
             'authority' => 'required|integer|min:0|max:1024',
         ]);
 
+        if( $this->me->email == $data['email'] ){
+            // 自分自身は書き換えられない
+            return redirect()->to('project/'.$data['project_id']);
+        }
+
+        $member = $this->relay_users_x_projects
+            ->where('user_id', $this->me->id)
+            ->where('project_id', $data['project_id'])
+            ->first();
+
+        if( $member->authority < 10 ){
+            // 権限がない場合は消せない
+            return redirect()->to('project/'.$data['project_id']);
+        }
+
         $user = $this->user
             ->where('email', $data['email'])
             ->first();
@@ -79,10 +94,20 @@ class ProjectMemberController extends Controller
         // var_dump('---- destroy('.$id.') ----');
         $data = $request->all();
 
-        $this->validate($request, [
-            'user_id' => 'required|integer|exists:users,id',
-            'project_id' => 'required|integer|exists:projects,id',
-        ]);
+        if( $this->me->id == $data['user_id'] ){
+            // 自分自身は消せない
+            return redirect()->to('project/'.$data['project_id']);
+        }
+
+        $member = $this->relay_users_x_projects
+            ->where('user_id', $this->me->id)
+            ->where('project_id', $data['project_id'])
+            ->first();
+
+        if( $member->authority < 10 ){
+            // 権限がない場合は消せない
+            return redirect()->to('project/'.$data['project_id']);
+        }
 
         $this->relay_users_x_projects
             ->where('user_id', $data['user_id'])
