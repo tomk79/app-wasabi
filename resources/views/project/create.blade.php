@@ -22,10 +22,13 @@
         <label>物理名</label>
         {!! Form::input('text', 'account', null, ['required', 'class' => 'form-control']) !!}
     </div>
-    <button type="submit" class="btn btn-primary">プロジェクト作成</button>
+    <div class="text-center">
+        <button type="submit" class="btn btn-primary">プロジェクト作成</button>
+    </div>
 {!! Form::close() !!}
 
-<div>
+<hr />
+<div class="text-right">
     <a href="{{ url('/project') }}" class="btn btn-default">キャンセル</a>
 </div>
 

@@ -22,10 +22,13 @@
         <label>物理名</label>
         {!! Form::input('text', 'account', $project->account, ['required', 'class' => 'form-control']) !!}
     </div>
-    <button type="submit" class="btn btn-primary">編集内容を保存する</button>
+    <div class="text-center">
+        <button type="submit" class="btn btn-primary">編集内容を保存する</button>
+    </div>
 {!! Form::close() !!}
 
-<div>
+<hr />
+<div class="text-right">
     <a href="{{ url('/project/'.$project->account) }}" class="btn btn-default">キャンセル</a>
 </div>
 

@@ -16,6 +16,18 @@ use App\ProjectMembers;
 class ProjectMemberController extends Controller
 {
 
+    /** @var Project */
+    protected $project;
+
+    /** @var ProjectMembers */
+    protected $project_members;
+
+    /** @var User */
+    protected $user;
+
+    /** @var Login User */
+    protected $me;
+
     /**
      * @param ProjectMember $project
      */

@@ -5,6 +5,8 @@
 
 <h2>Project data</h2>
 <table class="table table-striped">
+    <colgroup width="30%" />
+    <colgroup width="70%" />
     <tbody>
         <tr>
             <th>ID</th>
@@ -15,39 +17,28 @@
             <td>{{{ $project->name }}}</td>
         </tr>
         <tr>
-            <th>オーナーユーザーID</th>
-            <td>{{{ $project->user_id }}}</td>
-        </tr>
-        <tr>
-            <th>作成日時</th>
-            <td>{{{ $project->created_at }}}</td>
-        </tr>
-        <tr>
-            <th>更新日時</th>
-            <td>{{{ $project->updated_at }}}</td>
+            <th>オーナー</th>
+            <td>{{{ $owner_user->name }}}</td>
         </tr>
     </tbody>
 </table>
 
-<div>
-    <a href="{{ url('/project/'.$project->account.'/edit') }}" class="btn btn-primary">編集する</a>
-</div>
-
-{!! Form::open(['method'=>'delete']) !!}
-<button type="submit" class="btn btn-danger" onclick="return confirm('realy!?');">削除する</button>
-{!! Form::close() !!}
-
-<div>
+<div class="text-center">
+    <a href="{{ url('/project/'.$project->account.'/edit') }}" class="btn btn-primary">このプロジェクトを編集する</a>
     <a href="{{ url('/project') }}" class="btn btn-default">一覧へ戻る</a>
 </div>
 
 
 <h2>Member list</h2>
-<div>
+<div class="text-right">
     <a href="{{ url('/projectMember/create') }}?project_account={{{ $project->account }}}" class="btn btn-primary">追加する</a>
 </div>
 @if (count($members) > 0)
     <table class="table table-striped">
+        <colgroup width="30%" />
+        <colgroup width="30%" />
+        <colgroup width="20%" />
+        <colgroup width="20%" />
         <thead>
             <tr>
                 <th>name</th>
@@ -62,7 +53,7 @@
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->authority }}</td>
-                    <td>
+                    <td style="text-align: right;">
                         {!! Form::open(['url'=>url('/projectMember/'.$project->account), 'method'=>'delete']) !!}
                         <input type="hidden" name="user_id" value="{{{ $user->user_id }}}" />
                         <input type="hidden" name="project_account" value="{{{ $project->account }}}" />
@@ -74,6 +65,15 @@
         </tbody>
     </table>
 @endif
+
+<hr />
+
+<div class="text-center">
+    <a href="{{ url('/project') }}" class="btn btn-default">一覧へ戻る</a>
+    {!! Form::open(['method'=>'delete', 'style'=>'display:inline;']) !!}
+    <button type="submit" class="btn btn-danger" onclick="return confirm('realy!?');">このプロジェクトを削除する</button>
+    {!! Form::close() !!}
+</div>
 
 @endsection
 

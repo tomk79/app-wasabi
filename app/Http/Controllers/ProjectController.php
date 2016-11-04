@@ -9,6 +9,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 // Import models
+use App\User;
 use App\Projects;
 use App\ProjectMembers;
 
@@ -22,15 +23,19 @@ class ProjectController extends Controller
     protected $project_members;
 
     /** @var User */
+    protected $user;
+
+    /** @var Login User */
     protected $me;
 
     /**
      * @param Project $project
      */
-    public function __construct(Projects $project, ProjectMembers $project_members)
+    public function __construct(User $user, Projects $project, ProjectMembers $project_members)
     {
         $this->middleware('auth'); // 認証が必要
         $this->me = \Auth::user();
+        $this->user = $user;
         $this->project = $project;
         $this->project_members = $project_members;
     }
@@ -54,7 +59,6 @@ class ProjectController extends Controller
 
     public function store(Request $request)
     {
-        // var_dump('---- store() ----');
         $data = $request->all();
 
         $this->validate($request, [
@@ -79,8 +83,6 @@ class ProjectController extends Controller
             'updated_at'=>date('Y-m-d H:i:s'),
         ));
 
-        // $this->project->fill($data);
-        // $this->project->save();
         return redirect()->to('project');
     }
 
@@ -92,13 +94,17 @@ class ProjectController extends Controller
             ->first()
         ;
 
+        $owner_user = $this->user
+            ->find($project->user_id)
+        ;
+
         $members = $this->project_members
             ->leftJoin('users', 'project_members.user_id', '=', 'users.id')
             ->where('project_id', $project['id'])
             ->orderBy('project_members.authority', 'users.email')
             ->get();
 
-        return view('project/show', compact('project', 'members'));
+        return view('project/show', compact('project', 'owner_user', 'members'));
     }
 
     public function edit($account)
