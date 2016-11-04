@@ -3,6 +3,11 @@
 @section('title', $project->name)
 @section('content')
 
+<?php
+$authority_master = array(5=>'User', 10=>'Administrator');
+?>
+
+
 <h2>Project data</h2>
 <table class="table table-striped">
     <colgroup width="30%" />
@@ -52,7 +57,7 @@
                 <tr>
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
-                    <td>{{ $user->authority }}</td>
+                    <td>{{ @$authority_master[$user->authority] ? @$authority_master[$user->authority] : $user->authority }}</td>
                     <td style="text-align: right;">
                         {!! Form::open(['url'=>url('/projectMember/'.$project->account), 'method'=>'delete']) !!}
                         <input type="hidden" name="user_id" value="{{{ $user->user_id }}}" />

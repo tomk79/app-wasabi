@@ -31,10 +31,13 @@
         <label>権限</label>
         <p>{!! Form::select('authority', [5=>'User',10=>'Administrator'], 5, ['required', 'class' => 'form-control']) !!}</p>
     </div>
-    <button type="submit" class="btn btn-primary">メンバー追加</button>
+    <div class="text-center">
+        <button type="submit" class="btn btn-primary">メンバー追加</button>
+    </div>
 {!! Form::close() !!}
 
-<div>
+<hr />
+<div class="text-right">
     <a href="{{ url('/project/'.$project->account) }}" class="btn btn-default">キャンセル</a>
 </div>
 
