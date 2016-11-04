@@ -84,11 +84,12 @@ class ProjectController extends Controller
         return redirect()->to('project');
     }
 
-    public function show($id)
+    public function show($account)
     {
         $project = $this->project
+            ->where('account', $account)
             ->where('user_id', $this->me->id)
-            ->find($id)
+            ->first()
         ;
 
         $members = $this->project_members
@@ -100,44 +101,52 @@ class ProjectController extends Controller
         return view('project/show', compact('project', 'members'));
     }
 
-    public function edit($id)
+    public function edit($account)
     {
         // var_dump('---- edit('.$id.') ----');
         $project = $this->project
+            ->where('account', $account)
             ->where('user_id', $this->me->id)
-            ->find($id)
+            ->first()
         ;
 
         return view('project/edit', compact('project'));
     }
 
-    public function update($id, Request $request)
+    public function update($account, Request $request)
     {
         // var_dump('---- update('.$id.') ----');
         $data = $request->all();
 
+        $project = $this->project
+            ->where('account', $account)
+            ->where('user_id', $this->me->id)
+            ->first()
+        ;
+
         $this->validate($request, [
             'name' => 'required|max:255',
-            'account' => 'required|min:4|max:1024|unique:projects,account,'.$id,
+            'account' => 'required|min:4|max:1024|unique:projects,account,'.$project->id,
         ]);
 
         $this->project
+            ->where('account', $account)
             ->where('user_id', $this->me->id)
-            ->find($id)
             ->update(array(
                 'name'=>$data['name'],
                 'account'=>$data['account'],
             ))
         ;
-        return redirect()->to('project/'.$id);
+        return redirect()->to('project/'.$data['account']);
     }
 
-    public function destroy($id)
+    public function destroy($account)
     {
         // var_dump('---- destroy('.$id.') ----');
         $project = $this->project
+            ->where('account', $account)
             ->where('user_id', $this->me->id)
-            ->find($id)
+            ->first()
         ;
         $project->delete();
         return redirect()->to('project');

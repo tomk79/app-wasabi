@@ -7,16 +7,12 @@
 <table class="table table-striped">
     <tbody>
         <tr>
-            <th>プロジェクトID</th>
-            <td>{{{ $project->id }}}</td>
+            <th>ID</th>
+            <td>{{{ $project->account }}}</td>
         </tr>
         <tr>
             <th>プロジェクト名</th>
             <td>{{{ $project->name }}}</td>
-        </tr>
-        <tr>
-            <th>物理名</th>
-            <td>{{{ $project->account }}}</td>
         </tr>
         <tr>
             <th>オーナーユーザーID</th>
@@ -34,7 +30,7 @@
 </table>
 
 <div>
-    <a href="{{ url('/project/'.$project->id.'/edit') }}" class="btn btn-primary">編集する</a>
+    <a href="{{ url('/project/'.$project->account.'/edit') }}" class="btn btn-primary">編集する</a>
 </div>
 
 {!! Form::open(['method'=>'delete']) !!}
@@ -46,11 +42,11 @@
 </div>
 
 
+<h2>Member list</h2>
+<div>
+    <a href="{{ url('/projectMember/create') }}?project_account={{{ $project->account }}}" class="btn btn-primary">追加する</a>
+</div>
 @if (count($members) > 0)
-    <h2>Member list</h2>
-    <div>
-        <a href="{{ url('/projectMember/create') }}?project_id={{{ $project->id }}}" class="btn btn-primary">追加する</a>
-    </div>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -67,9 +63,9 @@
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->authority }}</td>
                     <td>
-                        {!! Form::open(['url'=>url('/projectMember/'.$project->id), 'method'=>'delete']) !!}
+                        {!! Form::open(['url'=>url('/projectMember/'.$project->account), 'method'=>'delete']) !!}
                         <input type="hidden" name="user_id" value="{{{ $user->user_id }}}" />
-                        <input type="hidden" name="project_id" value="{{{ $user->project_id }}}" />
+                        <input type="hidden" name="project_account" value="{{{ $project->account }}}" />
                         <button type="submit" class="btn btn-danger" onclick="return confirm('realy!?');">削除する</button>
                         {!! Form::close() !!}
                     </td>

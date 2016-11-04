@@ -32,7 +32,8 @@ class ProjectMemberController extends Controller
     {
         $data = $request->all();
         $project = $this->project
-            ->find($data['project_id']);
+            ->where('account', $data['project_account'])
+            ->first();
 
         return view('project/member/create')
             ->with( compact('project') )
@@ -45,24 +46,28 @@ class ProjectMemberController extends Controller
         $data = $request->all();
 
         $this->validate($request, [
-            'project_id' => 'required|integer|exists:projects,id',
+            'project_account' => 'required|string|exists:projects,account',
             'email' => 'required|email|exists:users,email',
             'authority' => 'required|integer|min:0|max:1024',
         ]);
 
+        $project = $this->project
+            ->where('account', $data['project_account'])
+            ->first();
+
         if( $this->me->email == $data['email'] ){
             // 自分自身は書き換えられない
-            return redirect()->to('project/'.$data['project_id']);
+            return redirect()->to('project/'.$data['project_account']);
         }
 
         $member = $this->project_members
             ->where('user_id', $this->me->id)
-            ->where('project_id', $data['project_id'])
+            ->where('project_id', $project->id)
             ->first();
 
         if( $member->authority < 10 ){
             // 権限がない場合は消せない
-            return redirect()->to('project/'.$data['project_id']);
+            return redirect()->to('project/'.$data['project_account']);
         }
 
         $user = $this->user
@@ -72,13 +77,13 @@ class ProjectMemberController extends Controller
         // 一旦 delete
         $this->project_members
             ->where('user_id', $user->id)
-            ->where('project_id', $data['project_id'])
+            ->where('project_id', $project->id)
             ->delete();
 
         // insert relay table
         $this->project_members->insert(array(
             'user_id'=>$user->id,
-            'project_id'=>$data['project_id'],
+            'project_id'=>$project->id,
             'authority'=>$data['authority'],
             'created_at'=>date('Y-m-d H:i:s'),
             'updated_at'=>date('Y-m-d H:i:s'),
@@ -86,7 +91,7 @@ class ProjectMemberController extends Controller
 
         // $this->project->fill($data);
         // $this->project->save();
-        return redirect()->to('project/'.$data['project_id']);
+        return redirect()->to('project/'.$data['project_account']);
     }
 
     public function destroy(Request $request)
@@ -96,25 +101,29 @@ class ProjectMemberController extends Controller
 
         if( $this->me->id == $data['user_id'] ){
             // 自分自身は消せない
-            return redirect()->to('project/'.$data['project_id']);
+            return redirect()->to('project/'.$data['project_account']);
         }
+
+        $project = $this->project
+            ->where('account', $data['project_account'])
+            ->first();
 
         $member = $this->project_members
             ->where('user_id', $this->me->id)
-            ->where('project_id', $data['project_id'])
+            ->where('project_id', $project->id)
             ->first();
 
         if( $member->authority < 10 ){
             // 権限がない場合は消せない
-            return redirect()->to('project/'.$data['project_id']);
+            return redirect()->to('project/'.$data['project_account']);
         }
 
         $this->project_members
             ->where('user_id', $data['user_id'])
-            ->where('project_id', $data['project_id'])
+            ->where('project_id', $project->id)
             ->delete()
         ;
-        return redirect()->to('project/'.$data['project_id']);
+        return redirect()->to('project/'.$data['project_account']);
     }
 
 }

@@ -14,14 +14,14 @@
 @endif
 
 {!! Form::open(['method'=>'post', 'action' => ['ProjectMemberController@store']]) !!}
-{!! Form::input('hidden', 'project_id', $project->id) !!}
+{!! Form::input('hidden', 'project_account', $project->account) !!}
+    <div class="form-group">
+        <label>ID</label>
+        <p>{{ $project->account }}</p>
     <div class="form-group">
         <label>プロジェクト名</label>
         <p>{{ $project->name }}</p>
     </div>
-    <div class="form-group">
-        <label>物理名</label>
-        <p>{{ $project->account }}</p>
     </div>
     <div class="form-group">
         <label>メールアドレス</label>
@@ -35,7 +35,7 @@
 {!! Form::close() !!}
 
 <div>
-    <a href="{{ url('/project/'.$project->id) }}" class="btn btn-default">キャンセル</a>
+    <a href="{{ url('/project/'.$project->account) }}" class="btn btn-default">キャンセル</a>
 </div>
 
 @endsection

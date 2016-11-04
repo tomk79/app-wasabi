@@ -13,7 +13,7 @@
     </div>
 @endif
 
-{!! Form::open(['method'=>'put', 'action' => ['ProjectController@update', $project->id]]) !!}
+{!! Form::open(['method'=>'put', 'action' => ['ProjectController@update', $project->account]]) !!}
     <div class="form-group">
         <label>プロジェクト名</label>
         {!! Form::input('text', 'name', $project->name, ['required', 'class' => 'form-control']) !!}
@@ -26,7 +26,7 @@
 {!! Form::close() !!}
 
 <div>
-    <a href="{{ url('/project') }}" class="btn btn-default">キャンセル</a>
+    <a href="{{ url('/project/'.$project->account) }}" class="btn btn-default">キャンセル</a>
 </div>
 
 @endsection
