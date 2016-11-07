@@ -19,5 +19,6 @@ Route::auth();
 
 Route::get('/home', 'HomeController@index');
 
+Route::resource('/userApiKey', 'UserApiKeyController');
 Route::resource('/projectMember', 'ProjectMemberController');
 Route::resource('/project', 'ProjectController');

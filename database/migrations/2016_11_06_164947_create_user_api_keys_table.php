@@ -13,8 +13,10 @@ class CreateUserApiKeysTable extends Migration
     public function up()
     {
         Schema::create('user_api_keys', function (Blueprint $table) {
+            $table->string('hash')->unique();
             $table->integer('user_id');
-            $table->string('key')->unique();
+            $table->string('name');
+            $table->string('authkey')->unique();
             $table->timestamps();
             $table->softDeletes();
 
