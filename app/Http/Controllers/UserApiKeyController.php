@@ -80,7 +80,9 @@ class UserApiKeyController extends Controller
 
         // $this->project->fill($data);
         // $this->project->save();
-        return redirect()->to('userApiKey');
+        return response()->json(array(
+            'authkey' => $authkey,
+        ));
     }
 
     public function destroy($hash, Request $request)

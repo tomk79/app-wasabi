@@ -28,6 +28,6 @@ class UserApiKey extends Model
      *
      * @var array
      */
-    protected $fillable = ['user_id', 'name', 'key', 'authkey'];
+    protected $fillable = ['name'];
 
 }

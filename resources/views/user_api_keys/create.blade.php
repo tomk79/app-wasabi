@@ -13,7 +13,7 @@
     </div>
 @endif
 
-{!! Form::open(['method'=>'post', 'action' => ['UserApiKeyController@store']]) !!}
+{!! Form::open(['method'=>'post', 'action' => ['UserApiKeyController@store'], 'id'=>'form_apikey_create']) !!}
     <div class="form-group">
         <label>名前</label>
         {!! Form::input('text', 'name', null, ['required', 'class' => 'form-control']) !!}
@@ -27,5 +27,26 @@
 <div class="text-right">
     <a href="{{ url('/userApiKey') }}" class="btn btn-default">キャンセル</a>
 </div>
+@endsection
+
+
+@section('foot')
+
+<script>
+var $form = $('#form_apikey_create');
+$form.submit(function(){
+    $.ajax({
+        'type': 'json',
+        'method': $form.attr('method'),
+        'url': $form.attr('action'),
+        'data':$form.serialize(),
+        'success': function(data){
+            alert('API認証キーが発行されました。この文字列をコピーして安全な場所に保存してください。この文字列は再表示することができません。'+"\n"+data.authkey);
+            window.location.href = "{{ url('/userApiKey') }}";
+        }
+    });
+    return false;
+});
+</script>
 
 @endsection
