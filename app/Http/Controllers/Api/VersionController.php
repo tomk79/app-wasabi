@@ -9,7 +9,8 @@ class VersionController extends Controller
 
     public function index()
     {
-        return response()->json("0.0.1-alpha.1+nb");
+        $version = \Config::get('custom.version');
+        return response()->json($version);
     }
 
 }
