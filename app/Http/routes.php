@@ -25,5 +25,6 @@ Route::resource('/projectMember', 'ProjectMemberController');
 Route::resource('/project', 'ProjectController');
 
 // API
-Route::get('/api/{project_id}/version', 'Api\\VersionController@index');
-Route::get('/api/{project_id}/myself', 'Api\\MyselfController@index');
+Route::get('/api/{project_account}', 'Api\\ProjectInfoController@index');
+Route::get('/api/{project_account}/version', 'Api\\VersionController@index');
+Route::get('/api/{project_account}/myself', 'Api\\MyselfController@index');

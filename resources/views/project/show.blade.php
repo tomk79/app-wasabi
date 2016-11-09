@@ -33,6 +33,9 @@ $authority_master = array(5=>'User', 10=>'Administrator');
     <a href="{{ url('/project') }}" class="btn btn-default">一覧へ戻る</a>
 </div>
 
+<h2>API URL</h2>
+
+<p><input type="text" value="{{ url('/api/'.$project->account) }}" class="form-control" readonly="readonly" /></p>
 
 <h2>Member list</h2>
 <div class="text-right">
