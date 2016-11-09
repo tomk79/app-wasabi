@@ -17,8 +17,13 @@ Route::get('/', function () {
 
 Route::auth();
 
+// web pages
 Route::get('/home', 'HomeController@index');
 
 Route::resource('/userApiKey', 'UserApiKeyController');
 Route::resource('/projectMember', 'ProjectMemberController');
 Route::resource('/project', 'ProjectController');
+
+// API
+Route::get('/api/{project_id}/version', 'Api\\VersionController@index');
+Route::get('/api/{project_id}/myself', 'Api\\MyselfController@index');
