@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
+use Illuminate\Http\Request;
+
+use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 class MyselfController extends Controller
@@ -11,17 +14,18 @@ class MyselfController extends Controller
     protected $me;
 
     /**
-     * @param UserApiKey $project
      */
     public function __construct()
     {
-        $this->middleware('auth'); // 認証が必要
-        $this->me = \Auth::user(); // ログインユーザー
+        $this->middleware('authkey'); // authkey認証が必要
     }
 
-    public function index()
+    /**
+     */
+    public function index( Request $request )
     {
-        return response()->json($this->me);
+        $myself = $request->session()->get('myself');
+        return response()->json($myself);
     }
 
 }
