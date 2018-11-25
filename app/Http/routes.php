@@ -23,6 +23,7 @@ Route::get('/home', 'HomeController@index');
 Route::resource('/userApiKey', 'UserApiKeyController');
 Route::resource('/projectMember', 'ProjectMemberController');
 Route::resource('/project', 'ProjectController');
+Route::get('/profile', 'ProfileController@index');
 
 // API
 Route::get('/api/{project_account}', 'Api\\ProjectInfoController@index');
