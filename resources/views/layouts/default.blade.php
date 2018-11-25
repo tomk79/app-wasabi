@@ -33,6 +33,14 @@
     <div class="container">
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
+
+                @if (session('flash_message'))
+                    <div class="alert alert-success">
+                        {{ session('flash_message') }}
+                    </div>
+                @endif
+
+
 <h1>@yield('title')</h1>
 <div>
 @yield('content')

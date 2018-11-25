@@ -83,7 +83,12 @@ class ProjectController extends Controller
             'updated_at'=>date('Y-m-d H:i:s'),
         ));
 
-        return redirect()->to('project');
+        return redirect()
+            ->to('project')
+            ->with( array(
+                'flash_message' => 'プロジェクトを作成しました。'
+            ) )
+        ;
     }
 
     public function show($account)
@@ -143,7 +148,12 @@ class ProjectController extends Controller
                 'account'=>$data['account'],
             ))
         ;
-        return redirect()->to('project/'.$data['account']);
+        return redirect()
+            ->to('project/'.$data['account'])
+            ->with( array(
+                'flash_message' => 'プロジェクトを更新しました。'
+            ) )
+        ;
     }
 
     public function destroy($account)

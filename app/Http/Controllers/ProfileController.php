@@ -52,8 +52,8 @@ class ProfileController extends Controller
 
         $this->validate($request, [
             'name' => 'required|max:255',
-            'account' => 'required|max:255',
-            'email' => 'required|email',
+            'account' => 'required|max:255|unique:users,account,'.$this->me->id,
+            'email' => 'required|email|unique:users,email,'.$this->me->id,
             'password' => 'min:4|max:1024',
         ]);
 
@@ -71,7 +71,12 @@ class ProfileController extends Controller
                 ))
             ;
         }
-        return redirect()->to('profile');
+        return redirect()
+            ->to('profile')
+            ->with( array(
+                'flash_message' => 'プロフィールを更新しました。'
+            ) )
+        ;
     }
 
 }
