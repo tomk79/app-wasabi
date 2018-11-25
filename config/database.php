@@ -49,7 +49,7 @@ return [
         'sqlite' => [
             'driver' => 'sqlite',
             'database' => env('DB_DATABASE', database_path('database.sqlite')),
-            'prefix' => 'wasabi_develop__',
+            'prefix' => env('DB_PREFIX', 'wasabi_'),
         ],
 
         'mysql' => [
@@ -61,7 +61,7 @@ return [
             'password' => env('DB_PASSWORD', ''),
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
-            'prefix' => 'wasabi_develop__',
+            'prefix' => env('DB_PREFIX', 'wasabi_'),
             'strict' => false,
             'engine' => null,
         ],
@@ -74,7 +74,7 @@ return [
             'username' => env('DB_USERNAME', 'forge'),
             'password' => env('DB_PASSWORD', ''),
             'charset' => 'utf8',
-            'prefix' => 'wasabi_develop__',
+            'prefix' => env('DB_PREFIX', 'wasabi_'),
             'schema' => 'public',
         ],
 
