@@ -11,21 +11,22 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', 'HomeController@index');
+Route::get('/withdraw/completed', function(){
+    return view('withdraw/completed');
 });
 
 Route::auth();
 
 // web pages
-Route::get('/home', 'HomeController@index');
-
 Route::resource('/userApiKey', 'UserApiKeyController');
 Route::resource('/projectMember', 'ProjectMemberController');
 Route::resource('/project', 'ProjectController');
 Route::get('/profile', 'ProfileController@index');
 Route::get('/profile/edit', 'ProfileController@edit');
 Route::post('/profile/update', 'ProfileController@update');
+Route::get('/withdraw', 'WithdrawController@confirm');
+Route::delete('/withdraw', 'WithdrawController@withdraw');
 
 // API
 Route::get('/api/{project_account}', 'Api\\ProjectInfoController@index');

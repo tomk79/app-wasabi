@@ -8,11 +8,6 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-// Import models
-use App\User;
-use App\Projects;
-use App\ProjectMembers;
-
 class ProfileController extends Controller
 {
 
@@ -67,7 +62,7 @@ class ProfileController extends Controller
                 'email'=>$data['email'],
             ))
         ;
-        if( strlen($data['name']) ){
+        if( strlen($data['password']) ){
             $this->me
                 ->update(array(
                     'password'=>bcrypt($data['password']),
@@ -76,16 +71,5 @@ class ProfileController extends Controller
         }
         return redirect()->to('profile');
     }
-
-    // public function destroy($account){
-    //     // var_dump('---- destroy('.$id.') ----');
-    //     $project = $this->project
-    //         ->where('account', $account)
-    //         ->where('user_id', $this->me->id)
-    //         ->first()
-    //     ;
-    //     $project->delete();
-    //     return redirect()->to('project');
-    // }
 
 }

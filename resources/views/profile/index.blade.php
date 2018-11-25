@@ -26,4 +26,12 @@
     <a href="{{ url('/profile/edit') }}" class="btn btn-default">プロフィールを編集する</a>
 </div>
 
+
+<hr />
+
+<h2>退会する</h2>
+<div class="text-center">
+    <a href="{{ url('/withdraw') }}" class="btn btn-danger">退会する</a>
+</div>
+
 @endsection
