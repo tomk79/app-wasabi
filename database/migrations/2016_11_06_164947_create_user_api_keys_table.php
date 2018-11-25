@@ -18,7 +18,6 @@ class CreateUserApiKeysTable extends Migration
             $table->string('name');
             $table->string('authkey')->unique();
             $table->timestamps();
-            $table->softDeletes();
 
             // foreignkey制約
             $table->foreign('user_id')->references('id')->on('users');

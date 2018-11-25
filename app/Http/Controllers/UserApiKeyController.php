@@ -18,25 +18,20 @@ class UserApiKeyController extends Controller
     /** @var UserApiKey */
     protected $user_api_key;
 
-    /** @var User */
-    protected $user;
-
     /** @var Login User */
     protected $me;
 
     /**
      * @param UserApiKey $project
      */
-    public function __construct(User $user, UserApiKey $user_api_key)
+    public function __construct()
     {
         $this->middleware('auth'); // 認証が必要
         $this->me = \Auth::user(); // ログインユーザー
-        $this->user = $user;
-        $this->user_api_key = $user_api_key;
+        $this->user_api_key = new UserApiKey;
     }
 
-    public function index()
-    {
+    public function index(){
         $user_api_keys = $this->user_api_key
             ->where('user_id', $this->me->id)
             ->orderBy('created_at')
@@ -47,8 +42,7 @@ class UserApiKeyController extends Controller
         ;
     }
 
-    public function create(Request $request)
-    {
+    public function create(Request $request){
         $data = $request->all();
         $me = $this->me;
 
@@ -57,8 +51,7 @@ class UserApiKeyController extends Controller
         ;
     }
 
-    public function store(Request $request)
-    {
+    public function store(Request $request){
         // var_dump('---- store() ----');
         $data = $request->all();
 
@@ -78,11 +71,24 @@ class UserApiKeyController extends Controller
             'updated_at'=>date('Y-m-d H:i:s'),
         ));
 
+        $request->session()->flash('authname', $data['name']);
+        $request->session()->flash('authkey', $authkey);
+
         // $this->project->fill($data);
         // $this->project->save();
         return response()->json(array(
             'authkey' => $authkey,
         ));
+    }
+
+    public function result(Request $request){
+        // $authkey = $request->session()->pull('authkey');
+
+        return view('user_api_keys/result')
+            // ->with( array(
+            //     'authkey' => $authkey
+            // ) )
+        ;
     }
 
     public function destroy($hash, Request $request)

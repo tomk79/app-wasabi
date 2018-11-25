@@ -15,11 +15,11 @@
 
 {!! Form::open(['method'=>'post', 'action' => ['UserApiKeyController@store'], 'id'=>'form_apikey_create']) !!}
     <div class="form-group">
-        <label>名前</label>
+        <label>Key Name</label>
         {!! Form::input('text', 'name', null, ['required', 'class' => 'form-control']) !!}
     </div>
     <div class="text-center">
-        <button type="submit" class="btn btn-primary">APIキー作成</button>
+        <button type="submit" class="btn btn-primary">API Key 作成</button>
     </div>
 {!! Form::close() !!}
 
@@ -41,8 +41,8 @@ $form.submit(function(){
         'url': $form.attr('action'),
         'data':$form.serialize(),
         'success': function(data){
-            alert('API認証キーが発行されました。この文字列をコピーして安全な場所に保存してください。この文字列は再表示することができません。'+"\n"+data.authkey);
-            window.location.href = "{{ url('/userApiKey') }}";
+            // alert('API認証キーが発行されました。この文字列をコピーして安全な場所に保存してください。この文字列は再表示することができません。'+"\n"+data.authkey);
+            window.location.href = "{{ url('/userApiKey/result') }}";
         }
     });
     return false;

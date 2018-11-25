@@ -3,18 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class UserApiKey extends Model
-{
-    use SoftDeletes;
-
-    /**
-     * 日付へキャストする属性
-     *
-     * @var array
-     */
-    protected $dates = ['deleted_at'];
+class UserApiKey extends Model{
 
     /**
      * The table associated with the model.
@@ -28,6 +18,6 @@ class UserApiKey extends Model
      *
      * @var array
      */
-    protected $fillable = ['name'];
+    protected $fillable = ['hash', 'user_id', 'name', 'authkey'];
 
 }

@@ -4,7 +4,7 @@
 @section('content')
 
 <div class="text-right">
-    <a href="{{ url('/userApiKey/create') }}" class="btn btn-primary">新規APIキー作成</a>
+    <a href="{{ url('/userApiKey/create') }}" class="btn btn-primary">新規 API Key 作成</a>
 </div>
 
 <table class="table table-striped table-hover">
@@ -13,8 +13,8 @@
     <colgroup width="20%" />
     <thead>
         <tr>
-            <th>名前</th>
-            <th>作成日</th>
+            <th>Key Name</th>
+            <th>Created Date</th>
             <th></th>
         </tr>
     </thead>
@@ -26,7 +26,7 @@
             <td style="text-align: right;">
                 {!! Form::open(['url'=>url('/userApiKey/'.$user_api_key->hash), 'method'=>'delete']) !!}
                 <input type="hidden" name="hash" value="{{{ $user_api_key->hash }}}" />
-                <button type="submit" class="btn btn-danger" onclick="return confirm('realy!?');">削除</button>
+                <button type="submit" class="btn btn-danger" onclick="return confirm('realy!?');">DELETE</button>
                 {!! Form::close() !!}
             </td>
         </tr>

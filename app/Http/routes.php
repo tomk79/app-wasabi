@@ -19,12 +19,20 @@ Route::get('/withdraw/completed', function(){
 Route::auth();
 
 // web pages
-Route::resource('/userApiKey', 'UserApiKeyController');
+Route::get('/userApiKey', 'UserApiKeyController@index');
+Route::get('/userApiKey/create', 'UserApiKeyController@create');
+Route::post('/userApiKey/create', 'UserApiKeyController@store');
+Route::get('/userApiKey/result', 'UserApiKeyController@result');
+Route::delete('/userApiKey/{hash}', 'UserApiKeyController@destroy');
+
 Route::resource('/projectMember', 'ProjectMemberController');
+
 Route::resource('/project', 'ProjectController');
+
 Route::get('/profile', 'ProfileController@index');
 Route::get('/profile/edit', 'ProfileController@edit');
 Route::post('/profile/update', 'ProfileController@update');
+
 Route::get('/withdraw', 'WithdrawController@confirm');
 Route::delete('/withdraw', 'WithdrawController@withdraw');
 
