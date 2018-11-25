@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Mail;
 use App\User;
 use Validator;
 use App\Http\Controllers\Controller;
@@ -61,12 +62,20 @@ class AuthController extends Controller
      * @param  array  $data
      * @return User
      */
-    protected function create(array $data)
-    {
-        return User::create([
+    protected function create(array $data){
+
+        $rtn = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+
+        Mail::send('emails.welcome', array('user'=>$data), function($m) use ($data){
+            $m->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
+
+            $m->to($data['email'], $data['name'])->subject('Welcome!');
+        });
+
+        return $rtn;
     }
 }
