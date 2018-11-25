@@ -27,6 +27,9 @@ class ProfileController extends Controller
         $this->me = \Auth::user();
     }
 
+    /**
+     * プロフィール: トップページ
+     */
     public function index(){
         return view('profile/index')
             ->with( array(
@@ -35,42 +38,44 @@ class ProfileController extends Controller
         ;
     }
 
-    // public function edit($account){
-    //     // var_dump('---- edit('.$id.') ----');
-    //     $project = $this->project
-    //         ->where('account', $account)
-    //         ->where('user_id', $this->me->id)
-    //         ->first()
-    //     ;
+    /**
+     * プロフィール: 編集ページ
+     */
+    public function edit(){
+        return view('profile/edit')
+            ->with( array(
+                'profile' => $this->me,
+            ) )
+        ;
+    }
 
-    //     return view('project/edit', compact('project'));
-    // }
+    /**
+     * プロフィール: 編集からの更新処理
+     */
+    public function update(Request $request){
+        $data = $request->all();
 
-    // public function update($account, Request $request){
-    //     // var_dump('---- update('.$id.') ----');
-    //     $data = $request->all();
+        $this->validate($request, [
+            'name' => 'required|max:255',
+            'email' => 'required|email',
+            'password' => 'min:4|max:1024',
+        ]);
 
-    //     $project = $this->project
-    //         ->where('account', $account)
-    //         ->where('user_id', $this->me->id)
-    //         ->first()
-    //     ;
-
-    //     $this->validate($request, [
-    //         'name' => 'required|max:255',
-    //         'account' => 'required|min:4|max:1024|unique:projects,account,'.$project->id,
-    //     ]);
-
-    //     $this->project
-    //         ->where('account', $account)
-    //         ->where('user_id', $this->me->id)
-    //         ->update(array(
-    //             'name'=>$data['name'],
-    //             'account'=>$data['account'],
-    //         ))
-    //     ;
-    //     return redirect()->to('project/'.$data['account']);
-    // }
+        $this->me
+            ->update(array(
+                'name'=>$data['name'],
+                'email'=>$data['email'],
+            ))
+        ;
+        if( strlen($data['name']) ){
+            $this->me
+                ->update(array(
+                    'password'=>bcrypt($data['password']),
+                ))
+            ;
+        }
+        return redirect()->to('profile');
+    }
 
     // public function destroy($account){
     //     // var_dump('---- destroy('.$id.') ----');

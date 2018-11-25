@@ -22,4 +22,8 @@
     </tbody>
 </table>
 
+<div class="text-right">
+    <a href="{{ url('/profile/edit') }}" class="btn btn-default">プロフィールを編集する</a>
+</div>
+
 @endsection

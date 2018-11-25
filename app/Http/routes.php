@@ -24,6 +24,8 @@ Route::resource('/userApiKey', 'UserApiKeyController');
 Route::resource('/projectMember', 'ProjectMemberController');
 Route::resource('/project', 'ProjectController');
 Route::get('/profile', 'ProfileController@index');
+Route::get('/profile/edit', 'ProfileController@edit');
+Route::post('/profile/update', 'ProfileController@update');
 
 // API
 Route::get('/api/{project_account}', 'Api\\ProjectInfoController@index');
