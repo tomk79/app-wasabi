@@ -2,15 +2,13 @@
 
 use Illuminate\Database\Seeder;
 
-class UsersTableSeeder extends Seeder
-{
+class DummyUserSeeder extends Seeder{
     /**
      * Run the database seeds.
      *
      * @return void
      */
-    public function run()
-    {
+    public function run(){
         DB::table('users')->insert(array(
             'name' => 'TESTER 1',
             'email' => 'tester1@example.com',

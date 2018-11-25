@@ -2,15 +2,13 @@
 
 use Illuminate\Database\Seeder;
 
-class ProjectMembersTableSeeder extends Seeder
-{
+class DummyProjectMembersSeeder extends Seeder{
     /**
      * Run the database seeds.
      *
      * @return void
      */
-    public function run()
-    {
+    public function run(){
         DB::table('project_members')->insert(array(
             'user_id' => 1,
             'project_id' => 1,
