@@ -52,6 +52,7 @@ class ProfileController extends Controller
 
         $this->validate($request, [
             'name' => 'required|max:255',
+            'account' => 'required|max:255',
             'email' => 'required|email',
             'password' => 'min:4|max:1024',
         ]);
@@ -59,6 +60,7 @@ class ProfileController extends Controller
         $this->me
             ->update(array(
                 'name'=>$data['name'],
+                'account'=>$data['account'],
                 'email'=>$data['email'],
             ))
         ;

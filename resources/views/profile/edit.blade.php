@@ -19,6 +19,10 @@
         {!! Form::input('text', 'name', $profile->name, ['required', 'class' => 'form-control']) !!}
     </div>
     <div class="form-group">
+        <label>account</label>
+        {!! Form::input('text', 'account', $profile->account, ['required', 'class' => 'form-control']) !!}
+    </div>
+    <div class="form-group">
         <label>E-mail</label>
         {!! Form::input('text', 'email', $profile->email, ['required', 'class' => 'form-control']) !!}
     </div>

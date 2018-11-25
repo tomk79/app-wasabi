@@ -9,19 +9,15 @@ class DummyUserSeeder extends Seeder{
      * @return void
      */
     public function run(){
-        DB::table('users')->insert(array(
-            'name' => 'TESTER 1',
-            'email' => 'tester1@example.com',
-            'password' => bcrypt('tester'),
-            'created_at'=>date('Y-m-d H:i:s'),
-            'updated_at'=>date('Y-m-d H:i:s'),
-        ));
-        DB::table('users')->insert(array(
-            'name' => 'TESTER 2',
-            'email' => 'tester2@example.com',
-            'password' => bcrypt('tester'),
-            'created_at'=>date('Y-m-d H:i:s'),
-            'updated_at'=>date('Y-m-d H:i:s'),
-        ));
+        for( $i = 1; $i <= 20; $i ++ ){
+            DB::table('users')->insert(array(
+                'name' => 'TESTER '.$i,
+                'account' => 'tester'.$i,
+                'email' => 'tester'.$i.'@example.com',
+                'password' => bcrypt('tester'),
+                'created_at'=>date('Y-m-d H:i:s'),
+                'updated_at'=>date('Y-m-d H:i:s'),
+            ));
+        }
     }
 }

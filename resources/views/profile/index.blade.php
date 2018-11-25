@@ -12,6 +12,10 @@
             <td>{{{ $profile->name }}}</td>
         </tr>
         <tr>
+            <th>account</th>
+            <td>{{{ $profile->account }}}</td>
+        </tr>
+        <tr>
             <th>E-mail</th>
             <td>{{{ $profile->email }}}</td>
         </tr>
