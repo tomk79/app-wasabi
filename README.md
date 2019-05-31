@@ -1,72 +1,131 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
+# WASABI for Pickles 2
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+Pickles 2 の制作環境に、動的なコミュニケーション機能を追加します。
+WASABI は、このためのサーバーの役割を受け持ちます。
 
-## About Laravel
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## インストール - Installation
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 1. app-wasabi の依存ライブラリをインストールする
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+```
+$ git clone https://github.com/tomk79/app-wasabi.git
+$ cd app-wasabi
+$ composer install
+$ npm install
+```
 
-## Learning Laravel
+### 2. `.env` ファイルを作成、設定する
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+サンプルの設定ファイル `.env.example` から `.env` という名前で複製します。
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1400 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```
+$ cp .env.example .env
+```
 
-## Laravel Sponsors
+この設定ファイルに、適宜必要な設定を更新してください。
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+```
+$ vi .env
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
-- [Hyper Host](https://hyper.host)
+#### アプリケーションの基本情報の設定
 
-## Contributing
+必要に応じて設定を変更してください。
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```
+APP_NAME=WASABI
+APP_ENV=local
+APP_KEY=base64:NOwK3+2AQLj41zWorz0d1JXe7cKSGRTKMtJs9tSm4/g=
+APP_DEBUG=true
+APP_URL=http://localhost
+```
 
-## Security Vulnerabilities
+アプリケーションキーは次のコマンドで再生成してください。
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```
+$ php artisan key:generate
+Application key set successfully.
+```
 
-## License
+#### データベース接続設定
 
-The Laravel framework is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+データベースの接続先情報を更新します。
+次の例は、SQLite を使用する設定例です。
+
+```
+DB_CONNECTION=sqlite
+DB_HOST=
+DB_PORT=
+DB_DATABASE=../database/database.sqlite
+DB_USERNAME=
+DB_PASSWORD=
+```
+
+#### その他
+
+メール送信サーバーなどの設定項目があります。
+必要に応じて修正してください。
+
+
+### 4. データベースを初期化する
+
+```
+$ php artisan migrate --seed
+```
+
+#### データベースシステム に sqlite を利用する場合の注意点
+
+SQLite を使用する場合は、先に 空白のデータベースファイルを作成しておく必要があります。
+
+また、データベースのパスを相対パスで指定したい場合、 migrate コマンド実行時に注意が必要です。
+実際のアプリケーションは相対パスの起点が `public/` で実行されます。 migrate コマンドは、これと同じカレントディレクトリで実行される必要があります。
+
+`DB_DATABASE` の値を `public/` 起点の相対パスに設定して、 publicディレクトリ で migrate を実行します。
+
+```
+$ cd public/;
+$ touch ../database/database.sqlite;
+$ php ../artisan migrate --seed;
+$ cd ..;
+```
+
+### サーバーを起動してみる
+
+以上でセットアップは完了です。
+次のコマンドを実行してサーバーを起動し、確認してみることができます。
+
+```
+$ php artisan serve
+```
+
+正常に起動したら、 `http://127.0.0.1:8000` でアクセスできます。
+ブラウザではじめの画面が表示されたら完了です。
+
+
+
+## 更新履歴 - Change log
+
+### app-wasabi v0.0.1 (リリース日未定)
+
+- Initial Release.
+
+
+## ライセンス - License
+
+[MIT license](http://opensource.org/licenses/MIT).
+
+
+## 開発者向け情報 - for Developer
+
+### データベースへのダミーデータシーディング
+
+```
+$ php artisan db:seed --class=DummyDataSeeder
+```
+
+## 作者 - Author
+
+- Tomoya Koyanagi <tomk79@gmail.com>
+- website: <https://www.pxt.jp/>
+- Twitter: @tomk79 <https://twitter.com/tomk79/>

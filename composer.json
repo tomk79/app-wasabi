@@ -1,10 +1,9 @@
 {
-    "name": "laravel/laravel",
+    "name": "tomk79/app-wasabi",
     "type": "project",
-    "description": "The Laravel Framework.",
+    "description": "Pickles 2 の制作環境に、動的なコミュニケーション機能を追加します。",
     "keywords": [
-        "framework",
-        "laravel"
+        "pickles2"
     ],
     "license": "MIT",
     "require": {
