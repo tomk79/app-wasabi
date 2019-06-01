@@ -15,7 +15,7 @@
 			<tr>
 				<th><label for="email">アカウント</label></th>
 				<td>
-					<p>{{ $group->account }}</p>
+					<p>@if($group->account) <a href="{{ url('g/'.urlencode($group->account)) }}">{{ $group->account }}</a> @else --- @endif</p>
 				</td>
 			</tr>
 		</tbody>

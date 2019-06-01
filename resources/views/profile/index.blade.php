@@ -14,18 +14,18 @@
 <div class="container">
 	<div class="row">
 		<div class="col-4">
-			<p><img src="{{{ $profile->icon }}}" class="account-icon cont-account-icon" /></p>
+			<p><img src="{{ $profile->icon }}" class="account-icon cont-account-icon" /></p>
 		</div>
 		<div class="col">
 			<table class="table table__dd">
 				<tbody>
 					<tr>
 						<th>ユーザー名</th>
-						<td>{{{ $profile->name }}}</td>
+						<td>{{ $profile->name }}</td>
 					</tr>
 					<tr>
 						<th>アカウント名</th>
-						<td>{{{ $profile->account }}}</td>
+						<td>@if($profile->account) <a href="{{ url($profile->account) }}">{{ $profile->account }}</a> @else --- @endif</td>
 					</tr>
 					<tr>
 						<th>パスワード</th>
