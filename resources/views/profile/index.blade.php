@@ -24,6 +24,10 @@
 						<td>{{{ $profile->name }}}</td>
 					</tr>
 					<tr>
+						<th>アカウント名</th>
+						<td>{{{ $profile->account }}}</td>
+					</tr>
+					<tr>
 						<th>パスワード</th>
 						<td>********</td>
 					</tr>

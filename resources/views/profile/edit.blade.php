@@ -4,12 +4,24 @@
 @section('content')
 <div class="container">
 
-	<form action="{{ url('settings/profile/edit') }}" method="post">
+	<form action="{{ url('settings/profile/edit') }}" method="post" enctype="multipart/form-data">
 		@csrf
 		@method('POST')
 
 		<table class="table table__dd">
 			<tbody>
+				<tr>
+					<th><label for="icon">アイコン</label></th>
+					<td>
+						<p><img src="{{ old('icon', $profile->icon) }}" alt="プロフィールアイコン" style="width: 200px; height: 200px;" class="account-icon cont-account-icon-preview" /></p>
+						<input id="icon" type="file" class="@if ($errors->has('icon')) is-invalid @endif" name="icon" value="" autofocus>
+							@if ($errors->has('icon'))
+								<span class="invalid-feedback" role="alert">
+									{{ $errors->first('icon') }}
+								</span>
+							@endif
+					</td>
+				</tr>
 				<tr>
 					<th><label for="name">ユーザー名</label></th>
 					<td>
@@ -47,4 +59,31 @@
 	</div>
 
 </div>
+@endsection
+@section('foot')
+<script>
+window.addEventListener('load', function(){
+	var $input = document.querySelector('input[name=icon][type=file]');
+	$input.addEventListener('change', function(e){
+		var fileInfo = e.target.files[0];
+		// console.log(fileInfo);
+		if( fileInfo.size > 200000 ){
+			alert( '200KB以下の画像を選択してください。' );
+			return;
+		}
+		if( !fileInfo.type.match(/^image\/(?:png|jpeg|gif)$/) ){
+			alert( 'この種類のファイルは選択できません。' );
+			return;
+		}
+		var reader = new FileReader();
+		reader.onload = function(evt) {
+			var images = document.querySelectorAll('.cont-account-icon-preview');
+			for( var idx in images ){
+				images[idx].src = evt.target.result;
+			}
+		}
+		reader.readAsDataURL(fileInfo);
+	});
+});
+</script>
 @endsection

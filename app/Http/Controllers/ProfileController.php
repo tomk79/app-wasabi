@@ -58,8 +58,14 @@ class ProfileController extends Controller
 	{
 		$user = Auth::user();
 		$userStore = new StoreUser();
+
+		$iconBase64 = null;
+		if( strlen($_FILES['icon']['tmp_name']) && is_file($_FILES['icon']['tmp_name']) ){
+			$iconBase64 = 'data:'.$_FILES['icon']['type'].';base64,'.base64_encode( file_get_contents($_FILES['icon']['tmp_name']) );
+		}
+
 		$request->validate([
-			'name' => $userStore->rules($user->id)['name']
+			'name' => $userStore->rules($user->id)['name'],
 		]);
 		$user->name = $request->name;
 		if( strlen($request->password) ){
@@ -76,6 +82,9 @@ class ProfileController extends Controller
 			if( $request->password == $request->{'password-confirm'} ){
 				$user->password = Hash::make($request->password);
 			}
+		}
+		if( is_string($iconBase64) ){
+			$user->icon = $iconBase64;
 		}
 		$user->save();
 		return redirect('settings/profile')->with('flash_message', 'プロフィールを更新しました。');
