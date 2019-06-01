@@ -32,18 +32,18 @@ Route::middleware(['boot'])
 		Route::get('settings/withdraw', 'WithdrawController@confirm');
 		Route::delete('settings/withdraw', 'WithdrawController@withdraw');
 
-		// ユーザーの契約者アカウント一覧
+		// ユーザーのアカウント一覧
 		Route::get('settings/orgs', 'OrgsController@index');
 		Route::get('settings/orgs/create', 'OrgsController@create');
 		Route::post('settings/orgs/create', 'OrgsController@store');
 
 
-		// 契約者アカウント: ホームページ
+		// アカウント: ホームページ
 		Route::get('{account}', 'HomeController@index');
 		Route::get('{account}/edit', 'HomeController@edit');
 		Route::post('{account}/edit', 'HomeController@update');
 
-		// 契約者アカウント: メンバー管理
+		// アカウント: メンバー管理
 		Route::resource('{account}/members', 'MembersController');
 
 		// 管理用

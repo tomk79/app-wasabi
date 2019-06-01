@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
 			$table->mediumtext('icon')->nullable();
 			$table->rememberToken();
 			$table->timestamps();
+            $table->softDeletes();
 		});
 	}
 
