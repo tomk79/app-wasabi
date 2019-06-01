@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateOrgsTable extends Migration
+class CreateGroupsTable extends Migration
 {
 	/**
 	 * Run the migrations.
@@ -13,12 +13,12 @@ class CreateOrgsTable extends Migration
 	 */
 	public function up()
 	{
-		Schema::create('orgs', function (Blueprint $table) {
+		Schema::create('groups', function (Blueprint $table) {
 			$table->uuid('id', 36)->primary();
 			$table->string('name');
 			$table->string('account')->unique();
 			$table->string('description')->nullable();
-			$table->uuid('parent_org_id', 36)->nullable();
+			$table->uuid('parent_group_id', 36)->nullable();
 			$table->uuid('creator_user_id', 36);
 			$table->mediumtext('icon')->nullable();
 			$table->timestamps();
@@ -26,18 +26,18 @@ class CreateOrgsTable extends Migration
 
 			$table->foreign('creator_user_id')->references('id')->on('users'); // foreignkey制約
 		});
-		Schema::table('orgs', function (Blueprint $table) {
-			$table->foreign('parent_org_id')->references('id')->on('orgs'); // foreignkey制約
+		Schema::table('groups', function (Blueprint $table) {
+			$table->foreign('parent_group_id')->references('id')->on('groups'); // foreignkey制約
 		});
 
-		Schema::create('user_org_relations', function (Blueprint $table) {
+		Schema::create('user_group_relations', function (Blueprint $table) {
 			$table->uuid('user_id', 36);
-			$table->uuid('org_id', 36);
+			$table->uuid('group_id', 36);
 			$table->string('role');
 
 			$table->foreign('user_id')->references('id')->on('users'); // foreignkey制約
-			$table->foreign('org_id')->references('id')->on('orgs'); // foreignkey制約
-			$table->unique(['user_id', 'org_id']); // 複合unique制約
+			$table->foreign('group_id')->references('id')->on('groups'); // foreignkey制約
+			$table->unique(['user_id', 'group_id']); // 複合unique制約
 		});
 	}
 
@@ -48,7 +48,7 @@ class CreateOrgsTable extends Migration
 	 */
 	public function down()
 	{
-		Schema::dropIfExists('user_org_relations');
-		Schema::dropIfExists('orgs');
+		Schema::dropIfExists('user_group_relations');
+		Schema::dropIfExists('groups');
 	}
 }

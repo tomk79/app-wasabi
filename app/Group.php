@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Ramsey\Uuid\Uuid;
 
-class Org extends Model
+class Group extends Model
 {
 	/** プライマリーキーの型 */
 	protected $keyType = 'string';

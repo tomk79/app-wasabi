@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Org;
+use App\Group;
 use App\User;
-use App\UserOrgRelation;
+use App\UserGroupRelation;
 
 class DummyDataSeeder extends Seeder
 {
@@ -34,18 +34,18 @@ class DummyDataSeeder extends Seeder
 			$user_id_memo[$i] = $user->id;
 		}
 
-		$org = new Org;
-		$org->name = '株式会社ABC';
-		$org->account = 'abc-com';
-		$org->description = '';
-		$org->creator_user_id = $user_id_memo[0];
-		$org->created_at = $date;
-		$org->updated_at = $date;
-		$org->save();
+		$group = new Group;
+		$group->name = '株式会社ABC';
+		$group->account = 'abc-com';
+		$group->description = '';
+		$group->creator_user_id = $user_id_memo[0];
+		$group->created_at = $date;
+		$group->updated_at = $date;
+		$group->save();
 
-		DB::table('user_org_relations')->insert([
+		DB::table('user_group_relations')->insert([
 			'user_id' => $user_id_memo[0],
-			'org_id' => $org->id,
+			'group_id' => $group->id,
 			'role' => 'owner',
 		]);
 

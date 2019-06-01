@@ -32,10 +32,10 @@ Route::middleware(['boot'])
 		Route::get('settings/withdraw', 'WithdrawController@confirm');
 		Route::delete('settings/withdraw', 'WithdrawController@withdraw');
 
-		// ユーザーのアカウント一覧
-		Route::get('settings/orgs', 'OrgsController@index');
-		Route::get('settings/orgs/create', 'OrgsController@create');
-		Route::post('settings/orgs/create', 'OrgsController@store');
+		// ユーザーグループ一覧
+		Route::get('settings/groups', 'GroupsController@index');
+		Route::get('settings/groups/create', 'GroupsController@create');
+		Route::post('settings/groups/create', 'GroupsController@store');
 
 
 		// アカウント: ホームページ
