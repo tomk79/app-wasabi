@@ -66,8 +66,10 @@ class ProfileController extends Controller
 
 		$request->validate([
 			'name' => $userStore->rules($user->id)['name'],
+			'account' => $userStore->rules($user->id)['account'],
 		]);
 		$user->name = $request->name;
+		$user->account = $request->account;
 		if( strlen($request->password) ){
 			$request->validate([
 				'password' => [

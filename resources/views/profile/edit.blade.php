@@ -34,6 +34,18 @@
 					</td>
 				</tr>
 				<tr>
+					<th><label for="account">アカウント</label></th>
+					<td>
+						<p>アカウント名を設定すると、あなたのホームページが作成され、プロフィールを共有できます。</p>
+						<input id="account" type="text" class="form-control @if ($errors->has('account')) is-invalid @endif" name="account" value="{{ old('account', $profile->account) }}" autofocus>
+							@if ($errors->has('account'))
+								<span class="invalid-feedback" role="alert">
+									{{ $errors->first('account') }}
+								</span>
+							@endif
+					</td>
+				</tr>
+				<tr>
 					<th><label for="password">パスワード</label></th>
 					<td>
 						<p>パスワードを変更する場合のみ入力してください。</p>

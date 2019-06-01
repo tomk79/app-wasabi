@@ -16,7 +16,7 @@ class CreateGroupsTable extends Migration
 		Schema::create('groups', function (Blueprint $table) {
 			$table->uuid('id', 36)->primary();
 			$table->string('name');
-			$table->string('account')->unique();
+			$table->string('account')->unique()->nullable();
 			$table->string('description')->nullable();
 			$table->uuid('parent_group_id', 36)->nullable();
 			$table->uuid('creator_user_id', 36);

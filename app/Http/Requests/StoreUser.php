@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\Account;
+use App\Rules\ReservedAccount;
 
 class StoreUser extends FormRequest
 {
@@ -26,7 +28,7 @@ class StoreUser extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'account' => 'required|string|max:255|unique:users,,'.$id,
+			'account' => ['nullable', 'string', 'max:255', new Account, new ReservedAccount, 'unique:users,account,'.$id],
             'email' => 'required|string|email|max:255|unique:users,email,'.$id,
             'password' => 'required|string|min:6|max:255|confirmed',
             'icon' => ['file', 'mimetypes:image/png,image/jpeg,image/gif', 'max:200'],

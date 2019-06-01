@@ -28,7 +28,7 @@ class StoreGroup extends FormRequest
 	{
 		return [
 			'name' => ['required', 'string', 'max:255'],
-			'account' => ['required', 'string', 'max:255', new Account, new ReservedAccount, 'unique:groups,account,'.$id],
+			'account' => ['nullable', 'string', 'max:255', new Account, new ReservedAccount, 'unique:groups,account,'.$id],
 			'description' => ['nullable', 'string'],
 			'icon' => ['file', 'mimetypes:image/png,image/jpeg,image/gif', 'max:200'],
 		];

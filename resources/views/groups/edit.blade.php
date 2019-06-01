@@ -24,7 +24,8 @@
 				<tr>
 					<th><label for="account">アカウント名</label></th>
 					<td>
-						<input id="account" type="text" class="form-control @if ($errors->has('account')) is-invalid @endif" name="account" value="{{ old('account', $group->account) }}" required autofocus>
+						<p>アカウント名を設定すると、グループのホームページが作成され、プロフィールを共有できます。</p>
+						<input id="account" type="text" class="form-control @if ($errors->has('account')) is-invalid @endif" name="account" value="{{ old('account', $group->account) }}" autofocus>
 							@if ($errors->has('account'))
 								<span class="invalid-feedback" role="alert">
 									{{ $errors->first('account') }}
