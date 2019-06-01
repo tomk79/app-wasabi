@@ -46,10 +46,6 @@ Route::middleware(['boot'])
 		// アカウント: メンバー管理
 		Route::resource('{account}/members', 'MembersController');
 
-		// 管理用
-		Route::get('/admin/styleguide', function(){
-			return view('admin/styleguide');
-		});
 	});
 
 });
