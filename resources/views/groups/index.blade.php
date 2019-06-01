@@ -30,10 +30,10 @@
 			@foreach ($groups as $group)
 				<tr>
 					<td>{{ $group->name }}</td>
-					<td><a href="{{ url('/'.urlencode($group->account)) }}">{{ $group->account }}</a></td>
+					<td><a href="{{ url('settings/groups/'.urlencode($group->id)) }}">{{ $group->account }}</a></td>
 					<td>{{ $group->role }}</td>
-					<td><a href="{{ url('/'.urlencode($group->account)) }}" class="btn btn-primary">詳細</a></td>
-					<td><a href="{{ url('/'.urlencode($group->account).'/edit') }}" class="btn btn-primary">編集</a></td>
+					<td><a href="{{ url('settings/groups/'.urlencode($group->id)) }}" class="btn btn-primary">詳細</a></td>
+					<td><a href="{{ url('settings/groups/'.urlencode($group->id).'/edit') }}" class="btn btn-primary">編集</a></td>
 				</tr>
 			@endforeach
 			</tbody>

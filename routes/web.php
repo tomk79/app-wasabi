@@ -32,19 +32,23 @@ Route::middleware(['boot'])
 		Route::get('settings/withdraw', 'WithdrawController@confirm');
 		Route::delete('settings/withdraw', 'WithdrawController@withdraw');
 
-		// ユーザーグループ一覧
+		// グループ一覧
 		Route::get('settings/groups', 'GroupsController@index');
 		Route::get('settings/groups/create', 'GroupsController@create');
 		Route::post('settings/groups/create', 'GroupsController@store');
+		Route::get('settings/groups/{group_id}', 'GroupsController@show');
+		Route::get('settings/groups/{group_id}/edit', 'GroupsController@edit');
+		Route::post('settings/groups/{group_id}/edit', 'GroupsController@update');
 
+		// グループ: メンバー管理
+		Route::resource('settings/groups/{group_id}/members', 'MembersController');
+
+
+		// グループ: ホームページ
+		Route::get('g/{account}', 'HomeController@group');
 
 		// アカウント: ホームページ
 		Route::get('{account}', 'HomeController@index');
-		Route::get('{account}/edit', 'HomeController@edit');
-		Route::post('{account}/edit', 'HomeController@update');
-
-		// アカウント: メンバー管理
-		Route::resource('{account}/members', 'MembersController');
 
 	});
 

@@ -10662,3 +10662,12 @@ a.text-dark:focus {
   }
 }
 
+.theme-main-column {
+  max-width: 1024px;
+  margin: 0 auto;
+}
+
+.theme-main-column h1 {
+  margin: 1em 0 0.5em 0;
+}
+

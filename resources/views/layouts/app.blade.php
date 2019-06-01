@@ -27,13 +27,17 @@
 	<div class="theme-main-column">
 		<div id="app">
 			<main class="theme-main">
+				<h1>@yield('title')</h1>
+
 				@if (session('flash_message'))
 					<div class="alert alert-success" role="alert">
 						{{ session('flash_message') }}
 					</div>
 				@endif
 
-				@yield('content')
+				<div class="contents">
+					@yield('content')
+				</div>
 			</main>
 
 		</div>
