@@ -37,7 +37,7 @@
 					<li><a href="{{ route('login') }}" data-name="login">ログイン</a></li>
 					<li><a href="{{ route('register') }}" data-name="signup">新規ユーザー登録</a></li>
 				@else
-					<li><a href="{{ url('/settings/groups') }}" data-name="signup">グループ</a></li>
+					<li><a href="{{ url('/settings/groups') }}" data-name="groups">グループ</a></li>
 					<li><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">ログアウト</a>
 						<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
 							@csrf

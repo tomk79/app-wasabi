@@ -6,7 +6,7 @@
 <script>
 window.addEventListener('load', function(){
 	px2style.header.init({
-		"current": ""
+		"current": @if(isset($current)) <?php var_export( $current ); ?> @else "" @endif
 	});
 });
 </script>

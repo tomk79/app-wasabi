@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\View;
 use App\User;
 use App\UsersEmailChange;
 use App\Http\Requests\StoreUser;
@@ -20,6 +21,9 @@ class ProfileController extends Controller
 	{
 		// 各アクションの前に実行させるミドルウェア
 		$this->middleware('auth');
+
+		// ナビゲーション制御
+		View::share('current', "profile");
 	}
 
 	/**

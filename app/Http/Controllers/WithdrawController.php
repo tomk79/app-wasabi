@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\View;
 use App\User;
 use App\Http\Requests\StoreUser;
 
@@ -15,6 +16,9 @@ class WithdrawController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+
+		// ナビゲーション制御
+		View::share('current', "withdraw");
     }
 
     /**
