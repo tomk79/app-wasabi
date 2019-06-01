@@ -18,12 +18,12 @@ class MembersController extends Controller
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function index($account)
+	public function index($group_id)
 	{
 		$user = Auth::user();
 
 		$group = Group
-			::where('account', $account)
+			::where('id', $group_id)
 			->first();
 		if( !$group ){
 			// 条件に合うレコードが存在しない場合
@@ -60,10 +60,10 @@ class MembersController extends Controller
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function create($account)
+	public function create($group_id)
 	{
 		$user = Auth::user();
-		return view('members.create', ['account'=>$account, 'profile' => $user]);
+		return view('members.create', ['group_id'=>$group_id, 'profile' => $user]);
 	}
 
 	/**
@@ -72,12 +72,12 @@ class MembersController extends Controller
 	 * @param  \Illuminate\Http\Request  $request
 	 * @return \Illuminate\Http\Response
 	 */
-	public function store($account, Request $request)
+	public function store($group_id, Request $request)
 	{
 		$user = Auth::user();
 
 		$group = Group
-			::where('account', $account)
+			::where('id', $group_id)
 			->first();
 		if( !$group ){
 			// 条件に合うレコードが存在しない場合
@@ -113,7 +113,7 @@ class MembersController extends Controller
 		$userGroupRelation->role = $request->role;
 		$userGroupRelation->save();
 
-		return redirect(urlencode($account).'/members')->with('flash_message', '新しいメンバー '.$request->email.' を招待しました。');
+		return redirect('settings/groups/'.urlencode($group_id).'/members')->with('flash_message', '新しいメンバー '.$request->email.' を招待しました。');
 	}
 
 	/**
@@ -122,11 +122,11 @@ class MembersController extends Controller
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function show($account, $email, Request $request)
+	public function show($group_id, $email, Request $request)
 	{
 		$user = Auth::user();
 		$group = Group
-			::where('account', $account)
+			::where('id', $group_id)
 			->first();
 		if( !$group ){
 			// 条件に合うレコードが存在しない場合
@@ -160,12 +160,12 @@ class MembersController extends Controller
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function edit($account, $email, Request $request)
+	public function edit($group_id, $email, Request $request)
 	{
 		$user = Auth::user();
 
 		$group = Group
-			::where('account', $account)
+			::where('id', $group_id)
 			->first();
 		if( !$group ){
 			// 条件に合うレコードが存在しない場合
@@ -204,12 +204,12 @@ class MembersController extends Controller
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function update($account, $email, Request $request)
+	public function update($group_id, $email, Request $request)
 	{
 		$user = Auth::user();
 
 		$group = Group
-			::where('account', $account)
+			::where('id', $group_id)
 			->first();
 		if( !$group ){
 			// 条件に合うレコードが存在しない場合
@@ -270,7 +270,7 @@ class MembersController extends Controller
 			->where('group_id', $group->id)
 			->update(['role' => $request->role]);
 
-		return redirect(urlencode($group->account).'/members')->with('flash_message', 'メンバー '.$invited_user->email.' の情報を更新しました。');
+		return redirect('settings/groups/'.urlencode($group->id).'/members')->with('flash_message', 'メンバー '.$invited_user->email.' の情報を更新しました。');
 	}
 
 	/**
@@ -279,12 +279,12 @@ class MembersController extends Controller
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function destroy($account, $email, Request $request)
+	public function destroy($group_id, $email, Request $request)
 	{
 		$user = Auth::user();
 
 		$group_id = Group
-			::where('account', $account)
+			::where('id', $group_id)
 			->first()->id;
 		if( !$group_id ){
 			// 条件に合うレコードが存在しない場合
@@ -309,6 +309,6 @@ class MembersController extends Controller
 			->where('group_id', $group_id)
 			->delete();
 
-		return redirect(urlencode($account).'/members')->with('flash_message', 'メンバー '.$email.' をメンバーから外しました。');
+		return redirect('settings/groups/'.urlencode($group_id).'/members')->with('flash_message', 'メンバー '.$email.' をメンバーから外しました。');
 	}
 }

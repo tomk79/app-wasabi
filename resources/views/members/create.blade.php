@@ -4,7 +4,7 @@
 @section('content')
 <div class="container">
 
-	<form action="{{ url(urlencode($account).'/members') }}" method="post">
+	<form action="{{ url('settings/groups/'.urlencode($group_id).'/members') }}" method="post">
 		@csrf
 		@method('POST')
 
@@ -49,7 +49,7 @@
 
 	<hr />
 	<div class="text-right">
-		<a href="{{ url(urlencode($account).'/members') }}" class="btn btn-default">キャンセル</a>
+		<a href="{{ url('settings/groups/'.urlencode($group_id).'/members') }}" class="btn btn-default">キャンセル</a>
 	</div>
 
 </div>

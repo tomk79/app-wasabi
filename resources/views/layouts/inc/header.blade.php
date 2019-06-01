@@ -9,7 +9,7 @@
 			</div>
 			<div class="px2-header__global-menu">
 				<ul>
-					<li><a href="{{ url('/') }}" data-name="">HOME</a></li>
+					<li><a href="{{ url('/') }}" data-name="">Dashboard</a></li>
 					@guest
 						<li><a href="{{ route('login') }}" data-name="login">ログイン</a></li>
 						<li><a href="{{ route('register') }}" data-name="signup">新規ユーザー登録</a></li>

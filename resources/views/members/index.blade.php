@@ -5,7 +5,7 @@
 <div class="container">
 
 	<div class="text-right mb-3">
-		<a href="{{ url(urlencode($group->account).'/members/create') }}" class="btn btn-primary">新しいメンバーを招待</a>
+		<a href="{{ url('settings/groups/'.urlencode($group->id).'/members/create') }}" class="btn btn-primary">新しいメンバーを招待</a>
 	</div>
 
 	@empty($members)
@@ -28,19 +28,19 @@
 			<tbody>
 			@foreach ($members as $member)
 				<tr>
-					<td><a href="{{ url(urlencode($group->account).'/members/'.urlencode($member->email)) }}">{{ $member->name }}</a></td>
+					<td><a href="{{ url('settings/groups/'.urlencode($group->id).'/members/'.urlencode($member->email)) }}">{{ $member->name }}</a></td>
 					<td>{{ $member->email }}</td>
 					<td>{{ $member->role }}</td>
 					<td>
 						@if (Auth::user()->email != $member->email)
-						<a href="{{ url(urlencode($group->account).'/members/'.urlencode($member->email).'/edit') }}" class="btn btn-primary">編集</a>
+						<a href="{{ url('settings/groups/'.urlencode($group->id).'/members/'.urlencode($member->email).'/edit') }}" class="btn btn-primary">編集</a>
 						@else
 						---
 						@endif
 					</td>
 					<td>
 						@if (Auth::user()->email != $member->email)
-						<form action="{{ url(urlencode($group->account).'/members/'.urlencode($member->email)) }}" method="post">
+						<form action="{{ url('settings/groups/'.urlencode($group->id).'/members/'.urlencode($member->email)) }}" method="post">
 							@csrf
 							@method('DELETE')
 							<button type="submit" name="submit" class="btn btn-danger">外す</button>
@@ -60,7 +60,7 @@
 
 	<hr />
 	<div class="text-right">
-		<a href="{{ url(urlencode($group->account)) }}" class="btn btn-default">Home へ戻る</a>
+		<a href="{{ url('settings/groups/'.urlencode($group->id)) }}" class="btn btn-default">Home へ戻る</a>
 	</div>
 
 </div>
