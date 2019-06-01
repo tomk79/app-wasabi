@@ -22,6 +22,7 @@ class DummyDataSeeder extends Seeder
 
 			$user = new User;
 			$user->name = 'Test'.$i;
+			$user->account = 'test'.$i;
 			$user->email = 'test'.$i.'@example.com';
 			$user->password = bcrypt('password');
 			$user->lang = 'ja';
