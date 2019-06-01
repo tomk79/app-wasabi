@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "94d4bf9ac7f4a933030e46a346ee2917",
+    "content-hash": "4f441744400b8ab8fa0741555d73f0ee",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -1097,6 +1097,40 @@
                 "type"
             ],
             "time": "2015-07-25T16:39:46+00:00"
+        },
+        {
+            "name": "pickles2/px2style",
+            "version": "2.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pickles2/px2style.git",
+                "reference": "3246f2dee6e97b34f83c530eae661ca4dc32a8e6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pickles2/px2style/zipball/3246f2dee6e97b34f83c530eae661ca4dc32a8e6",
+                "reference": "3246f2dee6e97b34f83c530eae661ca4dc32a8e6",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "files": []
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tomoya Koyanagi",
+                    "email": "tomk79@gmail.com"
+                }
+            ],
+            "description": "Pickles 2 CSS Components.",
+            "keywords": [
+                "pickles2"
+            ],
+            "time": "2019-05-28T05:05:39+00:00"
         },
         {
             "name": "psr/container",
