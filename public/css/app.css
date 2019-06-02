@@ -10671,3 +10671,11 @@ a.text-dark:focus {
   margin: 1em 0 0.5em 0;
 }
 
+.table__dd th {
+  width: 30%;
+}
+
+.table__dd td {
+  width: 70%;
+}
+

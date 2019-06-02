@@ -60,7 +60,7 @@
 
 	<hr />
 	<div class="text-right">
-		<a href="{{ url('settings/groups/'.urlencode($group->id)) }}" class="btn btn-default">Home へ戻る</a>
+		<a href="{{ url('settings/groups/'.urlencode($group->id)) }}" class="btn btn-default">グループ詳細 へ戻る</a>
 	</div>
 
 </div>

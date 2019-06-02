@@ -35,6 +35,7 @@ class GroupsController extends Controller
 			->leftJoin('groups', 'user_group_relations.group_id', '=', 'groups.id')
 			->orderBy('groups.account')
 			->paginate(5);
+
 		return view('groups.index', ['profile' => $user, 'groups' => $groups]);
 	}
 
@@ -92,6 +93,7 @@ class GroupsController extends Controller
 					// = ログインユーザー自身が指定のグループに参加していない。
 					return abort(404);
 				}
+
 			}
 			$group->parent_group_id = $parent_group->id;
 			$group->root_group_id = $parent_group->id;
@@ -132,24 +134,19 @@ class GroupsController extends Controller
 			$group->icon = '/common/images/nophoto.png';
 		}
 
+		$children = Group::get_children($group_id);
+		$logical_path = Group::get_logical_path($group_id);
+
 		$root_group = null;
-		if( strlen( $group->root_group_id ) ){
-			$root_group = UserGroupRelation
-				::where(['group_id'=>$group->root_group_id, 'user_id'=>$user->id])
-				->leftJoin('users', 'user_group_relations.user_id', '=', 'users.id')
-				->leftJoin('groups', 'user_group_relations.group_id', '=', 'groups.id')
-				->first();
+		if( count($logical_path) >= 2 ){
+			$root_group = $logical_path[0];
+		}
+		$parent_group = null;
+		if( count($logical_path) >= 2 ){
+			$parent_group = $logical_path[count($logical_path)-1-1];
 		}
 
-		$parent_group = null;
-		if( strlen( $group->parent_group_id ) ){
-			$parent_group = UserGroupRelation
-				::where(['group_id'=>$group->parent_group_id, 'user_id'=>$user->id])
-				->leftJoin('users', 'user_group_relations.user_id', '=', 'users.id')
-				->leftJoin('groups', 'user_group_relations.group_id', '=', 'groups.id')
-				->first();
-		}
-		return view('groups.show', ['group'=>$group, 'root_group'=>$root_group, 'parent_group'=>$parent_group, 'profile' => $user]);
+		return view('groups.show', ['group'=>$group, 'root_group'=>$root_group, 'parent_group'=>$parent_group, 'logical_path' => $logical_path, 'children' => $children, 'profile' => $user]);
 	}
 
 	/**
