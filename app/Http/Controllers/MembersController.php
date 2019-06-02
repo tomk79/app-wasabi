@@ -57,6 +57,10 @@ class MembersController extends Controller
 			// ユーザーは所属していない
 			return abort(404);
 		}
+		if( !$user_permissions['editable'] ){
+			// 権限がありません
+			return abort(403, 'このグループを編集する権限がありません。');
+		}
 
 		return view('members.create', ['group_id'=>$group_id, 'profile' => $user]);
 	}
@@ -75,6 +79,10 @@ class MembersController extends Controller
 		if( $user_permissions === false ){
 			// ユーザーは所属していない
 			return abort(404);
+		}
+		if( !$user_permissions['editable'] ){
+			// 権限がありません
+			return abort(403, 'このグループを編集する権限がありません。');
 		}
 
 		$group = Group::find($group_id);
@@ -173,6 +181,10 @@ class MembersController extends Controller
 			// ユーザーは所属していない
 			return abort(404);
 		}
+		if( !$user_permissions['editable'] ){
+			// 権限がありません
+			return abort(403, 'このグループを編集する権限がありません。');
+		}
 
 		$group = Group::find($group_id);
 		if( !$group ){
@@ -190,7 +202,7 @@ class MembersController extends Controller
 		$invited_user_id = $invited_user->id;
 		if( $invited_user_id == $user->id ){
 			// 自分を編集することはできない
-			return abort(403);
+			return abort(403, '自分を編集することはできません。');
 		}
 
 		$relation = $userGroupRelation = UserGroupRelation
@@ -221,6 +233,10 @@ class MembersController extends Controller
 			// ユーザーは所属していない
 			return abort(404);
 		}
+		if( !$user_permissions['editable'] ){
+			// 権限がありません
+			return abort(403, 'このグループを編集する権限がありません。');
+		}
 
 		$group = Group::find($group_id);
 		if( !$group ){
@@ -238,36 +254,7 @@ class MembersController extends Controller
 		$invited_user_id = $invited_user->id;
 		if( $invited_user_id == $user->id ){
 			// 自分を編集することはできない
-			return abort(403);
-		}
-
-		$userGroup = UserGroupRelation
-			::where(['group_id'=>$group->id, 'user_id'=>$user->id])
-			->leftJoin('users', 'user_group_relations.user_id', '=', 'users.id')
-			->leftJoin('groups', 'user_group_relations.group_id', '=', 'groups.id')
-			->first();
-		if( !$userGroup->count() ){
-			// 条件に合うレコードが存在しない場合
-			// = ログインユーザー自身が指定のグループに参加していない。
-			return abort(404);
-		}
-		switch( $userGroup->role ){
-			case 'owner':
-			case 'manager':
-				break;
-			default:
-				// このグループを編集する権限がありません。
-				return abort(403, 'このグループを編集する権限がありません。');
-		}
-
-		$relation = $userGroupRelation = UserGroupRelation
-			::where('user_id', $invited_user_id)
-			->where('group_id', $group->id)
-			->first();
-		if( !$relation->count() ){
-			// 条件に合うレコードが存在しない場合
-			// = ログインユーザー自身が指定のグループに参加していない。
-			return abort(404);
+			return abort(403, '自分を編集することはできません。');
 		}
 
 		$request->validate([
@@ -299,6 +286,10 @@ class MembersController extends Controller
 		if( $user_permissions === false ){
 			// ユーザーは所属していない
 			return abort(404);
+		}
+		if( !$user_permissions['editable'] ){
+			// 権限がありません
+			return abort(403, 'このグループを編集する権限がありません。');
 		}
 
 		$group_id = Group::find($group_id);

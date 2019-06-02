@@ -56,7 +56,7 @@ class Group extends Model
 			if( count($rtn) >= 20 ){
 				break;
 			}
-			$current_group = Group::where(['id'=>$current_group_id])->first();
+			$current_group = Group::find($current_group_id);
 			array_push($rtn, $current_group);
 			if( $current_group->parent_group_id && $current_group->root_group_id ){
 				$current_group_id = $current_group->parent_group_id;
@@ -86,11 +86,27 @@ class Group extends Model
 	 * 権限の評価は行いません。
 	 */
 	static public function get_bros( $group_id ){
-		$group = self::where(['id'=>$group_id])->first();
+		$group = self::find($group_id);
 		if( !strlen($group->parent_group_id) || !strlen($group->root_group_id) ){
 			return array();
 		}
 		$rtn = self::get_children( $group->id );
+		return $rtn;
+	}
+
+	/**
+	 * 子グループ以下すべてのグループを取得する
+	 * 
+	 * 権限の評価は行いません。
+	 */
+	static public function get_sub_groups( $group_id ){
+		$rtn = array();
+		$children = self::get_children( $group_id );
+		foreach($children as $child){
+			array_push($rtn, $child);
+			$subchildren = self::get_sub_groups($child->id);
+			$rtn = array_merge($rtn, $subchildren);
+		}
 		return $rtn;
 	}
 
@@ -105,7 +121,12 @@ class Group extends Model
 	 * false を返します。
 	 */
 	static public function get_user_permissions( $group_id, $user_id = null ){
-		$rtn = array();
+		$rtn = array(
+			'role' => false,
+			'has_sub_group_membership' => false,
+			'has_sub_group_partnership' => false,
+			'editable' => false,
+		);
 		if( !strlen($user_id) ){
 			$user = Auth::user();
 			$user_id = $user->id;
@@ -121,9 +142,40 @@ class Group extends Model
 				continue;
 			}
 			$rtn['role'] = $relation->role;
+			switch($rtn['role']){
+				case 'owner':
+				case 'manager':
+					$rtn['editable'] = true;
+					break;
+			}
 			break;
 		}
-		if( !array_key_exists('role', $rtn) ){
+
+		$sub_groups = self::get_sub_groups($logical_path[0]->id);
+		foreach($sub_groups as $tmp_group){
+			$relation = UserGroupRelation
+				::where(['group_id'=>$tmp_group->id, 'user_id'=>$user_id])
+				->leftJoin('users', 'user_group_relations.user_id', '=', 'users.id')
+				->leftJoin('groups', 'user_group_relations.group_id', '=', 'groups.id')
+				->first();
+			if(!$relation){
+				continue;
+			}
+			switch( $relation->role ){
+				case 'owner':
+				case 'manager':
+				case 'member':
+					$rtn['has_sub_group_membership'] = true;
+					break;
+				case 'partner':
+				default:
+					$rtn['has_sub_group_partnership'] = true;
+					break;
+			}
+			break;
+		}
+
+		if( !$rtn['role'] && !$rtn['has_sub_group_membership'] && !$rtn['has_sub_group_partnership'] ){
 			$rtn = false;
 		}
 		return $rtn;
