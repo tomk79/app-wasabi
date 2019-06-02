@@ -22,22 +22,15 @@ class MembersController extends Controller
 	{
 		$user = Auth::user();
 
-		$group = Group
-			::where('id', $group_id)
-			->first();
-		if( !$group ){
-			// 条件に合うレコードが存在しない場合
+		$user_permissions = Group::get_user_permissions($group_id, $user->id);
+		if( $user_permissions === false ){
+			// ユーザーは所属していない
 			return abort(404);
 		}
 
-		$group = UserGroupRelation
-			::where(['group_id'=>$group->id, 'user_id'=>$user->id])
-			->leftJoin('users', 'user_group_relations.user_id', '=', 'users.id')
-			->leftJoin('groups', 'user_group_relations.group_id', '=', 'groups.id')
-			->first();
-		if( !$group->count() ){
+		$group = Group::find($group_id);
+		if( !$group ){
 			// 条件に合うレコードが存在しない場合
-			// = ログインユーザー自身が指定のグループに参加していない。
 			return abort(404);
 		}
 
@@ -46,11 +39,6 @@ class MembersController extends Controller
 			->leftJoin('users', 'user_group_relations.user_id', '=', 'users.id')
 			->orderBy('email')
 			->paginate(100);
-		if( !$members->count() ){
-			// 条件に合うレコードが存在しない場合
-			// = ログインユーザー自身が指定のグループに参加していない。
-			return abort(404);
-		}
 
 		return view('members.index', ['group'=>$group, 'members'=>$members, 'profile' => $user]);
 	}
@@ -63,6 +51,13 @@ class MembersController extends Controller
 	public function create($group_id)
 	{
 		$user = Auth::user();
+
+		$user_permissions = Group::get_user_permissions($group_id, $user->id);
+		if( $user_permissions === false ){
+			// ユーザーは所属していない
+			return abort(404);
+		}
+
 		return view('members.create', ['group_id'=>$group_id, 'profile' => $user]);
 	}
 
@@ -76,9 +71,13 @@ class MembersController extends Controller
 	{
 		$user = Auth::user();
 
-		$group = Group
-			::where('id', $group_id)
-			->first();
+		$user_permissions = Group::get_user_permissions($group_id, $user->id);
+		if( $user_permissions === false ){
+			// ユーザーは所属していない
+			return abort(404);
+		}
+
+		$group = Group::find($group_id);
 		if( !$group ){
 			// 条件に合うレコードが存在しない場合
 			return abort(404);
@@ -125,9 +124,14 @@ class MembersController extends Controller
 	public function show($group_id, $email, Request $request)
 	{
 		$user = Auth::user();
-		$group = Group
-			::where('id', $group_id)
-			->first();
+
+		$user_permissions = Group::get_user_permissions($group_id, $user->id);
+		if( $user_permissions === false ){
+			// ユーザーは所属していない
+			return abort(404);
+		}
+
+		$group = Group::find($group_id);
 		if( !$group ){
 			// 条件に合うレコードが存在しない場合
 			return abort(404);
@@ -164,9 +168,13 @@ class MembersController extends Controller
 	{
 		$user = Auth::user();
 
-		$group = Group
-			::where('id', $group_id)
-			->first();
+		$user_permissions = Group::get_user_permissions($group_id, $user->id);
+		if( $user_permissions === false ){
+			// ユーザーは所属していない
+			return abort(404);
+		}
+
+		$group = Group::find($group_id);
 		if( !$group ){
 			// 条件に合うレコードが存在しない場合
 			return abort(404);
@@ -208,9 +216,13 @@ class MembersController extends Controller
 	{
 		$user = Auth::user();
 
-		$group = Group
-			::where('id', $group_id)
-			->first();
+		$user_permissions = Group::get_user_permissions($group_id, $user->id);
+		if( $user_permissions === false ){
+			// ユーザーは所属していない
+			return abort(404);
+		}
+
+		$group = Group::find($group_id);
 		if( !$group ){
 			// 条件に合うレコードが存在しない場合
 			return abort(404);
@@ -241,7 +253,7 @@ class MembersController extends Controller
 		}
 		switch( $userGroup->role ){
 			case 'owner':
-			case 'admin':
+			case 'manager':
 				break;
 			default:
 				// このグループを編集する権限がありません。
@@ -283,9 +295,13 @@ class MembersController extends Controller
 	{
 		$user = Auth::user();
 
-		$group_id = Group
-			::where('id', $group_id)
-			->first()->id;
+		$user_permissions = Group::get_user_permissions($group_id, $user->id);
+		if( $user_permissions === false ){
+			// ユーザーは所属していない
+			return abort(404);
+		}
+
+		$group_id = Group::find($group_id);
 		if( !$group_id ){
 			// 条件に合うレコードが存在しない場合
 			return abort(404);

@@ -27,7 +27,7 @@
 					<th><label for="role">役割</label></th>
 					<td>
 						<select id="role" class="form-control{{ $errors->has('role') ? ' is-invalid' : '' }}" name="role" value="{{ old('role') }}" required>
-							<?php $vals = array( 'member', 'admin', 'owner' ); ?>
+							<?php $vals = array( 'member', 'manager', 'owner' ); ?>
 							@foreach ($vals as $val)
 							<option value="{{ $val }}" @if (old('role')==$val) selected="selected"  @endif>{{ $val }}</option>
 							@endforeach

@@ -68,6 +68,7 @@ class GroupsController extends Controller
 	public function store(StoreGroup $request)
 	{
 		$user = Auth::user();
+
 		$group = new Group;
 		$rules = $request->rules();
 		$request->validate([
@@ -81,6 +82,20 @@ class GroupsController extends Controller
 		$group->creator_user_id = $user->id;
 
 		if( strlen($request->parent_group_id) ){
+			$user_permissions = Group::get_user_permissions($request->parent_group_id, $user->id);
+			if( $user_permissions === false ){
+				// ユーザーは所属していない
+				return abort(404);
+			}
+			switch( $user_permissions['role'] ){
+				case 'owner':
+				case 'manager':
+					break;
+				default:
+					// このグループを編集する権限がありません。
+					return abort(403, 'このグループを編集する権限がありません。');
+			}
+
 			$parent_group = null;
 			if( strlen($request->parent_group_id) ){
 				$parent_group = UserGroupRelation
@@ -120,11 +135,13 @@ class GroupsController extends Controller
 	{
 		$user = Auth::user();
 
-		$group = UserGroupRelation
-			::where(['group_id'=>$group_id, 'user_id'=>$user->id])
-			->leftJoin('users', 'user_group_relations.user_id', '=', 'users.id')
-			->leftJoin('groups', 'user_group_relations.group_id', '=', 'groups.id')
-			->first();
+		$user_permissions = Group::get_user_permissions($group_id, $user->id);
+		if( $user_permissions === false ){
+			// ユーザーは所属していない
+			return abort(404);
+		}
+
+		$group = Group::find($group_id);
 		if( !$group->count() ){
 			// 条件に合うレコードが存在しない場合
 			// = ログインユーザー自身が指定のグループに参加していない。
@@ -156,11 +173,13 @@ class GroupsController extends Controller
 	{
 		$user = Auth::user();
 
-		$group = UserGroupRelation
-			::where(['group_id'=>$group_id, 'user_id'=>$user->id])
-			->leftJoin('users', 'user_group_relations.user_id', '=', 'users.id')
-			->leftJoin('groups', 'user_group_relations.group_id', '=', 'groups.id')
-			->first();
+		$user_permissions = Group::get_user_permissions($group_id, $user->id);
+		if( $user_permissions === false ){
+			// ユーザーは所属していない
+			return abort(404);
+		}
+
+		$group = Group::find($group_id);
 		if( !$group->count() ){
 			// 条件に合うレコードが存在しない場合
 			// = ログインユーザー自身が指定のグループに参加していない。
@@ -180,19 +199,15 @@ class GroupsController extends Controller
 	{
 		$user = Auth::user();
 
-		$userGroup = UserGroupRelation
-			::where(['group_id'=>$group_id, 'user_id'=>$user->id])
-			->leftJoin('users', 'user_group_relations.user_id', '=', 'users.id')
-			->leftJoin('groups', 'user_group_relations.group_id', '=', 'groups.id')
-			->first();
-		if( !$userGroup->count() ){
-			// 条件に合うレコードが存在しない場合
-			// = ログインユーザー自身が指定のグループに参加していない。
+		$user_permissions = Group::get_user_permissions($group_id, $user->id);
+		if( $user_permissions === false ){
+			// ユーザーは所属していない
 			return abort(404);
 		}
-		switch( $userGroup->role ){
+
+		switch( $user_permissions['role'] ){
 			case 'owner':
-			case 'admin':
+			case 'manager':
 				break;
 			default:
 				// このグループを編集する権限がありません。
@@ -205,6 +220,11 @@ class GroupsController extends Controller
 		}
 
 		$group = Group::find($group_id);
+		if( !$group->count() ){
+			// 条件に合うレコードが存在しない場合
+			// = ログインユーザー自身が指定のグループに参加していない。
+			return abort(404);
+		}
 		$rules = (new StoreGroup)->rules($group_id);
 		$this->validate($request, [
 			'name' => $rules['name'],
