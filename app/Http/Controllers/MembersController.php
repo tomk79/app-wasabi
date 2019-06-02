@@ -292,8 +292,8 @@ class MembersController extends Controller
 			return abort(403, 'このグループを編集する権限がありません。');
 		}
 
-		$group_id = Group::find($group_id);
-		if( !$group_id ){
+		$group = Group::find($group_id);
+		if( !$group ){
 			// 条件に合うレコードが存在しない場合
 			return abort(404);
 		}
