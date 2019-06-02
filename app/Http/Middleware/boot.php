@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Auth;
 use App;
 
 class boot
@@ -21,6 +22,14 @@ class boot
 
 		$global = new \stdClass;
 		View::share('global', $global);
+
+		$user = Auth::user();
+		if( $user ){
+			if( !$user->icon ){
+				$user->icon = '/common/images/nophoto.png';
+			}
+		}
+		$global->user = $user;
 
 		return $next($request);
 	}

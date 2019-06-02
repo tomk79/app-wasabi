@@ -35,6 +35,9 @@ class ProfileController extends Controller
 	public function index()
 	{
 		$user = Auth::user();
+		if( !$user->icon ){
+			$user->icon = '/common/images/nophoto.png';
+		}
 
 		return view('profile.index', ['profile' => $user]);
 	}
@@ -48,6 +51,10 @@ class ProfileController extends Controller
 	public function edit()
 	{
 		$user = Auth::user();
+		if( !$user->icon ){
+			$user->icon = '/common/images/nophoto.png';
+		}
+
 		return view('profile.edit', ['profile' => $user]);
 	}
 
@@ -126,8 +133,8 @@ class ProfileController extends Controller
 		// 同じユーザーのレコードがある場合を想定して、
 		// 先に削除する
 		$usersEmailChange = UsersEmailChange
-            ::where(['user_id'=>$user->id])
-            ->delete();
+			::where(['user_id'=>$user->id])
+			->delete();
 
 		// ランダムなトークンを生成
 		$random_token = rand(10000, 99999).'-'.rand(1000, 9999).'-'.uniqid();
@@ -165,8 +172,8 @@ class ProfileController extends Controller
 		// 同じユーザーのレコードがある場合を想定して、
 		// 先に削除する
 		$usersEmailChange = UsersEmailChange
-            ::where(['user_id'=>$user->id])
-            ->first();
+			::where(['user_id'=>$user->id])
+			->first();
 		if( !$usersEmailChange ){
 			return abort(403, '仮メールアドレスが登録されていません。');
 		}
@@ -183,8 +190,8 @@ class ProfileController extends Controller
 
 		// 一時テーブルからレコードを削除する
 		$usersEmailChange = UsersEmailChange
-            ::where(['user_id'=>$user->id])
-            ->delete();
+			::where(['user_id'=>$user->id])
+			->delete();
 
 		return redirect('settings/profile')->with('flash_message', 'メールアドレスを変更しました。');
 	}

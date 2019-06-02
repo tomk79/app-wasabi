@@ -28,6 +28,9 @@ class HomeController extends Controller
 	 */
 	public function index($account){
 		$user = Auth::user();
+		if( !$user->icon ){
+			$user->icon = '/common/images/nophoto.png';
+		}
 
 		// アカウント
 		$account = User
@@ -37,6 +40,9 @@ class HomeController extends Controller
 			// 条件に合うレコードが存在しない場合
 			// = ログインユーザー自身が指定のグループに参加していない。
 			return abort(404);
+		}
+		if( !$account->icon ){
+			$account->icon = '/common/images/nophoto.png';
 		}
 
 
@@ -58,6 +64,9 @@ class HomeController extends Controller
 		if( !$group->count() ){
 			// 条件に合うレコードが存在しない場合
 			return abort(404);
+		}
+		if( !$group->icon ){
+			$group->icon = '/common/images/nophoto.png';
 		}
 
 		return view('home.index', [

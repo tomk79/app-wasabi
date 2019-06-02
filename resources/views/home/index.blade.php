@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Home')
+@section('title', $account->name )
 
 @section('head')
 <style>
@@ -13,18 +13,18 @@
 <div class="container">
 	<div class="row">
 		<div class="col-4">
-			<p><img src="{{{ $account->icon }}}" class="account-icon cont-account-icon" /></p>
+			<p><img src="{{ $account->icon }}" class="account-icon cont-account-icon" /></p>
 		</div>
 		<div class="col">
 			<table class="table table__dd">
 				<tbody>
 					<tr>
 						<th>ユーザー名</th>
-						<td>{{{ $account->name }}}</td>
+						<td>{{ $account->name }}</td>
 					</tr>
 					<tr>
 						<th>アカウント名</th>
-						<td>{{{ $account->account }}}</td>
+						<td>{{ $account->account }}</td>
 					</tr>
 				</tbody>
 			</table>

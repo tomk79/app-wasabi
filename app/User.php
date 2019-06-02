@@ -52,6 +52,7 @@ class User extends Authenticatable implements MustVerifyEmail
 		parent::__construct($attributes);
 
 		// newした時に自動的にuuidを設定する。
+		// DBにすでに存在するレコードをロードする場合は、あとから上書きされる。
 		$this->attributes['id'] = Uuid::uuid4()->toString();
 	}
 }

@@ -15,7 +15,7 @@
 						<li><a href="{{ route('register') }}" data-name="signup">新規ユーザー登録</a></li>
 					@else
 						<li>
-							<a href="javascript:;" data-name="user">{{ Auth::user()->name }}</a>
+							<a href="javascript:;" data-name="user"><img src="{{ $global->user->icon }}" alt="" style="height: 1em; vertical-align: bottom;" /> {{ Auth::user()->name }}</a>
 							<ul>
 								<li><a href="{{ url('settings/profile') }}" data-name="profile">プロフィール</a></li>
 								<li><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">ログアウト</a>
