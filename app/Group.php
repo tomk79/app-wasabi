@@ -21,6 +21,15 @@ class Group extends Model
 	protected $dates = ['deleted_at'];
 
 	/**
+	 * 属性に対するモデルのデフォルト値
+	 *
+	 * @var array
+	 */
+	protected $attributes = [
+		'private_flg' => 0,
+	];
+
+	/**
 	 * Constructor
 	 */
 	public function __construct(array $attributes = [])

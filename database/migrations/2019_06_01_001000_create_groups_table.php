@@ -19,7 +19,9 @@ class CreateGroupsTable extends Migration
 			$table->string('account')->unique()->nullable();
 			$table->string('description')->nullable();
 			$table->uuid('parent_group_id', 36)->nullable();
+			$table->uuid('root_group_id', 36)->nullable();
 			$table->uuid('creator_user_id', 36);
+			$table->integer('private_flg');
 			$table->mediumtext('icon')->nullable();
 			$table->timestamps();
 			$table->softDeletes();
@@ -28,6 +30,7 @@ class CreateGroupsTable extends Migration
 		});
 		Schema::table('groups', function (Blueprint $table) {
 			$table->foreign('parent_group_id')->references('id')->on('groups'); // foreignkey制約
+			$table->foreign('root_group_id')->references('id')->on('groups'); // foreignkey制約
 		});
 
 		Schema::create('user_group_relations', function (Blueprint $table) {
