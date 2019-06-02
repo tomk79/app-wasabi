@@ -17,6 +17,7 @@ class CreateUserSubEmailsTable extends Migration
 			$table->uuid('user_id', 36);
 			$table->string('email')->index();
 			$table->timestamp('email_verified_at')->nullable();
+			$table->string('token');
 			$table->timestamp('created_at')->nullable();
 
 			$table->foreign('user_id')->references('id')->on('users'); // foreignkey制約

@@ -130,25 +130,58 @@ class ProfileController extends Controller
 			'email' => $userStore->rules($user->id)['email']
 		]);
 
-		// 同じユーザーのレコードがある場合を想定して、
-		// 先に削除する
-		$usersEmailChange = UsersEmailChange
-			::where(['user_id'=>$user->id])
-			->delete();
-
 		// ランダムなトークンを生成
 		$random_token = rand(10000, 99999).'-'.rand(1000, 9999).'-'.uniqid();
 
-		$usersEmailChange = new UsersEmailChange();
-		$usersEmailChange->user_id = $user->id;
-		$usersEmailChange->email = $request->email;
-		$usersEmailChange->token = $random_token;
-		$usersEmailChange->created_at = date('Y-m-d H:i:s');
-		$usersEmailChange->save();
+		if( $request->method == '1' ){
+			// 古いメールアドレスも残したまま、新しいメールアドレスをログインに使う
 
-		// 確認メール送信
-		Mail::to($usersEmailChange->email)
-			->send(new UsersEmailChangeMail($usersEmailChange));
+			// 同じユーザーのレコードがある場合を想定して、
+			// 先に削除する
+			$usersEmailChange = UsersEmailChange
+				::where(['user_id'=>$user->id])
+				->delete();
+
+			$usersEmailChange = new UsersEmailChange();
+			$usersEmailChange->user_id = $user->id;
+			$usersEmailChange->email = $request->email;
+			$usersEmailChange->token = $random_token;
+			$usersEmailChange->created_at = date('Y-m-d H:i:s');
+			$usersEmailChange->save();
+
+			// 確認メール送信
+			Mail::to($usersEmailChange->email)
+				->send(new UsersEmailChangeMail($usersEmailChange));
+
+		}elseif( $request->method == '2' ){
+			// ログインに使うメールアドレスはそのままにして、新しいメールアドレスを追加する
+
+			// 確認メール送信
+			Mail::to($usersEmailChange->email)
+				->send(new UsersEmailChangeMail($usersEmailChange));
+
+		}else{
+			// 古いメールアドレスを上書きし、新しいメールアドレスをログインに使う
+
+			// 同じユーザーのレコードがある場合を想定して、
+			// 先に削除する
+			$usersEmailChange = UsersEmailChange
+				::where(['user_id'=>$user->id])
+				->delete();
+
+			$usersEmailChange = new UsersEmailChange();
+			$usersEmailChange->user_id = $user->id;
+			$usersEmailChange->email = $request->email;
+			$usersEmailChange->token = $random_token;
+			$usersEmailChange->created_at = date('Y-m-d H:i:s');
+			$usersEmailChange->save();
+
+			// 確認メール送信
+			Mail::to($usersEmailChange->email)
+				->send(new UsersEmailChangeMail($usersEmailChange));
+
+		}
+
 
 		return redirect('settings/profile/edit_email_mailsent');
 	}
