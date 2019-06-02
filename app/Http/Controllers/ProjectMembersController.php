@@ -60,7 +60,7 @@ class ProjectMembersController extends Controller
 		}
 		if( !$user_permissions['editable'] ){
 			// 権限がありません
-			return abort(403, 'このグループを編集する権限がありません。');
+			return abort(403, 'このプロジェクトを編集する権限がありません。');
 		}
 
 		return view('projectmembers.create', ['project_id'=>$project_id, 'profile' => $user]);
@@ -83,7 +83,7 @@ class ProjectMembersController extends Controller
 		}
 		if( !$user_permissions['editable'] ){
 			// 権限がありません
-			return abort(403, 'このグループを編集する権限がありません。');
+			return abort(403, 'このプロジェクトを編集する権限がありません。');
 		}
 
 		$project = Project::find($project_id);
@@ -184,7 +184,7 @@ class ProjectMembersController extends Controller
 		}
 		if( !$user_permissions['editable'] ){
 			// 権限がありません
-			return abort(403, 'このグループを編集する権限がありません。');
+			return abort(403, 'このプロジェクトを編集する権限がありません。');
 		}
 
 		$project = Project::find($project_id);
@@ -236,7 +236,7 @@ class ProjectMembersController extends Controller
 		}
 		if( !$user_permissions['editable'] ){
 			// 権限がありません
-			return abort(403, 'このグループを編集する権限がありません。');
+			return abort(403, 'このプロジェクトを編集する権限がありません。');
 		}
 
 		$project = Project::find($project_id);
@@ -290,7 +290,7 @@ class ProjectMembersController extends Controller
 		}
 		if( !$user_permissions['editable'] ){
 			// 権限がありません
-			return abort(403, 'このグループを編集する権限がありません。');
+			return abort(403, 'このプロジェクトを編集する権限がありません。');
 		}
 
 		$project = Project::find($project_id);
