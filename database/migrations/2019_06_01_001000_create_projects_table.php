@@ -19,6 +19,7 @@ class CreateProjectsTable extends Migration
 			$table->string('description')->nullable();
 			$table->uuid('group_id', 36);
 			$table->uuid('creator_user_id', 36);
+			$table->integer('private_flg');
 			$table->mediumtext('icon')->nullable();
 			$table->timestamps();
 			$table->softDeletes();

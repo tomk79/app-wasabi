@@ -43,6 +43,16 @@ Route::middleware(['boot'])
 		// グループ: メンバー管理
 		Route::resource('settings/groups/{group_id}/members', 'MembersController');
 
+		// プロジェクト一覧
+		Route::get('settings/projects', 'ProjectsController@index');
+		Route::get('settings/projects/create', 'ProjectsController@create');
+		Route::post('settings/projects/create', 'ProjectsController@store');
+		Route::get('settings/projects/{project_id}', 'ProjectsController@show');
+		Route::get('settings/projects/{project_id}/edit', 'ProjectsController@edit');
+		Route::post('settings/projects/{project_id}/edit', 'ProjectsController@update');
+
+		// プロジェクト: メンバー管理
+		Route::resource('settings/projects/{project_id}/members', 'ProjectMembersController');
 
 		// グループ: ホームページ
 		Route::get('g/{account}', 'HomeController@group');

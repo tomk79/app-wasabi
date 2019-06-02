@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class UserProjectRelations extends Model
+class UserProjectRelation extends Model
 {
 
 	/**

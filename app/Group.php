@@ -56,6 +56,7 @@ class Group extends Model
 			if( count($rtn) >= 20 ){
 				break;
 			}
+
 			$current_group = Group::find($current_group_id);
 			array_push($rtn, $current_group);
 			if( $current_group->parent_group_id && $current_group->root_group_id ){

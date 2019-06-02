@@ -7,40 +7,41 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Group;
 use App\User;
-use App\UserGroupRelation;
+use App\Project;
+use App\UserProjectRelation;
 use App\Http\Requests\StoreGroup;
 use App\Rules\Role;
 
-class MembersController extends Controller
+class ProjectMembersController extends Controller
 {
 	/**
 	 * Display a listing of the resource.
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function index($group_id)
+	public function index($project_id)
 	{
 		$user = Auth::user();
 
-		$user_permissions = Group::get_user_permissions($group_id, $user->id);
+		$user_permissions = Project::get_user_permissions($project_id, $user->id);
 		if( $user_permissions === false ){
 			// ユーザーは所属していない
 			return abort(404);
 		}
 
-		$group = Group::find($group_id);
-		if( !$group ){
+		$project = Project::find($project_id);
+		if( !$project ){
 			// 条件に合うレコードが存在しない場合
 			return abort(404);
 		}
 
-		$members = UserGroupRelation
-			::where(['group_id'=>$group->id])
-			->leftJoin('users', 'user_group_relations.user_id', '=', 'users.id')
+		$members = UserProjectRelation
+			::where(['project_id'=>$project->id])
+			->leftJoin('users', 'user_project_relations.user_id', '=', 'users.id')
 			->orderBy('email')
 			->paginate(100);
 
-		return view('members.index', ['group'=>$group, 'members'=>$members, 'profile' => $user]);
+		return view('projectmembers.index', ['project'=>$project, 'members'=>$members, 'profile' => $user]);
 	}
 
 	/**
@@ -48,11 +49,11 @@ class MembersController extends Controller
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function create($group_id)
+	public function create($project_id)
 	{
 		$user = Auth::user();
 
-		$user_permissions = Group::get_user_permissions($group_id, $user->id);
+		$user_permissions = Project::get_user_permissions($project_id, $user->id);
 		if( $user_permissions === false ){
 			// ユーザーは所属していない
 			return abort(404);
@@ -62,7 +63,7 @@ class MembersController extends Controller
 			return abort(403, 'このグループを編集する権限がありません。');
 		}
 
-		return view('members.create', ['group_id'=>$group_id, 'profile' => $user]);
+		return view('projectmembers.create', ['project_id'=>$project_id, 'profile' => $user]);
 	}
 
 	/**
@@ -71,11 +72,11 @@ class MembersController extends Controller
 	 * @param  \Illuminate\Http\Request  $request
 	 * @return \Illuminate\Http\Response
 	 */
-	public function store($group_id, Request $request)
+	public function store($project_id, Request $request)
 	{
 		$user = Auth::user();
 
-		$user_permissions = Group::get_user_permissions($group_id, $user->id);
+		$user_permissions = Project::get_user_permissions($project_id, $user->id);
 		if( $user_permissions === false ){
 			// ユーザーは所属していない
 			return abort(404);
@@ -85,8 +86,8 @@ class MembersController extends Controller
 			return abort(403, 'このグループを編集する権限がありません。');
 		}
 
-		$group = Group::find($group_id);
-		if( !$group ){
+		$project = Project::find($project_id);
+		if( !$project ){
 			// 条件に合うレコードが存在しない場合
 			return abort(404);
 		}
@@ -114,13 +115,13 @@ class MembersController extends Controller
 			],
 		]);
 
-		$userGroupRelation = new UserGroupRelation;
-		$userGroupRelation->user_id = $invited_user_id;
-		$userGroupRelation->group_id = $group->id;
-		$userGroupRelation->role = $request->role;
-		$userGroupRelation->save();
+		$userProjectRelation = new UserProjectRelation;
+		$userProjectRelation->user_id = $invited_user_id;
+		$userProjectRelation->project_id = $project->id;
+		$userProjectRelation->role = $request->role;
+		$userProjectRelation->save();
 
-		return redirect('settings/groups/'.urlencode($group_id).'/members')->with('flash_message', '新しいメンバー '.$request->email.' を招待しました。');
+		return redirect('settings/projects/'.urlencode($project_id).'/members')->with('flash_message', '新しいメンバー '.$request->email.' を招待しました。');
 	}
 
 	/**
@@ -129,18 +130,18 @@ class MembersController extends Controller
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function show($group_id, $email, Request $request)
+	public function show($project_id, $email, Request $request)
 	{
 		$user = Auth::user();
 
-		$user_permissions = Group::get_user_permissions($group_id, $user->id);
+		$user_permissions = Project::get_user_permissions($project_id, $user->id);
 		if( $user_permissions === false ){
 			// ユーザーは所属していない
 			return abort(404);
 		}
 
-		$group = Group::find($group_id);
-		if( !$group ){
+		$project = Project::find($project_id);
+		if( !$project ){
 			// 条件に合うレコードが存在しない場合
 			return abort(404);
 		}
@@ -154,16 +155,16 @@ class MembersController extends Controller
 		}
 		$invited_user_id = $invited_user->id;
 
-		$relation = $userGroupRelation = UserGroupRelation
+		$relation = $userProjectRelation = UserProjectRelation
 			::where('user_id', $invited_user_id)
-			->where('group_id', $group->id)
+			->where('project_id', $project->id)
 			->first();
 		if( !$relation->count() ){
 			// 条件に合うレコードが存在しない場合
 			// = ログインユーザー自身が指定のグループに参加していない。
 			return abort(404);
 		}
-		return view('members.show', ['relation'=>$relation, 'group'=>$group, 'user' => $invited_user, 'profile' => $user]);
+		return view('projectmembers.show', ['relation'=>$relation, 'project'=>$project, 'user' => $invited_user, 'profile' => $user]);
 	}
 
 	/**
@@ -172,11 +173,11 @@ class MembersController extends Controller
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function edit($group_id, $email, Request $request)
+	public function edit($project_id, $email, Request $request)
 	{
 		$user = Auth::user();
 
-		$user_permissions = Group::get_user_permissions($group_id, $user->id);
+		$user_permissions = Project::get_user_permissions($project_id, $user->id);
 		if( $user_permissions === false ){
 			// ユーザーは所属していない
 			return abort(404);
@@ -186,8 +187,8 @@ class MembersController extends Controller
 			return abort(403, 'このグループを編集する権限がありません。');
 		}
 
-		$group = Group::find($group_id);
-		if( !$group ){
+		$project = Project::find($project_id);
+		if( !$project ){
 			// 条件に合うレコードが存在しない場合
 			return abort(404);
 		}
@@ -205,16 +206,16 @@ class MembersController extends Controller
 			return abort(403, '自分を編集することはできません。');
 		}
 
-		$relation = $userGroupRelation = UserGroupRelation
+		$relation = $userProjectRelation = UserProjectRelation
 			::where('user_id', $invited_user_id)
-			->where('group_id', $group->id)
+			->where('project_id', $project->id)
 			->first();
 		if( !$relation->count() ){
 			// 条件に合うレコードが存在しない場合
 			// = ログインユーザー自身が指定のグループに参加していない。
 			return abort(404);
 		}
-		return view('members.edit', ['relation'=>$relation, 'group'=>$group, 'user' => $invited_user, 'profile' => $user]);
+		return view('projectmembers.edit', ['relation'=>$relation, 'project'=>$project, 'user' => $invited_user, 'profile' => $user]);
 	}
 
 	/**
@@ -224,11 +225,11 @@ class MembersController extends Controller
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function update($group_id, $email, Request $request)
+	public function update($project_id, $email, Request $request)
 	{
 		$user = Auth::user();
 
-		$user_permissions = Group::get_user_permissions($group_id, $user->id);
+		$user_permissions = Project::get_user_permissions($project_id, $user->id);
 		if( $user_permissions === false ){
 			// ユーザーは所属していない
 			return abort(404);
@@ -238,8 +239,8 @@ class MembersController extends Controller
 			return abort(403, 'このグループを編集する権限がありません。');
 		}
 
-		$group = Group::find($group_id);
-		if( !$group ){
+		$project = Project::find($project_id);
+		if( !$project ){
 			// 条件に合うレコードが存在しない場合
 			return abort(404);
 		}
@@ -264,12 +265,12 @@ class MembersController extends Controller
 			],
 		]);
 
-		DB::table('user_group_relations')
+		DB::table('user_project_relations')
 			->where('user_id', $invited_user_id)
-			->where('group_id', $group->id)
+			->where('project_id', $project->id)
 			->update(['role' => $request->role]);
 
-		return redirect('settings/groups/'.urlencode($group->id).'/members')->with('flash_message', 'メンバー '.$invited_user->email.' の情報を更新しました。');
+		return redirect('settings/projects/'.urlencode($project->id).'/members')->with('flash_message', 'メンバー '.$invited_user->email.' の情報を更新しました。');
 	}
 
 	/**
@@ -278,11 +279,11 @@ class MembersController extends Controller
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function destroy($group_id, $email, Request $request)
+	public function destroy($project_id, $email, Request $request)
 	{
 		$user = Auth::user();
 
-		$user_permissions = Group::get_user_permissions($group_id, $user->id);
+		$user_permissions = Project::get_user_permissions($project_id, $user->id);
 		if( $user_permissions === false ){
 			// ユーザーは所属していない
 			return abort(404);
@@ -292,8 +293,8 @@ class MembersController extends Controller
 			return abort(403, 'このグループを編集する権限がありません。');
 		}
 
-		$group_id = Group::find($group_id);
-		if( !$group_id ){
+		$project = Project::find($project_id);
+		if( !$project ){
 			// 条件に合うレコードが存在しない場合
 			return abort(404);
 		}
@@ -311,10 +312,10 @@ class MembersController extends Controller
 			return abort(403);
 		}
 
-		$userGroupRelation = UserGroupRelation
-			::where(['user_id' => $user_id, 'group_id' => $group_id])
+		$userProjectRelation = UserProjectRelation
+			::where(['user_id' => $user_id, 'project_id' => $project_id])
 			->delete();
 
-		return redirect('settings/groups/'.urlencode($group_id).'/members')->with('flash_message', 'メンバー '.$email.' をメンバーから外しました。');
+		return redirect('settings/projects/'.urlencode($project_id).'/members')->with('flash_message', 'メンバー '.$email.' をメンバーから外しました。');
 	}
 }
