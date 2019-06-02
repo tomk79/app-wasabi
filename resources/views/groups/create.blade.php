@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', '新規グループを作成')
+@section('title', (!$parent ? '新規グループを作成' : '新規サブグループを作成'))
 
 @section('content')
 <div class="container">
@@ -10,6 +10,20 @@
 
 		<table class="table table__dd">
 			<tbody>
+				@if ($parent)
+				<tr>
+					<th><label for="parent_group_id">親グループ</label></th>
+					<td>
+						<p>{{ $parent->name }}</p>
+						<input id="parent_group_id" type="hidden" name="parent_group_id" value="{{ $parent->id }}" />
+							@if ($errors->has('parent_group_id'))
+								<span class="invalid-feedback" role="alert">
+									{{ $errors->first('parent_group_id') }}
+								</span>
+							@endif
+					</td>
+				</tr>
+				@endif
 				<tr>
 					<th><label for="name">グループ名</label></th>
 					<td>
@@ -24,7 +38,7 @@
 				<tr>
 					<th><label for="account">アカウント名</label></th>
 					<td>
-						<input id="account" type="text" class="form-control @if ($errors->has('account')) is-invalid @endif" name="account" value="{{ old('account') }}" required autofocus>
+						<input id="account" type="text" class="form-control @if ($errors->has('account')) is-invalid @endif" name="account" value="{{ old('account') }}" autofocus>
 							@if ($errors->has('account'))
 								<span class="invalid-feedback" role="alert">
 									{{ $errors->first('account') }}

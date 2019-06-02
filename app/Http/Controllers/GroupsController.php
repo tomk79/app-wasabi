@@ -41,10 +41,24 @@ class GroupsController extends Controller
 	/**
 	 * 新規グループ作成
 	 */
-	public function create()
+	public function create(Request $request)
 	{
 		$user = Auth::user();
-		return view('groups.create', ['profile' => $user]);
+		$parent_group_id = $request->query('parent');
+		$group = null;
+		if( strlen($parent_group_id) ){
+			$group = UserGroupRelation
+				::where(['group_id'=>$parent_group_id, 'user_id'=>$user->id])
+				->leftJoin('users', 'user_group_relations.user_id', '=', 'users.id')
+				->leftJoin('groups', 'user_group_relations.group_id', '=', 'groups.id')
+				->first();
+			if( !$group->count() ){
+				// 条件に合うレコードが存在しない場合
+				// = ログインユーザー自身が指定のグループに参加していない。
+				return abort(404);
+			}
+		}
+		return view('groups.create', ['profile' => $user, 'parent' => $group]);
 	}
 
 	/**
@@ -64,6 +78,25 @@ class GroupsController extends Controller
 		$group->account = $request->account;
 		$group->description = $request->description;
 		$group->creator_user_id = $user->id;
+
+		if( strlen($request->parent_group_id) ){
+			$parent_group = null;
+			if( strlen($request->parent_group_id) ){
+				$parent_group = UserGroupRelation
+					::where(['group_id'=>$request->parent_group_id, 'user_id'=>$user->id])
+					->leftJoin('users', 'user_group_relations.user_id', '=', 'users.id')
+					->leftJoin('groups', 'user_group_relations.group_id', '=', 'groups.id')
+					->first();
+				if( !$parent_group->count() ){
+					// 条件に合うレコードが存在しない場合
+					// = ログインユーザー自身が指定のグループに参加していない。
+					return abort(404);
+				}
+			}
+			$group->parent_group_id = $parent_group->id;
+			$group->root_group_id = $parent_group->id;
+		}
+
 		$group->save();
 
 		$userGroupRelation = new UserGroupRelation;
@@ -99,7 +132,24 @@ class GroupsController extends Controller
 			$group->icon = '/common/images/nophoto.png';
 		}
 
-		return view('groups.show', ['group'=>$group, 'profile' => $user]);
+		$root_group = null;
+		if( strlen( $group->root_group_id ) ){
+			$root_group = UserGroupRelation
+				::where(['group_id'=>$group->root_group_id, 'user_id'=>$user->id])
+				->leftJoin('users', 'user_group_relations.user_id', '=', 'users.id')
+				->leftJoin('groups', 'user_group_relations.group_id', '=', 'groups.id')
+				->first();
+		}
+
+		$parent_group = null;
+		if( strlen( $group->parent_group_id ) ){
+			$parent_group = UserGroupRelation
+				::where(['group_id'=>$group->parent_group_id, 'user_id'=>$user->id])
+				->leftJoin('users', 'user_group_relations.user_id', '=', 'users.id')
+				->leftJoin('groups', 'user_group_relations.group_id', '=', 'groups.id')
+				->first();
+		}
+		return view('groups.show', ['group'=>$group, 'root_group'=>$root_group, 'parent_group'=>$parent_group, 'profile' => $user]);
 	}
 
 	/**
