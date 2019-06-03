@@ -246,6 +246,7 @@ class GroupsController extends Controller
 			'name' => $rules['name'],
 			'account' => $rules['account'],
 			'description' => $rules['description'],
+			'parent_group_id' => $rules['parent_group_id'],
 			'icon' => $rules['icon']
 		]);
 		$group->name = $request->name;

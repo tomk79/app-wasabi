@@ -10679,3 +10679,7 @@ a.text-dark:focus {
   width: 70%;
 }
 
+.invalid-feedback {
+  display: block;
+}
+

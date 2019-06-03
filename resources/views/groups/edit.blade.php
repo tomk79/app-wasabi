@@ -15,9 +15,9 @@
 					<th><label for="parent_group_id">親グループ</label></th>
 					<td>
 						<select name="parent_group_id" class="form-control">
-							<option value="{{ $group->root_group_id }}" @if($parent->id == $group->root_group_id) selected @endif>{{ $root_group->name }}</option>
+							<option value="{{ $group->root_group_id }}" @if(old('parent_group_id', $group->parent_group_id) == $group->root_group_id) selected @endif>{{ $root_group->name }}</option>
 						@foreach( $sub_groups as $sub_group )
-							<option value="{{ $sub_group['group']->id }}" @if($parent->id == $sub_group['group']->id) selected @endif>{{ $root_group->name }} &gt; {{ $sub_group['fullname'] }}</option>
+							<option value="{{ $sub_group['group']->id }}" @if(old('parent_group_id', $group->parent_group_id) == $sub_group['group']->id) selected @endif>{{ $root_group->name }} &gt; {{ $sub_group['fullname'] }}</option>
 						@endforeach
 						</select>
 							@if ($errors->has('parent_group_id'))
