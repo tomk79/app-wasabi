@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\UserSubEmail;
 
 class StartpageController extends Controller
 {
@@ -24,6 +25,9 @@ class StartpageController extends Controller
 		if( !$user ){
 			return view('startpage.index');
 		}
-		return view('startpage.dashboard', ['profile' => $user]);
+
+		$subEmails = UserSubEmail::where(['user_id'=>$user->id])->get();
+
+		return view('startpage.dashboard', ['profile' => $user, 'sub_emails'=>$subEmails]);
 	}
 }

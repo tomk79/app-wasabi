@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Rules\Account;
+use App\Rules\ReservedAccount;
 
 class RegisterController extends Controller
 {
@@ -50,9 +52,23 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
-            'account' => ['required', 'string', 'max:255'],
+            'account' => [
+				'nullable',
+				'string',
+				'max:255',
+				new Account,
+				new ReservedAccount,
+				'unique:users,account,',
+			],
             'lang' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email' => [
+				'required',
+				'string',
+				'email',
+				'max:255',
+				'unique:users,email,',
+				'unique:user_sub_emails,email',
+			],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }

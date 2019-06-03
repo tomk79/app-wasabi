@@ -40,8 +40,9 @@ class ProfileController extends Controller
 		if( !$user->icon ){
 			$user->icon = '/common/images/nophoto.png';
 		}
+		$subEmails = UserSubEmail::where(['user_id'=>$user->id])->get();
 
-		return view('profile.index', ['profile' => $user]);
+		return view('profile.index', ['profile' => $user, 'sub_emails'=>$subEmails]);
 	}
 
 	/**

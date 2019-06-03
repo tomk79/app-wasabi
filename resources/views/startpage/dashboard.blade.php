@@ -40,7 +40,12 @@
 				<tbody>
 					<tr>
 						<th>メールアドレス</th>
-						<td>{{{ $profile->email }}}</td>
+						<td>
+							<div>{{ $profile->email }}</div>
+							@foreach($sub_emails as $email)
+							<div>{{ $email->email }}</div>
+							@endforeach
+						</td>
 					</tr>
 				</tbody>
 			</table>
