@@ -10,6 +10,24 @@
 
 		<table class="table table__dd">
 			<tbody>
+				@if ($group->parent_group_id)
+				<tr>
+					<th><label for="parent_group_id">親グループ</label></th>
+					<td>
+						<select name="parent_group_id" class="form-control">
+							<option value="{{ $group->root_group_id }}" @if($parent->id == $group->root_group_id) selected @endif>{{ $root_group->name }}</option>
+						@foreach( $sub_groups as $sub_group )
+							<option value="{{ $sub_group['group']->id }}" @if($parent->id == $sub_group['group']->id) selected @endif>{{ $root_group->name }} &gt; {{ $sub_group['fullname'] }}</option>
+						@endforeach
+						</select>
+							@if ($errors->has('parent_group_id'))
+								<span class="invalid-feedback" role="alert">
+									{{ $errors->first('parent_group_id') }}
+								</span>
+							@endif
+					</td>
+				</tr>
+				@endif
 				<tr>
 					<th><label for="name">グループ名</label></th>
 					<td>

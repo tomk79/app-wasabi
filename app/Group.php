@@ -100,12 +100,20 @@ class Group extends Model
 	 * 
 	 * 権限の評価は行いません。
 	 */
-	static public function get_sub_groups( $group_id ){
+	static public function get_sub_groups( $group_id, $parentRow = null ){
 		$rtn = array();
 		$children = self::get_children( $group_id );
+		if( $parentRow && $parentRow['depth'] > 20 ){
+			return array();
+		}
 		foreach($children as $child){
-			array_push($rtn, $child);
-			$subchildren = self::get_sub_groups($child->id);
+			$tmpChildRow = array(
+				'fullname' => ($parentRow ? $parentRow['fullname'].'>' : '' ).$child->name,
+				'group' => $child,
+				'depth' => ($parentRow ? $parentRow['depth'] + 1 : 0)
+			);
+			array_push($rtn, $tmpChildRow);
+			$subchildren = self::get_sub_groups($child->id, $tmpChildRow);
 			$rtn = array_merge($rtn, $subchildren);
 		}
 		return $rtn;
@@ -155,7 +163,7 @@ class Group extends Model
 		$sub_groups = self::get_sub_groups($logical_path[0]->id);
 		foreach($sub_groups as $tmp_group){
 			$relation = UserGroupRelation
-				::where(['group_id'=>$tmp_group->id, 'user_id'=>$user_id])
+				::where(['group_id'=>$tmp_group['group']->id, 'user_id'=>$user_id])
 				->leftJoin('users', 'user_group_relations.user_id', '=', 'users.id')
 				->leftJoin('groups', 'user_group_relations.group_id', '=', 'groups.id')
 				->first();

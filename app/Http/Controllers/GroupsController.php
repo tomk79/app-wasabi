@@ -197,7 +197,11 @@ class GroupsController extends Controller
 			$group->icon = '/common/images/nophoto.png';
 		}
 
-		return view('groups.edit', ['group'=>$group, 'profile' => $user]);
+		$root_group = Group::find($group->root_group_id);
+		$parent_group = Group::find($group->parent_group_id);
+		$sub_groups = Group::get_sub_groups($group->root_group_id);
+
+		return view('groups.edit', ['group'=>$group, 'root_group'=>$root_group, 'parent'=>$parent_group, 'sub_groups'=>$sub_groups, 'profile' => $user]);
 	}
 
 	/**
@@ -247,6 +251,9 @@ class GroupsController extends Controller
 		$group->name = $request->name;
 		$group->account = $request->account;
 		$group->description = $request->description;
+		if( $group->root_group_id ){
+			$group->parent_group_id = $request->parent_group_id;
+		}
 		if( is_string($iconBase64) ){
 			$group->icon = $iconBase64;
 		}

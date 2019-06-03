@@ -65,7 +65,11 @@
 
 	<hr />
 	<div class="text-right">
+@if ($parent)
+		<a href="{{ url('settings/groups/'.urlencode($parent->id)) }}" class="btn btn-default">キャンセル</a>
+@else
 		<a href="{{ url('settings/groups/') }}" class="btn btn-default">キャンセル</a>
+@endif
 	</div>
 
 </div>
