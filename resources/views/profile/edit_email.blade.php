@@ -25,9 +25,9 @@
 		</table>
 
 		<ul>
-			<li><label><input type="radio" name="method" value="0" checked /> 古いメールアドレスを上書きし、新しいメールアドレスをログインに使う</label></li>
-			<li><label><input type="radio" name="method" value="1" /> 古いメールアドレスも残したまま、新しいメールアドレスをログインに使う</label></li>
-			<li><label><input type="radio" name="method" value="2" /> ログインに使うメールアドレスはそのままにして、新しいメールアドレスを追加する</label></li>
+			<li><label><input type="radio" name="method" value="" checked /> 古いメールアドレスを上書きし、新しいメールアドレスをログインに使う</label></li>
+			<li><label><input type="radio" name="method" value="backup_and_update" /> 古いメールアドレスも残したまま、新しいメールアドレスをログインに使う</label></li>
+			<li><label><input type="radio" name="method" value="add_new" /> ログインに使うメールアドレスはそのままにして、新しいメールアドレスを追加する</label></li>
 		</ul>
 
 		<button type="submit" name="submit" class="btn btn-primary">変更する</button>

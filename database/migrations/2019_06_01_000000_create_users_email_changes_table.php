@@ -17,6 +17,7 @@ class CreateUsersEmailChangesTable extends Migration
 			$table->uuid('user_id', 36);
 			$table->string('email')->index();
 			$table->string('token');
+			$table->string('method')->nullable();
 			$table->timestamp('created_at')->nullable();
 
 			$table->foreign('user_id')->references('id')->on('users'); // foreignkey制約

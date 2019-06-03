@@ -15,9 +15,8 @@ class CreateUserSubEmailsTable extends Migration
 	{
 		Schema::create('user_sub_emails', function (Blueprint $table) {
 			$table->uuid('user_id', 36);
-			$table->string('email')->index();
+			$table->string('email')->unique();
 			$table->timestamp('email_verified_at')->nullable();
-			$table->string('token');
 			$table->timestamp('created_at')->nullable();
 
 			$table->foreign('user_id')->references('id')->on('users'); // foreignkey制約

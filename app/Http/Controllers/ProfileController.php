@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\View;
 use App\User;
 use App\UsersEmailChange;
+use App\UserSubEmail;
 use App\Http\Requests\StoreUser;
 use App\Mail\UsersEmailChange as UsersEmailChangeMail;
 
@@ -133,54 +134,23 @@ class ProfileController extends Controller
 		// ランダムなトークンを生成
 		$random_token = rand(10000, 99999).'-'.rand(1000, 9999).'-'.uniqid();
 
-		if( $request->method == '1' ){
-			// 古いメールアドレスも残したまま、新しいメールアドレスをログインに使う
+		// 同じユーザーのレコードがある場合を想定して、
+		// 先に削除する
+		$usersEmailChange = UsersEmailChange
+			::where(['user_id'=>$user->id])
+			->delete();
 
-			// 同じユーザーのレコードがある場合を想定して、
-			// 先に削除する
-			$usersEmailChange = UsersEmailChange
-				::where(['user_id'=>$user->id])
-				->delete();
+		$usersEmailChange = new UsersEmailChange();
+		$usersEmailChange->user_id = $user->id;
+		$usersEmailChange->email = $request->email;
+		$usersEmailChange->token = $random_token;
+		$usersEmailChange->method = $request->method;
+		$usersEmailChange->created_at = date('Y-m-d H:i:s');
+		$usersEmailChange->save();
 
-			$usersEmailChange = new UsersEmailChange();
-			$usersEmailChange->user_id = $user->id;
-			$usersEmailChange->email = $request->email;
-			$usersEmailChange->token = $random_token;
-			$usersEmailChange->created_at = date('Y-m-d H:i:s');
-			$usersEmailChange->save();
-
-			// 確認メール送信
-			Mail::to($usersEmailChange->email)
-				->send(new UsersEmailChangeMail($usersEmailChange));
-
-		}elseif( $request->method == '2' ){
-			// ログインに使うメールアドレスはそのままにして、新しいメールアドレスを追加する
-
-			// 確認メール送信
-			Mail::to($usersEmailChange->email)
-				->send(new UsersEmailChangeMail($usersEmailChange));
-
-		}else{
-			// 古いメールアドレスを上書きし、新しいメールアドレスをログインに使う
-
-			// 同じユーザーのレコードがある場合を想定して、
-			// 先に削除する
-			$usersEmailChange = UsersEmailChange
-				::where(['user_id'=>$user->id])
-				->delete();
-
-			$usersEmailChange = new UsersEmailChange();
-			$usersEmailChange->user_id = $user->id;
-			$usersEmailChange->email = $request->email;
-			$usersEmailChange->token = $random_token;
-			$usersEmailChange->created_at = date('Y-m-d H:i:s');
-			$usersEmailChange->save();
-
-			// 確認メール送信
-			Mail::to($usersEmailChange->email)
-				->send(new UsersEmailChangeMail($usersEmailChange));
-
-		}
+		// 確認メール送信
+		Mail::to($usersEmailChange->email)
+			->send(new UsersEmailChangeMail($usersEmailChange));
 
 
 		return redirect('settings/profile/edit_email_mailsent');
@@ -218,8 +188,29 @@ class ProfileController extends Controller
 		}
 
 		// 成立
-		$user->email = $usersEmailChange->email;
-		$user->save();
+		if( $usersEmailChange->method == 'backup_and_update' ){
+			// 古いメールアドレスも残したまま、新しいメールアドレスをログインに使う
+			$userSubEmail = new UserSubEmail();
+			$userSubEmail->user_id = $user->id;
+			$userSubEmail->email = $user->email;
+			$userSubEmail->email_verified_at = $user->email_verified_at;
+			$userSubEmail->save();
+
+			$user->email = $usersEmailChange->email;
+			$user->save();
+		}elseif( $usersEmailChange->method == 'add_new' ){
+			// ログインに使うメールアドレスはそのままにして、新しいメールアドレスを追加する
+			$userSubEmail = new UserSubEmail();
+			$userSubEmail->user_id = $user->id;
+			$userSubEmail->email = $usersEmailChange->email;
+			$userSubEmail->email_verified_at = date('Y-m-d H:i:s');
+			$userSubEmail->save();
+
+		}else{
+			// 古いメールアドレスを上書きし、新しいメールアドレスをログインに使う (デフォルト)
+			$user->email = $usersEmailChange->email;
+			$user->save();
+		}
 
 		// 一時テーブルからレコードを削除する
 		$usersEmailChange = UsersEmailChange
