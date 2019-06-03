@@ -11,6 +11,7 @@ use App\User;
 use App\UsersEmailChange;
 use App\UserSubEmail;
 use App\Http\Requests\StoreUser;
+use App\Http\Requests\StoreUserSubEmail;
 use App\Mail\UsersEmailChange as UsersEmailChangeMail;
 
 class ProfileController extends Controller
@@ -129,6 +130,10 @@ class ProfileController extends Controller
 		$userStore = new StoreUser();
 		$request->validate([
 			'email' => $userStore->rules($user->id)['email']
+		]);
+		$userSubEmailStore = new StoreUserSubEmail();
+		$request->validate([
+			'email' => $userSubEmailStore->rules()['email']
 		]);
 
 		// ランダムなトークンを生成

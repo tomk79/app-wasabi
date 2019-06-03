@@ -13,6 +13,11 @@ class UserSubEmail extends Model
 	public $incrementing = false;
 
 	/**
+	 * 主キー
+	 */
+	public $primaryKey = null;
+
+	/**
 	 * モデルのタイムスタンプを更新するかの指示
 	 */
 	public $timestamps = false;
