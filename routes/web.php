@@ -29,6 +29,8 @@ Route::middleware(['boot'])
 		Route::post('settings/profile/edit_email', 'ProfileController@update_email');
 		Route::get('settings/profile/edit_email_mailsent', 'ProfileController@update_email_mailsent');
 		Route::get('settings/profile/edit_email_update', 'ProfileController@update_email_update');
+		Route::post('settings/profile/set_sub_email_as_primary', 'ProfileController@set_sub_email_as_primary');
+		Route::delete('settings/profile/delete_sub_email', 'ProfileController@delete_sub_email');
 		Route::get('settings/withdraw', 'WithdrawController@confirm');
 		Route::delete('settings/withdraw', 'WithdrawController@withdraw');
 

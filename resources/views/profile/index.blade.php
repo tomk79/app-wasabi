@@ -44,7 +44,21 @@
 						<td>
 							<div>{{ $profile->email }}</div>
 							@foreach($sub_emails as $email)
-							<div>{{ $email->email }}</div>
+							<div>
+								{{ $email->email }}
+								<form action="{{ url('settings/profile/set_sub_email_as_primary') }}" method="post" style="display:inline;">
+									@csrf
+									<input type="hidden" name="email" value="{{ $email->email }}" />
+									<button class="btn btn-primary" type="submit">✔</button>
+								</form>
+
+								<form action="{{ url('settings/profile/delete_sub_email') }}" method="post" style="display:inline;">
+									@csrf
+									@method('DELETE')
+									<input type="hidden" name="email" value="{{ $email->email }}" />
+									<button class="btn btn-danger" type="submit">✗</button>
+								</form>
+							</div>
 							@endforeach
 						</td>
 					</tr>

@@ -226,4 +226,60 @@ class ProfileController extends Controller
 		return redirect('settings/profile')->with('flash_message', 'メールアドレスを変更しました。');
 	}
 
+	/**
+	 * サブメールアドレスをログイン用メインアドレスにする
+	 */
+	public function set_sub_email_as_primary(Request $request){
+		$user = Auth::user();
+
+		// メインアドレスをサブアドレスへ移動
+		$userSubEmail = UserSubEmail
+			::where(['email'=>$user->email])
+			->first();
+		if( $userSubEmail ){
+			// すでにあるとき
+			if( $userSubEmail->user_id != $user->id ){
+				return abort(403, 'このメールアドレスは他のユーザーが使用しています。');
+			}
+			$userSubEmail->email_verified_at = $user->email_verified_at;
+			$userSubEmail->save();
+		}else{
+			// ないあるとき
+			$userSubEmail = new UserSubEmail();
+			$userSubEmail->user_id = $user->id;
+			$userSubEmail->email = $user->email;
+			$userSubEmail->email_verified_at = $user->email_verified_at;
+			$userSubEmail->save();
+		}
+
+		// メインのアドレスを更新
+		$userSubEmail = UserSubEmail
+			::where(['user_id'=>$user->id, 'email'=>$request->email])
+			->first();
+		$user->email = $userSubEmail->email;
+		$user->email_verified_at = $userSubEmail->email_verified_at;
+		$user->save();
+
+		// 移動したサブアドレスを削除する
+		$userSubEmail = UserSubEmail
+			::where(['user_id'=>$user->id, 'email'=>$request->email])
+			->delete();
+
+		return redirect('settings/profile')->with('flash_message', 'サブメールアドレス '.$request->email.' をメインのメールアドレスに設定しました。');
+	}
+
+	/**
+	 * サブメールアドレスを削除する
+	 */
+	public function delete_sub_email(Request $request)
+	{
+		$user = Auth::user();
+
+		$userSubEmail = UserSubEmail
+			::where(['user_id'=>$user->id, 'email'=>$request->email])
+			->delete();
+
+		return redirect('settings/profile')->with('flash_message', 'サブメールアドレス '.$request->email.' を削除しました。');
+	}
+
 }

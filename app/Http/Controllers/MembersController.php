@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\View;
 use App\Group;
 use App\User;
 use App\UserGroupRelation;
@@ -13,6 +14,19 @@ use App\Rules\Role;
 
 class MembersController extends Controller
 {
+
+	/**
+	 * Constructor
+	 */
+	public function __construct()
+	{
+		// 各アクションの前に実行させるミドルウェア
+		$this->middleware('auth');
+
+		// ナビゲーション制御
+		View::share('current', "groups");
+	}
+
 	/**
 	 * Display a listing of the resource.
 	 *
