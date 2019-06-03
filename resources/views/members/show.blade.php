@@ -36,7 +36,7 @@
 	<hr />
 	<div class="text-right">
 		<a href="{{ url('settings/groups/'.urlencode($group->id).'/members') }}" class="btn btn-default">一覧へ戻る</a>
-		<a href="{{ url('settings/groups/'.urlencode($group->id).'/members/'.urlencode($user->email).'/edit') }}" class="btn btn-primary">編集する</a>
+		<a href="{{ url('settings/groups/'.urlencode($group->id).'/members/'.urlencode($user->id).'/edit') }}" class="btn btn-primary">編集する</a>
 	</div>
 
 </div>

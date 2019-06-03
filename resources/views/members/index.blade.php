@@ -28,19 +28,19 @@
 			<tbody>
 			@foreach ($members as $member)
 				<tr>
-					<td><a href="{{ url('settings/groups/'.urlencode($group->id).'/members/'.urlencode($member->email)) }}">{{ $member->name }}</a></td>
+					<td><a href="{{ url('settings/groups/'.urlencode($group->id).'/members/'.urlencode($member->id)) }}">{{ $member->name }}</a></td>
 					<td>{{ $member->email }}</td>
 					<td>{{ $member->role }}</td>
 					<td>
 						@if (Auth::user()->email != $member->email)
-						<a href="{{ url('settings/groups/'.urlencode($group->id).'/members/'.urlencode($member->email).'/edit') }}" class="btn btn-primary">編集</a>
+						<a href="{{ url('settings/groups/'.urlencode($group->id).'/members/'.urlencode($member->id).'/edit') }}" class="btn btn-primary">編集</a>
 						@else
 						---
 						@endif
 					</td>
 					<td>
 						@if (Auth::user()->email != $member->email)
-						<form action="{{ url('settings/groups/'.urlencode($group->id).'/members/'.urlencode($member->email)) }}" method="post">
+						<form action="{{ url('settings/groups/'.urlencode($group->id).'/members/'.urlencode($member->id)) }}" method="post">
 							@csrf
 							@method('DELETE')
 							<button type="submit" name="submit" class="btn btn-danger">外す</button>

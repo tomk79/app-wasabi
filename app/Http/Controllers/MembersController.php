@@ -143,7 +143,7 @@ class MembersController extends Controller
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function show($group_id, $email, Request $request)
+	public function show($group_id, $invited_user_id, Request $request)
 	{
 		$user = Auth::user();
 
@@ -159,14 +159,7 @@ class MembersController extends Controller
 			return abort(404);
 		}
 
-		$invited_user = User
-			::where('email', $email)
-			->first();
-		if( !$invited_user->count() ){
-			// 条件に合うレコードが存在しない場合
-			return abort(403);
-		}
-		$invited_user_id = $invited_user->id;
+		$invited_user = User::find($invited_user_id);
 
 		$relation = $userGroupRelation = UserGroupRelation
 			::where('user_id', $invited_user_id)
@@ -186,7 +179,7 @@ class MembersController extends Controller
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function edit($group_id, $email, Request $request)
+	public function edit($group_id, $invited_user_id, Request $request)
 	{
 		$user = Auth::user();
 
@@ -206,18 +199,12 @@ class MembersController extends Controller
 			return abort(404);
 		}
 
-		$invited_user = User
-			::where('email', $email)
-			->first();
-		if( !$invited_user->count() ){
-			// 条件に合うレコードが存在しない場合
-			return abort(403);
-		}
-		$invited_user_id = $invited_user->id;
 		if( $invited_user_id == $user->id ){
 			// 自分を編集することはできない
 			return abort(403, '自分を編集することはできません。');
 		}
+
+		$invited_user = User::find($invited_user_id);
 
 		$relation = $userGroupRelation = UserGroupRelation
 			::where('user_id', $invited_user_id)
@@ -238,7 +225,7 @@ class MembersController extends Controller
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function update($group_id, $email, Request $request)
+	public function update($group_id, $invited_user_id, Request $request)
 	{
 		$user = Auth::user();
 
@@ -258,18 +245,12 @@ class MembersController extends Controller
 			return abort(404);
 		}
 
-		$invited_user = User
-			::where('email', $email)
-			->first();
-		if( !$invited_user->count() ){
-			// 条件に合うレコードが存在しない場合
-			return abort(403);
-		}
-		$invited_user_id = $invited_user->id;
 		if( $invited_user_id == $user->id ){
 			// 自分を編集することはできない
 			return abort(403, '自分を編集することはできません。');
 		}
+
+		$invited_user = User::find($invited_user_id);
 
 		$request->validate([
 			'role' => [
@@ -292,7 +273,7 @@ class MembersController extends Controller
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function destroy($group_id, $email, Request $request)
+	public function destroy($group_id, $invited_user_id, Request $request)
 	{
 		$user = Auth::user();
 
@@ -312,23 +293,22 @@ class MembersController extends Controller
 			return abort(404);
 		}
 
-		$invited_user = User
-			::where('email', $email)
-			->first();
+		$invited_user = User::find($invited_user_id);
+
 		if( !$invited_user->count() ){
 			// 条件に合うレコードが存在しない場合
 			return abort(403);
 		}
-		$user_id = $invited_user->id;
-		if( $user_id == $user->id ){
+
+		if( $invited_user_id == $user->id ){
 			// 自分を除名することはできない
 			return abort(403);
 		}
 
 		$userGroupRelation = UserGroupRelation
-			::where(['user_id' => $user_id, 'group_id' => $group_id])
+			::where(['user_id' => $invited_user_id, 'group_id' => $group_id])
 			->delete();
 
-		return redirect('settings/groups/'.urlencode($group_id).'/members')->with('flash_message', 'メンバー '.$email.' をメンバーから外しました。');
+		return redirect('settings/groups/'.urlencode($group_id).'/members')->with('flash_message', 'メンバー '.$invited_user->email.' をメンバーから外しました。');
 	}
 }

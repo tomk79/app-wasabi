@@ -144,7 +144,7 @@ class ProjectMembersController extends Controller
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function show($project_id, $email, Request $request)
+	public function show($project_id, $invited_user_id, Request $request)
 	{
 		$user = Auth::user();
 
@@ -160,14 +160,11 @@ class ProjectMembersController extends Controller
 			return abort(404);
 		}
 
-		$invited_user = User
-			::where('email', $email)
-			->first();
+		$invited_user = User::find($invited_user_id);
 		if( !$invited_user->count() ){
 			// 条件に合うレコードが存在しない場合
 			return abort(403);
 		}
-		$invited_user_id = $invited_user->id;
 
 		$relation = $userProjectRelation = UserProjectRelation
 			::where('user_id', $invited_user_id)
@@ -187,7 +184,7 @@ class ProjectMembersController extends Controller
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function edit($project_id, $email, Request $request)
+	public function edit($project_id, $invited_user_id, Request $request)
 	{
 		$user = Auth::user();
 
@@ -207,14 +204,12 @@ class ProjectMembersController extends Controller
 			return abort(404);
 		}
 
-		$invited_user = User
-			::where('email', $email)
-			->first();
+		$invited_user = User::find($invited_user_id);
 		if( !$invited_user->count() ){
 			// 条件に合うレコードが存在しない場合
 			return abort(403);
 		}
-		$invited_user_id = $invited_user->id;
+
 		if( $invited_user_id == $user->id ){
 			// 自分を編集することはできない
 			return abort(403, '自分を編集することはできません。');
@@ -239,7 +234,7 @@ class ProjectMembersController extends Controller
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function update($project_id, $email, Request $request)
+	public function update($project_id, $invited_user_id, Request $request)
 	{
 		$user = Auth::user();
 
@@ -259,14 +254,12 @@ class ProjectMembersController extends Controller
 			return abort(404);
 		}
 
-		$invited_user = User
-			::where('email', $email)
-			->first();
+		$invited_user = User::find($invited_user_id);
+
 		if( !$invited_user->count() ){
 			// 条件に合うレコードが存在しない場合
 			return abort(403);
 		}
-		$invited_user_id = $invited_user->id;
 		if( $invited_user_id == $user->id ){
 			// 自分を編集することはできない
 			return abort(403, '自分を編集することはできません。');
@@ -293,7 +286,7 @@ class ProjectMembersController extends Controller
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function destroy($project_id, $email, Request $request)
+	public function destroy($project_id, $invited_user_id, Request $request)
 	{
 		$user = Auth::user();
 
@@ -313,23 +306,22 @@ class ProjectMembersController extends Controller
 			return abort(404);
 		}
 
-		$invited_user = User
-			::where('email', $email)
-			->first();
+		$invited_user = User::find($invited_user_id);
+
 		if( !$invited_user->count() ){
 			// 条件に合うレコードが存在しない場合
 			return abort(403);
 		}
-		$user_id = $invited_user->id;
-		if( $user_id == $user->id ){
+
+		if( $invited_user_id == $user->id ){
 			// 自分を除名することはできない
 			return abort(403);
 		}
 
 		$userProjectRelation = UserProjectRelation
-			::where(['user_id' => $user_id, 'project_id' => $project_id])
+			::where(['user_id' => $invited_user_id, 'project_id' => $project_id])
 			->delete();
 
-		return redirect('settings/projects/'.urlencode($project_id).'/members')->with('flash_message', 'メンバー '.$email.' をメンバーから外しました。');
+		return redirect('settings/projects/'.urlencode($project_id).'/members')->with('flash_message', 'メンバー '.$invited_user->email.' をメンバーから外しました。');
 	}
 }
