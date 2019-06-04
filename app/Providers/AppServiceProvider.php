@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Passport;
+use Laravel\Passport\Client;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -14,6 +15,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        // Passport のデータベース定義をカスタマイズするので、
+        // デフォルトの定義でmigrationされないようにする。
         Passport::ignoreMigrations();
     }
 
@@ -24,6 +27,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        // Passport の client_id を UUID にするために追加した。
+        Client::creating(function (Client $client) {
+            $client->incrementing = false;
+            $client->id = \Ramsey\Uuid\Uuid::uuid4()->toString();
+        });
     }
 }
