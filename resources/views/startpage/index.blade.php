@@ -1,4 +1,4 @@
-@extends('layouts.top')
+@extends('layouts.app')
 @section('title') {{ env('APP_NAME') }} @endsection
 
 @section('content')
@@ -11,8 +11,9 @@
 				@csrf
 
 				<div class="form-group row">
+					<label for="email">メールアドレス</label>
 					<div class="col-12">
-						<input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required autofocus placeholder="メールアドレス">
+						<input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required autofocus />
 
 						@if ($errors->has('email'))
 							<span class="invalid-feedback" role="alert">
@@ -23,8 +24,9 @@
 				</div>
 
 				<div class="form-group row">
+					<label for="email">パスワード</label>
 					<div class="col-12">
-						<input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required placeholder="パスワード">
+						<input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required />
 
 						@if ($errors->has('password'))
 							<span class="invalid-feedback" role="alert">
@@ -44,13 +46,15 @@
 					</div>
 				</div>
 
-				<div class="form-group row">
+				<div class="form-group row justify-content-center">
 					<div class="col-6"><button type="submit" class="btn btn-primary btn-block">ログイン</button></div>
-					<div class="col-6"><a href="{{ url('register') }}" class="btn btn-default btn-block">新規会員登録</a></div>
+				</div>
+				<div class="form-group row justify-content-center">
+					<div><a href="{{ url('register') }}" class="btn btn-link btn-block">新規会員登録</a></div>
 				</div>
 				@if (Route::has('password.request'))
 				<div class="form-group row justify-content-center">
-					<div><a class="btn btn-default" href="{{ route('password.request') }}">パスワードを忘れた方はこちら</a></div>
+					<div><a class="btn btn-link" href="{{ route('password.request') }}">パスワードを忘れた方はこちら</a></div>
 				</div>
 				@endif
 			</form>
