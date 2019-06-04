@@ -30,6 +30,8 @@ class ReservedAccount implements Rule
 			case 'login':
 			case 'logout':
 			case 'password':
+			case 'oauth': // Passport
+			case 'auth':
 
 			// 設定画面など
 			case 'setting':
