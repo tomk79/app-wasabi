@@ -6,6 +6,7 @@ use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\View;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use App\Rules\Account;
 use App\Rules\ReservedAccount;
@@ -40,6 +41,9 @@ class RegisterController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+
+		// ナビゲーション制御
+		View::share('current', "register");
     }
 
     /**

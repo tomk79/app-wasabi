@@ -11,7 +11,7 @@
 				<ul>
 					@guest
 						<li><a href="{{ route('login') }}" data-name="login">ログイン</a></li>
-						<li><a href="{{ route('register') }}" data-name="signup">新規ユーザー登録</a></li>
+						<li><a href="{{ route('register') }}" data-name="register">新規ユーザー登録</a></li>
 					@else
 						<li>
 							<a href="javascript:;" data-name="user"><img src="{{ $global->user->icon }}" alt="" style="height: 1em; vertical-align: bottom;" /> {{ Auth::user()->name }}</a>
@@ -34,7 +34,7 @@
 				<li><a href="{{ url('/') }}" data-name="">ダッシュボード</a></li>
 				@guest
 					<li><a href="{{ route('login') }}" data-name="login">ログイン</a></li>
-					<li><a href="{{ route('register') }}" data-name="signup">新規ユーザー登録</a></li>
+					<li><a href="{{ route('register') }}" data-name="register">新規ユーザー登録</a></li>
 				@else
 					<li><a href="{{ url('/settings/groups') }}" data-name="groups">グループ</a></li>
 					<li><a href="{{ url('/settings/projects') }}" data-name="projects">プロジェクト</a></li>

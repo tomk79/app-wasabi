@@ -79,8 +79,9 @@
 							<label for="lang" class="col-md-4 col-form-label text-md-right">言語</label>
 
 							<div class="col-md-6">
-								<input id="lang" type="text" class="form-control{{ $errors->has('lang') ? ' is-invalid' : '' }}" name="lang" value="ja" required>
-
+								<select id="lang" class="form-control{{ $errors->has('lang') ? ' is-invalid' : '' }}" name="lang">
+									<option value="ja">日本語</option>
+								</select>
 								@if ($errors->has('lang'))
 									<span class="invalid-feedback" role="alert">
 										<strong>{{ $errors->first('lang') }}</strong>
