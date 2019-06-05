@@ -32,5 +32,14 @@ class AppServiceProvider extends ServiceProvider
             $client->incrementing = false;
             $client->id = \Ramsey\Uuid\Uuid::uuid4()->toString();
         });
+
+        // Passportの認証機能を制限して使う
+        Passport::routes(function($router){
+            // $router->forAuthorization();
+            $router->forAccessTokens();
+            // $router->forTransientTokens();
+            // $router->forClients();
+            // $router->forPersonalAccessTokens();
+        });
     }
 }
