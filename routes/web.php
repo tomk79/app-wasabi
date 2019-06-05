@@ -33,6 +33,7 @@ Route::middleware(['boot'])
 		Route::delete('settings/profile/delete_sub_email', 'ProfileController@delete_sub_email');
 		Route::get('settings/withdraw', 'WithdrawController@confirm');
 		Route::delete('settings/withdraw', 'WithdrawController@withdraw');
+		Route::resource('settings/profile/integration/oauth_apps', 'IntegrationPassportClientController');
 
 		// グループ一覧
 		Route::get('settings/groups', 'GroupsController@index');

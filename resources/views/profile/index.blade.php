@@ -74,6 +74,12 @@
 
 
 
+	<h2>外部アプリケーション連携</h2>
+	<div class="text-center">
+		<a href="{{ url('/settings/profile/integration/oauth_apps') }}" class="btn btn-primary">OAuth アプリケーションを登録</a>
+	</div>
+
+
 	<hr />
 
 	<h2>退会する</h2>
