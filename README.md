@@ -9,7 +9,7 @@ WASABI は、このためのサーバーの役割を受け持ちます。
 ### 1. app-wasabi の依存ライブラリをインストールする
 
 ```
-$ git clone https://github.com/tomk79/app-wasabi.git
+$ git clone https://github.com/pickles2/app-wasabi.git
 $ cd app-wasabi
 $ composer install
 $ npm install
