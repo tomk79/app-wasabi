@@ -109,6 +109,9 @@ class DummyDataSeeder extends Seeder
 			'client_id' => '815ceca0-13a8-47aa-a35c-5bb5f7afafb5',
 			'scopes' => '[]',
 			'revoked' => 0,
+			'created_at' => date('Y/m/d H:i:s', time()),
+			'updated_at' => date('Y/m/d H:i:s', time()),
+			'expires_at' => date('Y/m/d H:i:s', time()),
 		));
 	}
 }
