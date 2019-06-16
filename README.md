@@ -130,6 +130,18 @@ $ php artisan serve
 $ php artisan db:seed --class=DummyDataSeeder
 ```
 
+### テスト
+
+```
+$ touch .testing
+$ composer test
+```
+
+テストスクリプトには、データベースを初期化する処理が含まれます。
+誤作動防止のため、`.testing` ファイルが存在する場合だけ実行できるようになっています。
+本番環境等、データベースが初期化されては困る環境では、`.testing` ファイルを作成しないように注意してください。
+
+
 ## 作者 - Author
 
 - Tomoya Koyanagi <tomk79@gmail.com>
