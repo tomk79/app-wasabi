@@ -90,6 +90,12 @@ $ php ../artisan migrate --seed;
 $ cd ..;
 ```
 
+### 5. Passport OAuth Key ファイルを生成する
+
+```
+$ php artisan passport:keys
+```
+
 ### サーバーを起動してみる
 
 以上でセットアップは完了です。
