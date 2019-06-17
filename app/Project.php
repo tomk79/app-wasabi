@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use App\UserProjectRelation;
 use Ramsey\Uuid\Uuid;
+use Illuminate\Support\Facades\Auth;
 
 class Project extends Model
 {
@@ -51,8 +52,6 @@ class Project extends Model
 		$rtn = array(
 			'role' => false,
 			'has_membership' => false,
-			'has_partnership' => false,
-			'has_observership' => false,
 			'editable' => false,
 			'visitable' => false,
 			'findable' => false,
@@ -87,17 +86,17 @@ class Project extends Model
 			case 'observer':
 				$rtn['visitable'] = true;
 				$rtn['findable'] = true;
-				$rtn['has_observership'] = true;
+				$rtn['has_membership'] = true;
 				break;
 			case 'partner':
 				$rtn['findable'] = true;
-				$rtn['has_partnership'] = true;
+				$rtn['has_membership'] = true;
 				break;
 			default:
 				break;
 		}
 
-		if( !$rtn['role'] && !$rtn['has_membership'] && !$rtn['has_partnership'] ){
+		if( !$rtn['role'] && !$rtn['has_membership'] ){
 			$rtn = false;
 		}
 		return $rtn;

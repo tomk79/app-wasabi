@@ -135,9 +135,8 @@ class Group extends Model
 	static public function get_user_permissions( $group_id, $user_id = null ){
 		$rtn = array(
 			'role' => false,
+			'has_membership' => false,
 			'has_sub_group_membership' => false,
-			'has_sub_group_partnership' => false,
-			'has_sub_group_observership' => false,
 			'editable' => false,
 			'visitable' => false,
 			'findable' => false,
@@ -158,14 +157,15 @@ class Group extends Model
 			}
 			$rtn['role'] = $relation->role;
 			switch($rtn['role']){
-				case 'partner':
-					$rtn['findable'] = true;
-				case 'observer':
-				case 'member':
-					$rtn['visitable'] = true;
 				case 'owner':
 				case 'manager':
 					$rtn['editable'] = true;
+				case 'member':
+				case 'observer':
+					$rtn['visitable'] = true;
+				case 'partner':
+					$rtn['findable'] = true;
+					$rtn['has_membership'] = true;
 					break;
 			}
 			continue;
@@ -185,13 +185,9 @@ class Group extends Model
 				case 'owner':
 				case 'manager':
 				case 'member':
-					$rtn['has_sub_group_membership'] = true;
-					break;
-				case 'partner':
-					$rtn['has_sub_group_partnership'] = true;
-					break;
 				case 'observer':
-					$rtn['has_sub_group_observership'] = true;
+				case 'partner':
+					$rtn['has_sub_group_membership'] = true;
 					break;
 				default:
 					break;
@@ -199,7 +195,7 @@ class Group extends Model
 			continue;
 		}
 
-		if( !$rtn['role'] && !$rtn['has_sub_group_membership'] && !$rtn['has_sub_group_partnership'] && !$rtn['has_sub_group_observership'] ){
+		if( !$rtn['role'] && !$rtn['has_sub_group_membership'] ){
 			$rtn = false;
 		}
 		return $rtn;

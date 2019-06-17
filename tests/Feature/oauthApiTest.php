@@ -96,6 +96,34 @@ class oauthApiTest extends TestCase
 			'projects' => [
 			],
 		]);
+		$this->assertEquals( count($gotJson['original']['root_groups']), 2 );
+
+
+		$response = $this->actingAs($user, 'api')->get('/api/groups/group-id-company1/permissions');
+		$gotJson = json_decode(json_encode($response->baseResponse),true);
+		// ob_start();var_dump($gotJson);error_log(ob_get_clean(),3,__DIR__.'/__dump.txt');
+		$response->assertStatus(200);
+		$response->assertJson([
+			'role' => 'owner',
+			'has_membership' => true,
+			'has_sub_group_membership' => false,
+			'editable' => true,
+			'visitable' => true,
+			'findable' => true,
+		]);
+
+
+		$response = $this->actingAs($user, 'api')->get('/api/projects/project-id-pickles2/permissions');
+		$gotJson = json_decode(json_encode($response->baseResponse),true);
+		// ob_start();var_dump($gotJson);error_log(ob_get_clean(),3,__DIR__.'/__dump.txt');
+		$response->assertStatus(200);
+		$response->assertJson([
+			'role' => 'owner',
+			'has_membership' => true,
+			'editable' => true,
+			'visitable' => true,
+			'findable' => true,
+		]);
 
 	}
 }
