@@ -209,13 +209,34 @@ class Group extends Model
 	 * ユーザーが所属するグループの一覧を得る
 	 */
 	static public function get_user_groups( $user_id ){
-		$relation = UserGroupRelation
+		$groups = UserGroupRelation
 			::where(['user_id'=>$user_id])
 			->leftJoin('groups', 'user_group_relations.group_id', '=', 'groups.id')
 			->orderBy('groups.name')
 			->get();
 
-		return $relation;
+		return $groups;
+	}
+
+	/**
+	 * ユーザーが所属するルートグループの一覧を得る
+	 */
+	static public function get_user_root_groups( $user_id ){
+		$groups = self::get_user_groups( $user_id );
+		$idmemo = array();
+		foreach( $groups as $group ){
+			if( !is_null($group->root_group_id) ){
+				$idmemo[$group->root_group_id] = true;
+			}else{
+				$idmemo[$group->id] = true;
+			}
+		}
+		$rtn = Group
+			::whereIn('id', array_keys($idmemo))
+			->orderBy('groups.name')
+			->get();
+
+		return $rtn;
 	}
 
 }

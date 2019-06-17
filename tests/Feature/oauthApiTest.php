@@ -67,7 +67,8 @@ class oauthApiTest extends TestCase
 		// Authorized as user Test1
 		$user = User::find('testuser-id-0000000001');
 		$response = $this->actingAs($user, 'api')->get('/api/user');
-		// ob_start();var_dump(json_decode(json_encode($response->baseResponse),true));error_log(ob_get_clean(),3,__DIR__.'/__dump.txt');
+		$gotJson = json_decode(json_encode($response->baseResponse),true);
+		// ob_start();var_dump($gotJson);error_log(ob_get_clean(),3,__DIR__.'/__dump.txt');
 		$response->assertStatus(200);
 		$response->assertJson([
 			'email' => 'test1@example.com',
@@ -75,12 +76,25 @@ class oauthApiTest extends TestCase
 
 
 		$response = $this->actingAs($user, 'api')->get('/api/user_info');
-		// ob_start();var_dump(json_decode(json_encode($response->baseResponse),true));error_log(ob_get_clean(),3,__DIR__.'/__dump.txt');
+		$gotJson = json_decode(json_encode($response->baseResponse),true);
+		// ob_start();var_dump($gotJson);error_log(ob_get_clean(),3,__DIR__.'/__dump.txt');
 		$response->assertStatus(200);
 		$response->assertJson([
 			'user' => [
 				'email' => 'test1@example.com',
-			]
+			],
+			'groups' => [
+			],
+			'root_groups' => [
+				[
+					'id' => 'group-id-company1',
+				],
+				[
+					'id' => 'group-id-company2',
+				]
+			],
+			'projects' => [
+			],
 		]);
 
 	}
