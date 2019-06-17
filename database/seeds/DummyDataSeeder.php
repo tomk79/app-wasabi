@@ -4,6 +4,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use App\Group;
+use App\Project;
 use App\User;
 use App\UserGroupRelation;
 use App\OauthClient;
@@ -87,6 +88,21 @@ class DummyDataSeeder extends Seeder
 		$group_somu_unit1->created_at = $date;
 		$group_somu_unit1->updated_at = $date;
 		$group_somu_unit1->save();
+
+		$project_px2 = new Project;
+		$project_px2->name = 'Pickles2';
+		$project_px2->group_id = $group_somu_unit1->id;
+		$project_px2->creator_user_id = $user_id_memo[1];
+		$project_px2->private_flg = true;
+		$project_px2->created_at = $date;
+		$project_px2->updated_at = $date;
+		$project_px2->save();
+
+		DB::table('user_project_relations')->insert([
+			'user_id' => $user_id_memo[1],
+			'project_id' => $project_px2->id,
+			'role' => 'owner',
+		]);
 
 	}
 }

@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\UserProjectRelation;
 use Ramsey\Uuid\Uuid;
 
 class Project extends Model
@@ -87,4 +88,17 @@ class Project extends Model
 		}
 		return $rtn;
 	}
+
+	/**
+	 * ユーザーが所属するプロジェクトの一覧を得る
+	 */
+	static public function get_user_projects( $user_id ){
+		$relation = UserProjectRelation
+			::where(['user_id'=>$user_id])
+			->leftJoin('projects', 'user_project_relations.project_id', '=', 'projects.id')
+			->get();
+
+		return $relation;
+	}
+
 }

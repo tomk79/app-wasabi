@@ -20,5 +20,13 @@ Route::middleware('auth:api')
 			return $request->user();
 		});
 
+		Route::get('/user_info', function (Request $request) {
+			$rtn = array();
+			$rtn['user'] = $request->user();
+			$rtn['groups'] = \App\Group::get_user_groups( $rtn['user']->id );
+			$rtn['projects'] = \App\Project::get_user_projects( $rtn['user']->id );
+			return $rtn;
+		});
+
 	})
 ;

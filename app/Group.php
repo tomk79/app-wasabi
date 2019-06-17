@@ -189,4 +189,17 @@ class Group extends Model
 		}
 		return $rtn;
 	}
+
+	/**
+	 * ユーザーが所属するグループの一覧を得る
+	 */
+	static public function get_user_groups( $user_id ){
+		$relation = UserGroupRelation
+			::where(['user_id'=>$user_id])
+			->leftJoin('groups', 'user_group_relations.group_id', '=', 'groups.id')
+			->get();
+
+		return $relation;
+	}
+
 }
