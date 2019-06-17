@@ -77,7 +77,10 @@ class Group extends Model
 	 * 権限の評価は行いません。
 	 */
 	static public function get_children( $group_id ){
-		$rtn = self::where(['parent_group_id'=>$group_id])->get();
+		$rtn = self
+			::where(['parent_group_id'=>$group_id])
+			->orderBy('groups.name')
+			->get();
 		return $rtn;
 	}
 
@@ -136,6 +139,8 @@ class Group extends Model
 			'has_sub_group_partnership' => false,
 			'has_sub_group_observership' => false,
 			'editable' => false,
+			'visitable' => false,
+			'findable' => false,
 		);
 		if( !strlen($user_id) ){
 			$user = Auth::user();
@@ -153,12 +158,17 @@ class Group extends Model
 			}
 			$rtn['role'] = $relation->role;
 			switch($rtn['role']){
+				case 'partner':
+					$rtn['findable'] = true;
+				case 'observer':
+				case 'member':
+					$rtn['visitable'] = true;
 				case 'owner':
 				case 'manager':
 					$rtn['editable'] = true;
 					break;
 			}
-			break;
+			continue;
 		}
 
 		$sub_groups = self::get_sub_groups($logical_path[0]->id);
@@ -186,7 +196,7 @@ class Group extends Model
 				default:
 					break;
 			}
-			break;
+			continue;
 		}
 
 		if( !$rtn['role'] && !$rtn['has_sub_group_membership'] && !$rtn['has_sub_group_partnership'] && !$rtn['has_sub_group_observership'] ){
@@ -202,6 +212,7 @@ class Group extends Model
 		$relation = UserGroupRelation
 			::where(['user_id'=>$user_id])
 			->leftJoin('groups', 'user_group_relations.group_id', '=', 'groups.id')
+			->orderBy('groups.name')
 			->get();
 
 		return $relation;

@@ -101,20 +101,15 @@ class GroupsController extends Controller
 				return abort(403, 'このグループを編集する権限がありません。');
 			}
 
-			$parent_group = null;
-			if( strlen($request->parent_group_id) ){
-				$parent_group = UserGroupRelation
-					::where(['group_id'=>$request->parent_group_id, 'user_id'=>$user->id])
-					->leftJoin('users', 'user_group_relations.user_id', '=', 'users.id')
-					->leftJoin('groups', 'user_group_relations.group_id', '=', 'groups.id')
-					->first();
-				if( !$parent_group->count() ){
-					// 条件に合うレコードが存在しない場合
-					// = ログインユーザー自身が指定のグループに参加していない。
-					return abort(404);
-				}
-
+			$parent_group = Group
+				::where(['id'=>$request->parent_group_id])
+				->first();
+			if( !$parent_group ){
+				// 条件に合うレコードが存在しない場合
+				// = ログインユーザー自身が指定のグループに参加していない。
+				return abort(404);
 			}
+
 			$group->parent_group_id = $parent_group->id;
 			$group->root_group_id = $parent_group->id;
 		}

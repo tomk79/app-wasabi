@@ -28,12 +28,12 @@ class notInSubGroup implements Rule
 	 */
 	public function passes($attribute, $value)
 	{
-        $sub_groups = Group::get_sub_groups($this->before);
-        foreach( $sub_groups as $sub_group ){
+		$sub_groups = Group::get_sub_groups($value);
+		foreach( $sub_groups as $sub_group ){
 			if( $sub_group['group']->id == $value ){
 				return false;
 			}
-        }
+		}
 		return true;
 	}
 

@@ -42,6 +42,7 @@ class DummyDataSeeder extends Seeder
 		}
 
 		$company1 = new Group;
+		$company1->id = 'group-id-company1';
 		$company1->name = '株式会社ABC';
 		$company1->account = 'abc-com';
 		$company1->description = '';
@@ -90,6 +91,7 @@ class DummyDataSeeder extends Seeder
 		]);
 
 		$company2 = new Group;
+		$company2->id = 'group-id-company2';
 		$company2->name = '株式会社DEF';
 		$company2->account = null;
 		$company2->description = null;
@@ -131,6 +133,16 @@ class DummyDataSeeder extends Seeder
 		$company2_seisaku_dev_g1->updated_at = $date;
 		$company2_seisaku_dev_g1->save();
 
+		$company3 = new Group;
+		$company3->id = 'group-id-company3';
+		$company3->name = '株式会社GHI';
+		$company3->account = null;
+		$company3->description = null;
+		$company3->creator_user_id = $user_id_memo[2];
+		$company3->created_at = $date;
+		$company3->updated_at = $date;
+		$company3->save();
+
 		DB::table('user_group_relations')->insert([
 			'user_id' => $user_id_memo[1],
 			'group_id' => $company2_seisaku->id,
@@ -146,9 +158,20 @@ class DummyDataSeeder extends Seeder
 			'group_id' => $company2_seisaku_dev_g1->id,
 			'role' => 'member',
 		]);
+		DB::table('user_group_relations')->insert([
+			'user_id' => $user_id_memo[2],
+			'group_id' => $company2_seisaku_dev_g1->id,
+			'role' => 'observer',
+		]);
+		DB::table('user_group_relations')->insert([
+			'user_id' => $user_id_memo[2],
+			'group_id' => $company3->id,
+			'role' => 'observer',
+		]);
 
 
 		$project_px2 = new Project;
+		$project_px2->id = 'project-id-pickles2';
 		$project_px2->name = 'Pickles2';
 		$project_px2->group_id = $company1_somu_unit1->id;
 		$project_px2->creator_user_id = $user_id_memo[1];
@@ -157,9 +180,29 @@ class DummyDataSeeder extends Seeder
 		$project_px2->updated_at = $date;
 		$project_px2->save();
 
+		$project_anyproj1 = new Project;
+		$project_anyproj1->id = 'project-id-anyproj1';
+		$project_anyproj1->name = 'Any Project 1';
+		$project_anyproj1->group_id = $company3->id;
+		$project_anyproj1->creator_user_id = $user_id_memo[2];
+		$project_anyproj1->private_flg = true;
+		$project_anyproj1->created_at = $date;
+		$project_anyproj1->updated_at = $date;
+		$project_anyproj1->save();
+
 		DB::table('user_project_relations')->insert([
 			'user_id' => $user_id_memo[1],
 			'project_id' => $project_px2->id,
+			'role' => 'owner',
+		]);
+		DB::table('user_project_relations')->insert([
+			'user_id' => $user_id_memo[2],
+			'project_id' => $project_px2->id,
+			'role' => 'member',
+		]);
+		DB::table('user_project_relations')->insert([
+			'user_id' => $user_id_memo[2],
+			'project_id' => $project_anyproj1->id,
 			'role' => 'owner',
 		]);
 

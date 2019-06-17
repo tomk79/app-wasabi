@@ -54,6 +54,8 @@ class Project extends Model
 			'has_partnership' => false,
 			'has_observership' => false,
 			'editable' => false,
+			'visitable' => false,
+			'findable' => false,
 		);
 		if( !strlen($user_id) ){
 			$user = Auth::user();
@@ -73,16 +75,23 @@ class Project extends Model
 			case 'owner':
 			case 'manager':
 				$rtn['editable'] = true;
+				$rtn['visitable'] = true;
+				$rtn['findable'] = true;
 				$rtn['has_membership'] = true;
 				break;
 			case 'member':
+				$rtn['visitable'] = true;
+				$rtn['findable'] = true;
 				$rtn['has_membership'] = true;
 				break;
-			case 'partner':
-				$rtn['has_partnership'] = true;
-				break;
 			case 'observer':
+				$rtn['visitable'] = true;
+				$rtn['findable'] = true;
 				$rtn['has_observership'] = true;
+				break;
+			case 'partner':
+				$rtn['findable'] = true;
+				$rtn['has_partnership'] = true;
 				break;
 			default:
 				break;
@@ -110,7 +119,10 @@ class Project extends Model
 	 * グループが管理するプロジェクトの一覧を得る
 	 */
 	static public function get_group_projects( $group_id ){
-		$projects = self::where(['group_id'=>$group_id])->get();
+		$projects = self
+			::where(['group_id'=>$group_id])
+			->orderBy('projects.name')
+			->get();
 
 		return $projects;
 	}
