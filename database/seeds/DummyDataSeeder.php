@@ -134,7 +134,7 @@ class DummyDataSeeder extends Seeder
 		DB::table('user_group_relations')->insert([
 			'user_id' => $user_id_memo[1],
 			'group_id' => $company2_seisaku->id,
-			'role' => 'obserber',
+			'role' => 'observer',
 		]);
 		DB::table('user_group_relations')->insert([
 			'user_id' => $user_id_memo[1],

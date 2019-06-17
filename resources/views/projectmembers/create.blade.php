@@ -27,9 +27,9 @@
 					<th><label for="role">役割</label></th>
 					<td>
 						<select id="role" class="form-control{{ $errors->has('role') ? ' is-invalid' : '' }}" name="role" value="{{ old('role') }}" required>
-							<?php $vals = array( 'observer', 'partner', 'member', 'manager', 'owner' ); ?>
-							@foreach ($vals as $val)
-							<option value="{{ $val }}" @if (old('role')==$val) selected="selected"  @endif>{{ $val }}</option>
+							<?php $vals = helpers\wasabiHelper::getRoleList(); ?>
+							@foreach ($vals as $val=>$label)
+							<option value="{{ $val }}" @if (old('role')==$val) selected="selected"  @endif>{{ $label }}</option>
 							@endforeach
 						</select>
 

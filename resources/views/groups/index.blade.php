@@ -31,7 +31,7 @@
 				<tr>
 					<td>{{ $group->name }}</td>
 					<td>@if($group->account) <a href="{{ url('g/'.urlencode($group->account)) }}">{{ $group->account }}</a> @else --- @endif</td>
-					<td>{{ $group->role }}</td>
+					<td>{{ helpers\wasabiHelper::roleLabel($group->role) }}</td>
 					<td><a href="{{ url('settings/groups/'.urlencode($group->id)) }}" class="btn btn-primary">詳細</a></td>
 					<td><a href="{{ url('settings/groups/'.urlencode($group->id).'/edit') }}" class="btn btn-primary">編集</a></td>
 				</tr>

@@ -30,7 +30,7 @@
 				<tr>
 					<td><a href="{{ url('settings/projects/'.urlencode($project->id).'/members/'.urlencode($member->id)) }}">{{ $member->name }}</a></td>
 					<td>{{ $member->email }}</td>
-					<td>{{ $member->role }}</td>
+					<td>{{ helpers\wasabiHelper::roleLabel($member->role) }}</td>
 					<td>
 						@if (Auth::user()->email != $member->email)
 						<a href="{{ url('settings/projects/'.urlencode($project->id).'/members/'.urlencode($member->id).'/edit') }}" class="btn btn-primary">編集</a>
