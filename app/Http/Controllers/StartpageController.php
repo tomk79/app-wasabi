@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\UserSubEmail;
+use App\UserGroupRelation;
+use App\UserProjectRelation;
 
 class StartpageController extends Controller
 {
@@ -28,6 +30,26 @@ class StartpageController extends Controller
 
 		$subEmails = UserSubEmail::where(['user_id'=>$user->id])->get();
 
-		return view('startpage.dashboard', ['profile' => $user, 'sub_emails'=>$subEmails]);
+		$groups = UserGroupRelation
+			::where(['user_id'=>$user->id])
+			->leftJoin('groups', 'user_group_relations.group_id', '=', 'groups.id')
+			->orderBy('groups.name')
+			->get();
+
+		$projects = UserProjectRelation
+			::where(['user_id'=>$user->id])
+			->leftJoin('projects', 'user_project_relations.project_id', '=', 'projects.id')
+			->orderBy('projects.name')
+			->get();
+
+		return view(
+			'startpage.dashboard',
+			[
+				'profile' => $user,
+				'sub_emails'=>$subEmails,
+				'groups'=>$groups,
+				'projects'=>$projects,
+			]
+		);
 	}
 }

@@ -56,5 +56,25 @@
 		</div>
 	</div>
 
+	<div class="row">
+		<div class="col-12">
+
+			<h2>参加しているグループ</h2>
+			<ul>
+			@foreach ($groups as $group)
+				<li><a href="/settings/groups/{{ $group->id }}">{{ $group->name }}</a></li>
+			@endforeach
+			</ul>
+
+			<h2>参加しているプロジェクト</h2>
+			<ul>
+			@foreach ($projects as $project)
+				<li><a href="/settings/projects/{{ $project->id }}">{{ $project->name }}</a></li>
+			@endforeach
+			</ul>
+
+		</div>
+	</div>
+
 </div>
 @endsection
