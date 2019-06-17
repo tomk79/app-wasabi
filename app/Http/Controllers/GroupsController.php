@@ -153,7 +153,7 @@ class GroupsController extends Controller
 			return abort(404);
 		}
 		if( !$group->icon ){
-			$group->icon = url('/common/images/nophoto.png');
+			$group->icon = url('/common/images/nophoto_group.png');
 		}
 
 		$children = Group::get_children($group_id);
@@ -214,7 +214,7 @@ class GroupsController extends Controller
 			return abort(404);
 		}
 		if( !$group->icon ){
-			$group->icon = url('/common/images/nophoto.png');
+			$group->icon = url('/common/images/nophoto_group.png');
 		}
 
 		$root_group = Group::find($group->root_group_id);

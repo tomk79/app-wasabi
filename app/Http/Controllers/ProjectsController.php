@@ -107,7 +107,7 @@ class ProjectsController extends Controller
 			return abort(404);
 		}
 		if( !$project->icon ){
-			$project->icon = url('/common/images/nophoto.png');
+			$project->icon = url('/common/images/nophoto_project.png');
 		}
 
 		$group = Group::find($project->group_id);
@@ -144,7 +144,7 @@ class ProjectsController extends Controller
 			return abort(404);
 		}
 		if( !$project->icon ){
-			$project->icon = url('/common/images/nophoto.png');
+			$project->icon = url('/common/images/nophoto_project.png');
 		}
 
 		$group = Group::find($project->group_id);

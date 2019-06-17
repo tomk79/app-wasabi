@@ -66,7 +66,7 @@ class HomeController extends Controller
 			return abort(404);
 		}
 		if( !$group->icon ){
-			$group->icon = url('/common/images/nophoto.png');
+			$group->icon = url('/common/images/nophoto_group.png');
 		}
 
 		return view('home.group', [
