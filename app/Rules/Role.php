@@ -29,6 +29,7 @@ class Role implements Rule
 			case 'manager':
 			case 'member':
 			case 'partner':
+			case 'observer':
 				break;
 			default:
 				return false;

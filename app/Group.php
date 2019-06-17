@@ -177,14 +177,18 @@ class Group extends Model
 					$rtn['has_sub_group_membership'] = true;
 					break;
 				case 'partner':
-				default:
 					$rtn['has_sub_group_partnership'] = true;
+					break;
+				case 'observer':
+					$rtn['has_sub_group_observership'] = true;
+					break;
+				default:
 					break;
 			}
 			break;
 		}
 
-		if( !$rtn['role'] && !$rtn['has_sub_group_membership'] && !$rtn['has_sub_group_partnership'] ){
+		if( !$rtn['role'] && !$rtn['has_sub_group_membership'] && !$rtn['has_sub_group_partnership'] && !$rtn['has_sub_group_observership'] ){
 			$rtn = false;
 		}
 		return $rtn;

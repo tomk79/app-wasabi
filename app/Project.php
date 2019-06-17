@@ -52,6 +52,7 @@ class Project extends Model
 			'role' => false,
 			'has_membership' => false,
 			'has_partnership' => false,
+			'has_observership' => false,
 			'editable' => false,
 		);
 		if( !strlen($user_id) ){
@@ -78,8 +79,12 @@ class Project extends Model
 				$rtn['has_membership'] = true;
 				break;
 			case 'partner':
-			default:
 				$rtn['has_partnership'] = true;
+				break;
+			case 'observer':
+				$rtn['has_observership'] = true;
+				break;
+			default:
 				break;
 		}
 
