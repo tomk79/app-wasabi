@@ -88,30 +88,5 @@ class DummyDataSeeder extends Seeder
 		$group_somu_unit1->updated_at = $date;
 		$group_somu_unit1->save();
 
-
-
-		// OAuth Client
-		$oauthClient = new OauthClient;
-		$oauthClient->user_id = $user_id_memo[1];
-		$oauthClient->id = '815ceca0-13a8-47aa-a35c-5bb5f7afafb5';
-		$oauthClient->name = 'Dummy Application';
-		$oauthClient->redirect = 'https://dummyapp.example.com/oauth/callback/wasabi';
-		$oauthClient->secret = 'FthaYsYxSbuWGzSLKynXvDGzh734Zm1sbP3cw3qH';
-		$oauthClient->personal_access_client = 0;
-		$oauthClient->password_client = 0;
-		$oauthClient->revoked = 0;
-		$oauthClient->save();
-
-		// OAuth Token
-		DB::table('oauth_access_tokens')->insert(array(
-			'id' => '20e45d582eb79b565c3017afa16ba368553e80754ae1c533723f92719eee67b5a539c25aacb218a6',
-			'user_id' => $user_id_memo[1],
-			'client_id' => '815ceca0-13a8-47aa-a35c-5bb5f7afafb5',
-			'scopes' => '[]',
-			'revoked' => 0,
-			'created_at' => date('Y/m/d H:i:s', time()),
-			'updated_at' => date('Y/m/d H:i:s', time()),
-			'expires_at' => date('Y/m/d H:i:s', time()),
-		));
 	}
 }
