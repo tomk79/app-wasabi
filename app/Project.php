@@ -106,4 +106,13 @@ class Project extends Model
 		return $relation;
 	}
 
+	/**
+	 * グループが管理するプロジェクトの一覧を得る
+	 */
+	static public function get_group_projects( $group_id ){
+		$projects = self::where(['group_id'=>$group_id])->get();
+
+		return $projects;
+	}
+
 }

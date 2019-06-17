@@ -19,6 +19,7 @@
 		<table class="table table-striped">
 			<thead>
 				<tr>
+					<th></th>
 					<th>グループ名</th>
 					<th>アカウント</th>
 					<th>あなたの役割</th>
@@ -29,6 +30,7 @@
 			<tbody>
 			@foreach ($groups as $group)
 				<tr>
+					<td><img src="{{ $group->icon ? $group->icon : url('/common/images/nophoto.png') }}" alt="" style="width: 1.5em; height: 1.5em;" /></td>
 					<td>{{ $group->name }}</td>
 					<td>@if($group->account) <a href="{{ url('g/'.urlencode($group->account)) }}">{{ $group->account }}</a> @else --- @endif</td>
 					<td>{{ helpers\wasabiHelper::roleLabel($group->role) }}</td>

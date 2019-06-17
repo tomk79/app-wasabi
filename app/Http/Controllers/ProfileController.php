@@ -38,7 +38,7 @@ class ProfileController extends Controller
 	{
 		$user = Auth::user();
 		if( !$user->icon ){
-			$user->icon = '/common/images/nophoto.png';
+			$user->icon = url('/common/images/nophoto.png');
 		}
 		$subEmails = UserSubEmail::where(['user_id'=>$user->id])->get();
 
@@ -55,7 +55,7 @@ class ProfileController extends Controller
 	{
 		$user = Auth::user();
 		if( !$user->icon ){
-			$user->icon = '/common/images/nophoto.png';
+			$user->icon = url('/common/images/nophoto.png');
 		}
 
 		return view('profile.edit', ['profile' => $user]);

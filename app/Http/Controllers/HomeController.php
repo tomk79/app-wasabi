@@ -29,7 +29,7 @@ class HomeController extends Controller
 	public function index($account){
 		$user = Auth::user();
 		if( !$user->icon ){
-			$user->icon = '/common/images/nophoto.png';
+			$user->icon = url('/common/images/nophoto.png');
 		}
 
 		// アカウント
@@ -42,7 +42,7 @@ class HomeController extends Controller
 			return abort(404);
 		}
 		if( !$account->icon ){
-			$account->icon = '/common/images/nophoto.png';
+			$account->icon = url('/common/images/nophoto.png');
 		}
 
 
@@ -66,7 +66,7 @@ class HomeController extends Controller
 			return abort(404);
 		}
 		if( !$group->icon ){
-			$group->icon = '/common/images/nophoto.png';
+			$group->icon = url('/common/images/nophoto.png');
 		}
 
 		return view('home.index', [

@@ -18,6 +18,7 @@
 		<table class="table table-striped">
 			<thead>
 				<tr>
+					<th></th>
 					<th>名前</th>
 					<th>メールアドレス</th>
 					<th>役割</th>
@@ -28,6 +29,7 @@
 			<tbody>
 			@foreach ($members as $member)
 				<tr>
+					<td><img src="{{ $member->icon ? $member->icon : url('/common/images/nophoto.png') }}" alt="" style="width:1.5em; height:1.5em;" /></td>
 					<td><a href="{{ url('settings/projects/'.urlencode($project->id).'/members/'.urlencode($member->id)) }}">{{ $member->name }}</a></td>
 					<td>{{ $member->email }}</td>
 					<td>{{ helpers\wasabiHelper::roleLabel($member->role) }}</td>

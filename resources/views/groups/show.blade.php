@@ -33,6 +33,12 @@
 				</td>
 			</tr>
 			<tr>
+				<th><label for="icon">アイコン</label></th>
+				<td>
+					<p><img src="{{ $group->icon }}" alt="" style="width:1.5em; height: 1.5em;" /></p>
+				</td>
+			</tr>
+			<tr>
 				<th><label for="email">アカウント</label></th>
 				<td>
 					<p>@if($group->account) <a href="{{ url('g/'.urlencode($group->account)) }}">{{ $group->account }}</a> @else --- @endif</p>
@@ -50,6 +56,16 @@
 					<ul>
 					@foreach( $children as $child )
 						<li><a href="{{ url('settings/groups/'.urlencode($child->id)) }}">{{ $child->name }}</a></li>
+					@endforeach
+					</ul>
+				</td>
+			</tr>
+			<tr>
+				<th>プロジェクト</th>
+				<td>
+					<ul>
+					@foreach( $projects as $project )
+						<li><a href="{{ url('settings/projects/'.urlencode($project->id)) }}">{{ $project->name }}</a></li>
 					@endforeach
 					</ul>
 				</td>

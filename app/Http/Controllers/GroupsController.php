@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use App\Group;
+use App\Project;
 use App\UserGroupRelation;
 use App\Http\Requests\StoreGroup;
 
@@ -152,7 +153,7 @@ class GroupsController extends Controller
 			return abort(404);
 		}
 		if( !$group->icon ){
-			$group->icon = '/common/images/nophoto.png';
+			$group->icon = url('/common/images/nophoto.png');
 		}
 
 		$children = Group::get_children($group_id);
@@ -172,7 +173,21 @@ class GroupsController extends Controller
 			->orderBy('groups.name')
 			->first();
 
-		return view('groups.show', ['group'=>$group, 'root_group'=>$root_group, 'parent_group'=>$parent_group, 'logical_path' => $logical_path, 'children' => $children, 'profile' => $user, 'relation' => $relation]);
+		$projects = Project::get_group_projects($group->id);
+
+		return view(
+			'groups.show',
+			[
+				'group'=>$group,
+				'root_group'=>$root_group,
+				'parent_group'=>$parent_group,
+				'logical_path' => $logical_path,
+				'children' => $children,
+				'profile' => $user,
+				'relation' => $relation,
+				'projects' => $projects,
+			]
+		);
 	}
 
 	/**
@@ -199,7 +214,7 @@ class GroupsController extends Controller
 			return abort(404);
 		}
 		if( !$group->icon ){
-			$group->icon = '/common/images/nophoto.png';
+			$group->icon = url('/common/images/nophoto.png');
 		}
 
 		$root_group = Group::find($group->root_group_id);

@@ -13,6 +13,12 @@
 				</td>
 			</tr>
 			<tr>
+				<th><label for="icon">アイコン</label></th>
+				<td>
+					<p><img src="{{ $user->icon ? $user->icon : url('/common/images/nophoto.png') }}" alt="" style="width:2em; height:2em;" /></p>
+				</td>
+			</tr>
+			<tr>
 				<th><label for="account">アカウント</label></th>
 				<td>
 					<p>@if($user->account) <a href="{{ url($user->account) }}">{{ $user->account }}</a> @else --- @endif</p>
