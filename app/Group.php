@@ -134,6 +134,7 @@ class Group extends Model
 			'role' => false,
 			'has_sub_group_membership' => false,
 			'has_sub_group_partnership' => false,
+			'has_sub_group_observership' => false,
 			'editable' => false,
 		);
 		if( !strlen($user_id) ){

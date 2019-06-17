@@ -39,6 +39,12 @@
 				</td>
 			</tr>
 			<tr>
+				<th><label for="role">あなたの役割</label></th>
+				<td>
+					<p>{{ $relation->role }}</p>
+				</td>
+			</tr>
+			<tr>
 				<th>サブグループ</th>
 				<td>
 					<ul>

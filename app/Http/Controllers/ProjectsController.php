@@ -112,7 +112,12 @@ class ProjectsController extends Controller
 
 		$group = Group::find($project->group_id);
 
-		return view('projects.show', ['project'=>$project, 'group'=>$group, 'profile' => $user]);
+		$relation = UserProjectRelation::where(['user_id' => $user->id, 'project_id' => $project->id])
+			->leftJoin('projects', 'user_project_relations.project_id', '=', 'projects.id')
+			->orderBy('projects.name')
+			->first();
+
+		return view('projects.show', ['project'=>$project, 'group'=>$group, 'profile' => $user, 'relation' => $relation]);
 	}
 
 	/**

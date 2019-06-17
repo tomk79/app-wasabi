@@ -113,7 +113,7 @@ class DummyDataSeeder extends Seeder
 		$company2_seisaku_dev->name = '開発UNIT';
 		$company2_seisaku_dev->account = null;
 		$company2_seisaku_dev->description = '';
-		$company2_seisaku_dev->parent_group_id = $company2->id;
+		$company2_seisaku_dev->parent_group_id = $company2_seisaku->id;
 		$company2_seisaku_dev->root_group_id = $company2->id;
 		$company2_seisaku_dev->creator_user_id = $user_id_memo[1];
 		$company2_seisaku_dev->created_at = $date;
@@ -124,7 +124,7 @@ class DummyDataSeeder extends Seeder
 		$company2_seisaku_dev_g1->name = 'グループ1';
 		$company2_seisaku_dev_g1->account = null;
 		$company2_seisaku_dev_g1->description = '';
-		$company2_seisaku_dev_g1->parent_group_id = $company2->id;
+		$company2_seisaku_dev_g1->parent_group_id = $company2_seisaku_dev->id;
 		$company2_seisaku_dev_g1->root_group_id = $company2->id;
 		$company2_seisaku_dev_g1->creator_user_id = $user_id_memo[1];
 		$company2_seisaku_dev_g1->created_at = $date;

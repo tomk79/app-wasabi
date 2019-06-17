@@ -167,7 +167,12 @@ class GroupsController extends Controller
 			$parent_group = $logical_path[count($logical_path)-1-1];
 		}
 
-		return view('groups.show', ['group'=>$group, 'root_group'=>$root_group, 'parent_group'=>$parent_group, 'logical_path' => $logical_path, 'children' => $children, 'profile' => $user]);
+		$relation = UserGroupRelation::where(['user_id' => $user->id, 'group_id' => $group->id])
+			->leftJoin('groups', 'user_group_relations.group_id', '=', 'groups.id')
+			->orderBy('groups.name')
+			->first();
+
+		return view('groups.show', ['group'=>$group, 'root_group'=>$root_group, 'parent_group'=>$parent_group, 'logical_path' => $logical_path, 'children' => $children, 'profile' => $user, 'relation' => $relation]);
 	}
 
 	/**
