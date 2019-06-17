@@ -35,7 +35,7 @@
 			<tr>
 				<th><label for="icon">アイコン</label></th>
 				<td>
-					<p><img src="{{ $group->icon }}" alt="" style="width:1.5em; height: 1.5em;" /></p>
+					<p><img src="{{ $group->icon }}" alt="" class="group-icon" style="width:1.5em; height: 1.5em;" /></p>
 				</td>
 			</tr>
 			<tr>

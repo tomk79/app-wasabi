@@ -46,8 +46,8 @@ class HomeController extends Controller
 		}
 
 
-		return view('home.index', [
-			'account'=>$account,
+		return view('home.account', [
+			'account' => $account,
 			'profile' => $user
 		]);
 	}
@@ -69,7 +69,7 @@ class HomeController extends Controller
 			$group->icon = url('/common/images/nophoto.png');
 		}
 
-		return view('home.index', [
+		return view('home.group', [
 			'account'=>$group,
 			'profile' => $user
 		]);
