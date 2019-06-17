@@ -168,6 +168,11 @@ class GroupsController extends Controller
 			->orderBy('groups.name')
 			->first();
 
+		$members = UserGroupRelation::where(['group_id' => $group->id])
+			->leftJoin('users', 'user_group_relations.user_id', '=', 'users.id')
+			->orderBy('users.name')
+			->get();
+
 		$projects = Project::get_group_projects($group->id);
 
 		return view(
@@ -180,6 +185,7 @@ class GroupsController extends Controller
 				'children' => $children,
 				'profile' => $user,
 				'relation' => $relation,
+				'members' => $members,
 				'projects' => $projects,
 			]
 		);

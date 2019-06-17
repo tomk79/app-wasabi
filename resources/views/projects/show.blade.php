@@ -24,6 +24,16 @@
 					<p>{{ $relation ? helpers\wasabiHelper::roleLabel($relation->role) : '---' }}</p>
 				</td>
 			</tr>
+			<tr>
+				<th>メンバー</th>
+				<td>
+					<ul>
+					@foreach( $members as $member )
+						<li><a href="{{ url('settings/projects/'.urlencode($project->id).'/members/'.urlencode($member->id)) }}">{!! helpers\wasabiHelper::icon_img($member->icon, null, '2em') !!} {{ $member->name }}</a> ({{ helpers\wasabiHelper::roleLabel($member->role) }})</li>
+					@endforeach
+					</ul>
+				</td>
+			</tr>
 		</tbody>
 	</table>
 

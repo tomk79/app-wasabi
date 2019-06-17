@@ -117,7 +117,21 @@ class ProjectsController extends Controller
 			->orderBy('projects.name')
 			->first();
 
-		return view('projects.show', ['project'=>$project, 'group'=>$group, 'profile' => $user, 'relation' => $relation]);
+		$members = UserProjectRelation::where(['project_id' => $project->id])
+			->leftJoin('users', 'user_project_relations.user_id', '=', 'users.id')
+			->orderBy('users.name')
+			->get();
+
+		return view(
+			'projects.show',
+			[
+				'project'=>$project,
+				'group'=>$group,
+				'profile' => $user,
+				'relation' => $relation,
+				'members' => $members,
+			]
+		);
 	}
 
 	/**
