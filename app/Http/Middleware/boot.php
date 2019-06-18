@@ -20,8 +20,15 @@ class boot
 	{
 		App::setLocale('ja'); // default locale
 
-		$global = new \stdClass;
-		View::share('global', $global);
+		$global = View::shared('global');
+		if( !is_object($global) ){
+			$global = json_decode('{}');
+			View::share('global', $global);
+		}
+		if( !property_exists($global, 'breadcrumb') || !is_array( $global->breadcrumb ) ){
+			$global->breadcrumb = array();
+			\helpers\wasabiHelper::push_breadclumb( (Auth::user() ? 'Dashboard' : 'Home'), '/' );
+		}
 
 		$user = Auth::user();
 		if( $user ){

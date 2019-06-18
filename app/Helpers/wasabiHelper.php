@@ -1,6 +1,9 @@
 <?php
 namespace helpers;
 
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Auth;
+
 class wasabiHelper{
 
 	/**
@@ -63,5 +66,25 @@ class wasabiHelper{
 		}
 
 		return '<img src="'.htmlspecialchars($url).'" alt="" class="'.htmlspecialchars($class).'-icon"'.$style.' />';
+	}
+
+	/**
+	 * パンくずに情報を追加する
+	 */
+	public static function push_breadclumb( $label, $href = null ){
+		$global = View::shared('global');
+		if( !is_object($global) ){
+			$global = json_decode('{}');
+			View::share('global', $global);
+		}
+		if( !property_exists($global, 'breadcrumb') || !is_array( $global->breadcrumb ) ){
+			$global->breadcrumb = array();
+			self::push_breadclumb( (Auth::user() ? 'Dashboard' : 'Home'), '/' );
+		}
+		array_push($global->breadcrumb, json_decode(json_encode(array(
+			'href' => $href,
+			'label' => $label,
+		))));
+		return true;
 	}
 }

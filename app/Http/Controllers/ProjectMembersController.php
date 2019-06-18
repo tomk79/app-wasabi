@@ -35,6 +35,9 @@ class ProjectMembersController extends Controller
 	 */
 	public function index($project_id)
 	{
+		// パンくず
+		\helpers\wasabiHelper::push_breadclumb('プロジェクト', '/settings/projects');
+
 		$user = Auth::user();
 
 		$user_permissions = Project::get_user_permissions($project_id, $user->id);
@@ -48,6 +51,9 @@ class ProjectMembersController extends Controller
 			// 条件に合うレコードが存在しない場合
 			return abort(404);
 		}
+
+		\helpers\wasabiHelper::push_breadclumb($project->name, '/settings/projects/'.urlencode($project->id));
+		\helpers\wasabiHelper::push_breadclumb('メンバー', '/settings/projects/'.urlencode($project->id).'/members');
 
 		$members = UserProjectRelation
 			::where(['project_id'=>$project->id])
@@ -76,6 +82,13 @@ class ProjectMembersController extends Controller
 			// 権限がありません
 			return abort(403, 'このプロジェクトを編集する権限がありません。');
 		}
+
+		// パンくず
+		\helpers\wasabiHelper::push_breadclumb('プロジェクト', '/settings/projects');
+		$project = Project::find($project_id);
+		\helpers\wasabiHelper::push_breadclumb($project->name, '/settings/projects/'.urlencode($project->id));
+		\helpers\wasabiHelper::push_breadclumb('メンバー', '/settings/projects/'.urlencode($project->id).'/members');
+		\helpers\wasabiHelper::push_breadclumb('新規');
 
 		return view('projectmembers.create', ['project_id'=>$project_id, 'profile' => $user]);
 	}
@@ -175,6 +188,13 @@ class ProjectMembersController extends Controller
 			// = ログインユーザー自身が指定のグループに参加していない。
 			return abort(404);
 		}
+
+		// パンくず
+		\helpers\wasabiHelper::push_breadclumb('プロジェクト', '/settings/projects');
+		\helpers\wasabiHelper::push_breadclumb($project->name, '/settings/projects/'.urlencode($project->id));
+		\helpers\wasabiHelper::push_breadclumb('メンバー', '/settings/projects/'.urlencode($project->id).'/members');
+		\helpers\wasabiHelper::push_breadclumb($invited_user->name);
+
 		return view('projectmembers.show', ['relation'=>$relation, 'project'=>$project, 'user' => $invited_user, 'profile' => $user]);
 	}
 
@@ -224,6 +244,14 @@ class ProjectMembersController extends Controller
 			// = ログインユーザー自身が指定のグループに参加していない。
 			return abort(404);
 		}
+
+		// パンくず
+		\helpers\wasabiHelper::push_breadclumb('プロジェクト', '/settings/projects');
+		\helpers\wasabiHelper::push_breadclumb($project->name, '/settings/projects/'.urlencode($project->id));
+		\helpers\wasabiHelper::push_breadclumb('メンバー', '/settings/projects/'.urlencode($project->id).'/members');
+		\helpers\wasabiHelper::push_breadclumb($invited_user->name, '/settings/projects/'.urlencode($project->id).'/members/'.urlencode($invited_user->id));
+		\helpers\wasabiHelper::push_breadclumb('編集');
+
 		return view('projectmembers.edit', ['relation'=>$relation, 'project'=>$project, 'user' => $invited_user, 'profile' => $user]);
 	}
 

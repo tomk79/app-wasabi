@@ -30,6 +30,9 @@ class GroupsController extends Controller
 	 */
 	public function index()
 	{
+		// パンくず
+		\helpers\wasabiHelper::push_breadclumb('グループ', '/settings/groups');
+
 		$user = Auth::user();
 		$groups = UserGroupRelation::where('user_id', $user->id)
 			->leftJoin('users', 'user_group_relations.user_id', '=', 'users.id')
@@ -45,6 +48,9 @@ class GroupsController extends Controller
 	 */
 	public function create(Request $request)
 	{
+		// パンくず
+		\helpers\wasabiHelper::push_breadclumb('グループ', '/settings/groups');
+
 		$user = Auth::user();
 
 		$parent_group_id = $request->query('parent');
@@ -67,7 +73,14 @@ class GroupsController extends Controller
 				// = ログインユーザー自身が指定のグループに参加していない。
 				return abort(404);
 			}
+
+			$logical_path = Group::get_logical_path($group->id);
+			foreach( $logical_path as $logical_path_group ){
+				\helpers\wasabiHelper::push_breadclumb($logical_path_group->name, '/settings/groups/'.urlencode($logical_path_group->id));
+			}
 		}
+
+		\helpers\wasabiHelper::push_breadclumb('新規グループ');
 		return view('groups.create', ['profile' => $user, 'parent' => $group]);
 	}
 
@@ -133,6 +146,9 @@ class GroupsController extends Controller
 	 */
 	public function show($group_id, Request $request)
 	{
+		// パンくず
+		\helpers\wasabiHelper::push_breadclumb('グループ', '/settings/groups');
+
 		$user = Auth::user();
 
 		$user_permissions = Group::get_user_permissions($group_id, $user->id);
@@ -153,6 +169,9 @@ class GroupsController extends Controller
 
 		$children = Group::get_children($group_id);
 		$logical_path = Group::get_logical_path($group_id);
+		foreach( $logical_path as $logical_path_group ){
+			\helpers\wasabiHelper::push_breadclumb($logical_path_group->name, '/settings/groups/'.urlencode($logical_path_group->id));
+		}
 
 		$root_group = null;
 		if( count($logical_path) >= 2 ){
@@ -196,6 +215,9 @@ class GroupsController extends Controller
 	 */
 	public function edit($group_id)
 	{
+		// パンくず
+		\helpers\wasabiHelper::push_breadclumb('グループ', '/settings/groups');
+
 		$user = Auth::user();
 
 		$user_permissions = Group::get_user_permissions($group_id, $user->id);
@@ -221,6 +243,12 @@ class GroupsController extends Controller
 		$root_group = Group::find($group->root_group_id);
 		$parent_group = Group::find($group->parent_group_id);
 		$sub_groups = Group::get_sub_groups($group->root_group_id);
+
+		$logical_path = Group::get_logical_path($group_id);
+		foreach( $logical_path as $logical_path_group ){
+			\helpers\wasabiHelper::push_breadclumb($logical_path_group->name, '/settings/groups/'.urlencode($logical_path_group->id));
+		}
+		\helpers\wasabiHelper::push_breadclumb('編集');
 
 		return view('groups.edit', ['group'=>$group, 'root_group'=>$root_group, 'parent'=>$parent_group, 'sub_groups'=>$sub_groups, 'profile' => $user]);
 	}

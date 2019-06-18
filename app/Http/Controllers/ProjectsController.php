@@ -31,6 +31,9 @@ class ProjectsController extends Controller
 	 */
 	public function index()
 	{
+		// パンくず
+		\helpers\wasabiHelper::push_breadclumb('プロジェクト', '/settings/projects');
+
 		$user = Auth::user();
 		$projects = UserProjectRelation::where('user_id', $user->id)
 			->leftJoin('users', 'user_project_relations.user_id', '=', 'users.id')
@@ -46,6 +49,10 @@ class ProjectsController extends Controller
 	 */
 	public function create(Request $request)
 	{
+		// パンくず
+		\helpers\wasabiHelper::push_breadclumb('プロジェクト', '/settings/projects');
+		\helpers\wasabiHelper::push_breadclumb('新規プロジェクト');
+
 		$user = Auth::user();
 		$groups = UserGroupRelation::where('user_id', $user->id)
 			->leftJoin('users', 'user_group_relations.user_id', '=', 'users.id')
@@ -92,6 +99,9 @@ class ProjectsController extends Controller
 	 */
 	public function show($project_id, Request $request)
 	{
+		// パンくず
+		\helpers\wasabiHelper::push_breadclumb('プロジェクト', '/settings/projects');
+
 		$user = Auth::user();
 
 		$user_permissions = Project::get_user_permissions($project_id, $user->id);
@@ -109,6 +119,8 @@ class ProjectsController extends Controller
 		if( !$project->icon ){
 			$project->icon = url('/common/images/nophoto_project.png');
 		}
+
+		\helpers\wasabiHelper::push_breadclumb($project->name);
 
 		$group = Group::find($project->group_id);
 
@@ -139,6 +151,9 @@ class ProjectsController extends Controller
 	 */
 	public function edit($project_id)
 	{
+		// パンくず
+		\helpers\wasabiHelper::push_breadclumb('プロジェクト', '/settings/projects');
+
 		$user = Auth::user();
 
 		$user_permissions = Project::get_user_permissions($project_id, $user->id);
@@ -160,6 +175,9 @@ class ProjectsController extends Controller
 		if( !$project->icon ){
 			$project->icon = url('/common/images/nophoto_project.png');
 		}
+
+		\helpers\wasabiHelper::push_breadclumb($project->name, '/settings/projects/'.urlencode($project->id));
+		\helpers\wasabiHelper::push_breadclumb('編集');
 
 		$group = Group::find($project->group_id);
 		$groups = UserGroupRelation::where('user_id', $user->id)

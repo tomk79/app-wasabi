@@ -51,7 +51,7 @@
 				<tr>
 					<th><label for="icon">アイコン</label></th>
 					<td>
-						<p><img src="{{ old('icon', $project->icon) }}" alt="プロジェクトアイコン" style="width: 200px; height: 200px;" class="account-icon cont-account-icon-preview" /></p>
+						<p><img src="{{ old('icon', $project->icon) }}" alt="プロジェクトアイコン" style="width: 200px; height: 200px;" class="project-icon cont-account-icon-preview" /></p>
 						<input id="icon" type="file" class="@if ($errors->has('icon')) is-invalid @endif" name="icon" value="" autofocus>
 							@if ($errors->has('icon'))
 								<span class="invalid-feedback" role="alert">
