@@ -37,6 +37,10 @@ class IntegrationPassportClientController extends Controller
 			::where(['user_id'=>$user->id])
 			->paginate(100);
 
+		// パンくず
+		\helpers\wasabiHelper::push_breadclumb('プロフィール', '/settings/profile');
+		\helpers\wasabiHelper::push_breadclumb('外部アプリケーション連携', '/settings/profile/integration/oauth_apps');
+
 		return view('integration.passportclients.index', ['clients'=>$clients, 'profile' => $user]);
 	}
 
@@ -48,6 +52,11 @@ class IntegrationPassportClientController extends Controller
 	public function create()
 	{
 		$user = Auth::user();
+
+		// パンくず
+		\helpers\wasabiHelper::push_breadclumb('プロフィール', '/settings/profile');
+		\helpers\wasabiHelper::push_breadclumb('外部アプリケーション連携', '/settings/profile/integration/oauth_apps');
+		\helpers\wasabiHelper::push_breadclumb('新規');
 
 		return view('integration.passportclients.create', ['profile' => $user]);
 	}
@@ -100,6 +109,11 @@ class IntegrationPassportClientController extends Controller
 
 		$client = OauthClient::find($id);
 
+		// パンくず
+		\helpers\wasabiHelper::push_breadclumb('プロフィール', '/settings/profile');
+		\helpers\wasabiHelper::push_breadclumb('外部アプリケーション連携', '/settings/profile/integration/oauth_apps');
+		\helpers\wasabiHelper::push_breadclumb($client->name, '/settings/profile/integration/oauth_apps/'.urlencode($client->id));
+
 		return view('integration.passportclients.show', ['client'=>$client, 'profile' => $user]);
 	}
 
@@ -113,6 +127,11 @@ class IntegrationPassportClientController extends Controller
 	{
 		$user = Auth::user();
 		$client = OauthClient::find($id);
+		// パンくず
+		\helpers\wasabiHelper::push_breadclumb('プロフィール', '/settings/profile');
+		\helpers\wasabiHelper::push_breadclumb('外部アプリケーション連携', '/settings/profile/integration/oauth_apps');
+		\helpers\wasabiHelper::push_breadclumb($client->name, '/settings/profile/integration/oauth_apps/'.urlencode($client->id));
+		\helpers\wasabiHelper::push_breadclumb('編集');
 		return view('integration.passportclients.edit', ['client'=>$client, 'profile' => $user]);
 	}
 
