@@ -4,7 +4,7 @@
 @section('content')
 <div class="container">
 
-	@if( strlen( $group->parent_group_id ) )
+	{{-- @if( strlen( $group->parent_group_id ) )
 	<ul class="breadcrumb">
 	@foreach( $logical_path as $tmp_current_group )
 		@if( $group->id != $tmp_current_group->id )
@@ -14,7 +14,7 @@
 		@endif
 	@endforeach
 	</ul>
-	@endif
+	@endif --}}
 
 	<table class="table table__dd">
 		<tbody>

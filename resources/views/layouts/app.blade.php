@@ -23,9 +23,9 @@
 
 	@include("layouts.inc.header")
 
-	{{-- main column --}}
-	<div class="theme-main-column">
-		<div id="app">
+	{{-- main block --}}
+	<div class="theme-main-block">
+		<div class="theme-main-block__inner" id="app">
 			@if (count($global->breadcrumb) > 1)
 			<nav aria-label="breadcrumb">
 				<ol class="breadcrumb">
