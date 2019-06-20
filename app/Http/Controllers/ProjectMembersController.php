@@ -57,7 +57,11 @@ class ProjectMembersController extends Controller
 
 		$members = UserProjectRelation
 			::where(['project_id'=>$project->id])
-			->leftJoin('users', 'user_project_relations.user_id', '=', 'users.id')
+			->leftJoin('users', function ($join) {
+				$join->on('users.id', '=', 'user_project_relations.user_id')
+					->whereNull('users.deleted_at');
+			})
+			->whereNotNull('email')
 			->orderBy('email')
 			->paginate(100);
 
@@ -174,7 +178,7 @@ class ProjectMembersController extends Controller
 		}
 
 		$invited_user = User::find($invited_user_id);
-		if( !$invited_user->count() ){
+		if( !$invited_user ){
 			// 条件に合うレコードが存在しない場合
 			return abort(403);
 		}
@@ -183,7 +187,7 @@ class ProjectMembersController extends Controller
 			::where('user_id', $invited_user_id)
 			->where('project_id', $project->id)
 			->first();
-		if( !$relation->count() ){
+		if( !$relation ){
 			// 条件に合うレコードが存在しない場合
 			// = ログインユーザー自身が指定のグループに参加していない。
 			return abort(404);
@@ -225,7 +229,7 @@ class ProjectMembersController extends Controller
 		}
 
 		$invited_user = User::find($invited_user_id);
-		if( !$invited_user->count() ){
+		if( !$invited_user ){
 			// 条件に合うレコードが存在しない場合
 			return abort(403);
 		}
@@ -239,7 +243,7 @@ class ProjectMembersController extends Controller
 			::where('user_id', $invited_user_id)
 			->where('project_id', $project->id)
 			->first();
-		if( !$relation->count() ){
+		if( !$relation ){
 			// 条件に合うレコードが存在しない場合
 			// = ログインユーザー自身が指定のグループに参加していない。
 			return abort(404);
@@ -284,7 +288,7 @@ class ProjectMembersController extends Controller
 
 		$invited_user = User::find($invited_user_id);
 
-		if( !$invited_user->count() ){
+		if( !$invited_user ){
 			// 条件に合うレコードが存在しない場合
 			return abort(403);
 		}
@@ -336,7 +340,7 @@ class ProjectMembersController extends Controller
 
 		$invited_user = User::find($invited_user_id);
 
-		if( !$invited_user->count() ){
+		if( !$invited_user ){
 			// 条件に合うレコードが存在しない場合
 			return abort(403);
 		}

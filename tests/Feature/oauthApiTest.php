@@ -128,7 +128,7 @@ class oauthApiTest extends TestCase
 
 		$response = $this->actingAs($user, 'api')->get('/api/groups/group-id-company1/tree');
 		$gotJson = json_decode(json_encode($response->baseResponse),true);
-		ob_start();var_dump($gotJson);error_log(ob_get_clean(),3,__DIR__.'/__dump.txt');
+		// ob_start();var_dump($gotJson);error_log(ob_get_clean(),3,__DIR__.'/__dump.txt');
 		$response->assertStatus(200);
 		$response->assertJson([
 			'id' => 'group-id-company1',

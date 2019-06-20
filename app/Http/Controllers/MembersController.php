@@ -50,8 +50,17 @@ class MembersController extends Controller
 
 		$members = UserGroupRelation
 			::where(['group_id'=>$group->id])
-			->leftJoin('users', 'user_group_relations.user_id', '=', 'users.id')
-			->orderBy('email')
+			->leftJoin('groups', function ($join) {
+				$join->on('groups.id', '=', 'user_group_relations.group_id')
+					->whereNull('groups.deleted_at');
+			})
+			->leftJoin('users', function ($join) {
+				$join->on('users.id', '=', 'user_group_relations.user_id')
+					->whereNull('users.deleted_at');
+			})
+			->whereNotNull('groups.id')
+			->whereNotNull('users.id')
+			->orderBy('users.email')
 			->paginate(100);
 
 		// パンくず
@@ -126,18 +135,21 @@ class MembersController extends Controller
 		$invited_user = User
 			::where('email', $request->email)
 			->first();
-		$invited_user_id = null;
-		if( $invited_user ){
-			$invited_user_id = $invited_user->id;
-		}
 
 		$request->validate([
 			'email' => [
 				'required',
 				'exists:users',
-				function ($attribute, $value, $fail) use ($invited_user_id, $user){
-					if( $invited_user_id == $user->id ){
+				function ($attribute, $value, $fail) use ($invited_user, $user, $group){
+					if( !$invited_user ){
+						$fail('招待できないユーザーです。');
+					}
+					if( $invited_user == $user->id ){
 						$fail('自分を招待することはできません。');
+					}
+					$records = UserGroupRelation::where(['user_id'=>$invited_user->id, 'group_id' => $group->id])->first();
+					if($records){
+						$fail('すでに登録されています。');
 					}
 				},
 			],
@@ -148,7 +160,7 @@ class MembersController extends Controller
 		]);
 
 		$userGroupRelation = new UserGroupRelation;
-		$userGroupRelation->user_id = $invited_user_id;
+		$userGroupRelation->user_id = $invited_user->id;
 		$userGroupRelation->group_id = $group->id;
 		$userGroupRelation->role = $request->role;
 		$userGroupRelation->save();
@@ -183,8 +195,18 @@ class MembersController extends Controller
 		$relation = $userGroupRelation = UserGroupRelation
 			::where('user_id', $invited_user_id)
 			->where('group_id', $group->id)
+			->leftJoin('groups', function ($join) {
+				$join->on('groups.id', '=', 'user_group_relations.group_id')
+					->whereNull('groups.deleted_at');
+			})
+			->leftJoin('users', function ($join) {
+				$join->on('users.id', '=', 'user_group_relations.user_id')
+					->whereNull('users.deleted_at');
+			})
+			->whereNotNull('groups.id')
+			->whereNotNull('users.id')
 			->first();
-		if( !$relation->count() ){
+		if( !$relation ){
 			// 条件に合うレコードが存在しない場合
 			// = ログインユーザー自身が指定のグループに参加していない。
 			return abort(404);
@@ -238,8 +260,18 @@ class MembersController extends Controller
 		$relation = $userGroupRelation = UserGroupRelation
 			::where('user_id', $invited_user_id)
 			->where('group_id', $group->id)
+			->leftJoin('groups', function ($join) {
+				$join->on('groups.id', '=', 'user_group_relations.group_id')
+					->whereNull('groups.deleted_at');
+			})
+			->leftJoin('users', function ($join) {
+				$join->on('users.id', '=', 'user_group_relations.user_id')
+					->whereNull('users.deleted_at');
+			})
+			->whereNotNull('groups.id')
+			->whereNotNull('users.id')
 			->first();
-		if( !$relation->count() ){
+		if( !$relation ){
 			// 条件に合うレコードが存在しない場合
 			// = ログインユーザー自身が指定のグループに参加していない。
 			return abort(404);
@@ -302,6 +334,16 @@ class MembersController extends Controller
 		DB::table('user_group_relations')
 			->where('user_id', $invited_user_id)
 			->where('group_id', $group->id)
+			->leftJoin('groups', function ($join) {
+				$join->on('groups.id', '=', 'user_group_relations.group_id')
+					->whereNull('groups.deleted_at');
+			})
+			->leftJoin('users', function ($join) {
+				$join->on('users.id', '=', 'user_group_relations.user_id')
+					->whereNull('users.deleted_at');
+			})
+			->whereNotNull('groups.id')
+			->whereNotNull('users.id')
 			->update(['role' => $request->role]);
 
 		return redirect('settings/groups/'.urlencode($group->id).'/members')->with('flash_message', 'メンバー '.$invited_user->email.' の情報を更新しました。');

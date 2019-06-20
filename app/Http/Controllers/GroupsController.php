@@ -35,9 +35,17 @@ class GroupsController extends Controller
 
 		$user = Auth::user();
 		$groups = UserGroupRelation::where('user_id', $user->id)
-			->leftJoin('users', 'user_group_relations.user_id', '=', 'users.id')
-			->leftJoin('groups', 'user_group_relations.group_id', '=', 'groups.id')
-			->orderBy('groups.account')
+			->leftJoin('users', function ($join) {
+				$join->on('users.id', '=', 'user_group_relations.user_id')
+					->whereNull('users.deleted_at');
+			})
+			->leftJoin('groups', function ($join) {
+				$join->on('groups.id', '=', 'user_group_relations.group_id')
+					->whereNull('groups.deleted_at');
+			})
+			->whereNotNull('users.id')
+			->whereNotNull('groups.id')
+			->orderBy('groups.account', 'desc')
 			->paginate(5);
 
 		return view('groups.index', ['profile' => $user, 'groups' => $groups]);
@@ -68,7 +76,7 @@ class GroupsController extends Controller
 			}
 
 			$group = Group::find($parent_group_id);
-			if( !$group->count() ){
+			if( !$group ){
 				// 条件に合うレコードが存在しない場合
 				// = ログインユーザー自身が指定のグループに参加していない。
 				return abort(404);
@@ -183,13 +191,31 @@ class GroupsController extends Controller
 		}
 
 		$relation = UserGroupRelation::where(['user_id' => $user->id, 'group_id' => $group->id])
-			->leftJoin('groups', 'user_group_relations.group_id', '=', 'groups.id')
+			->leftJoin('users', function ($join) {
+				$join->on('users.id', '=', 'user_group_relations.user_id')
+					->whereNull('users.deleted_at');
+			})
+			->leftJoin('groups', function ($join) {
+				$join->on('groups.id', '=', 'user_group_relations.group_id')
+					->whereNull('groups.deleted_at');
+			})
+			->whereNotNull('users.id')
+			->whereNotNull('groups.id')
 			->orderBy('groups.name')
 			->first();
 
 		$members = UserGroupRelation::where(['group_id' => $group->id])
-			->leftJoin('users', 'user_group_relations.user_id', '=', 'users.id')
-			->orderBy('users.name')
+			->leftJoin('groups', function ($join) {
+				$join->on('groups.id', '=', 'user_group_relations.group_id')
+					->whereNull('groups.deleted_at');
+			})
+			->leftJoin('users', function ($join) {
+				$join->on('users.id', '=', 'user_group_relations.user_id')
+					->whereNull('users.deleted_at');
+			})
+			->whereNotNull('groups.id')
+			->whereNotNull('users.id')
+			->orderBy('users.email')
 			->get();
 
 		$group_tree = Group::get_group_tree($group->id);
@@ -234,7 +260,7 @@ class GroupsController extends Controller
 		}
 
 		$group = Group::find($group_id);
-		if( !$group->count() ){
+		if( !$group ){
 			// 条件に合うレコードが存在しない場合
 			// = ログインユーザー自身が指定のグループに参加していない。
 			return abort(404);
@@ -288,7 +314,7 @@ class GroupsController extends Controller
 		}
 
 		$group = Group::find($group_id);
-		if( !$group->count() ){
+		if( !$group ){
 			// 条件に合うレコードが存在しない場合
 			// = ログインユーザー自身が指定のグループに参加していない。
 			return abort(404);

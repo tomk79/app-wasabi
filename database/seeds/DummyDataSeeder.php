@@ -36,6 +36,10 @@ class DummyDataSeeder extends Seeder
 			$user->email_verified_at = $date;
 			$user->created_at = $date;
 			$user->updated_at = $date;
+			if( $i > 90 ){
+				$user->name .= ' deleted';
+				$user->deleted_at = $date;
+			}
 			$user->save();
 
 			$user_id_memo[$i] = $user->id;
@@ -164,6 +168,11 @@ class DummyDataSeeder extends Seeder
 			'role' => 'observer',
 		]);
 		DB::table('user_group_relations')->insert([
+			'user_id' => $user_id_memo[91], // deleted user
+			'group_id' => $company2_seisaku_dev_g1->id,
+			'role' => 'observer',
+		]);
+		DB::table('user_group_relations')->insert([
 			'user_id' => $user_id_memo[2],
 			'group_id' => $company3->id,
 			'role' => 'observer',
@@ -197,6 +206,11 @@ class DummyDataSeeder extends Seeder
 		]);
 		DB::table('user_project_relations')->insert([
 			'user_id' => $user_id_memo[2],
+			'project_id' => $project_px2->id,
+			'role' => 'member',
+		]);
+		DB::table('user_project_relations')->insert([
+			'user_id' => $user_id_memo[91], // deleted user
 			'project_id' => $project_px2->id,
 			'role' => 'member',
 		]);

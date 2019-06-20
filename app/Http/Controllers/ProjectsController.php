@@ -130,8 +130,12 @@ class ProjectsController extends Controller
 			->first();
 
 		$members = UserProjectRelation::where(['project_id' => $project->id])
-			->leftJoin('users', 'user_project_relations.user_id', '=', 'users.id')
-			->orderBy('users.name')
+			->leftJoin('users', function ($join) {
+				$join->on('users.id', '=', 'user_project_relations.user_id')
+					->whereNull('users.deleted_at');
+			})
+			->whereNotNull('users.email')
+			->orderBy('users.email')
 			->get();
 
 		return view(
