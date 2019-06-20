@@ -35,6 +35,10 @@ Route::middleware('auth:api')
 			return Group::get_user_permissions($group->id);
 		});
 
+		Route::get('/groups/{group}/tree', function (Group $group, Request $request) {
+			return Group::get_group_tree($group->id);
+		});
+
 		Route::get('/projects/{project}/permissions', function (Project $project, Request $request) {
 			return Project::get_user_permissions($project->id);
 		});

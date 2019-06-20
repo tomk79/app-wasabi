@@ -58,6 +58,9 @@ class Group extends Model
 			}
 
 			$current_group = Group::find($current_group_id);
+			if( !$current_group ){
+				break;
+			}
 			array_push($rtn, $current_group);
 			if( $current_group->parent_group_id && $current_group->root_group_id ){
 				$current_group_id = $current_group->parent_group_id;
