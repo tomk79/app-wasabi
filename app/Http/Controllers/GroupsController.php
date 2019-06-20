@@ -192,6 +192,8 @@ class GroupsController extends Controller
 			->orderBy('users.name')
 			->get();
 
+		$group_tree = Group::get_group_tree($group->id);
+
 		$projects = Project::get_group_projects($group->id);
 
 		return view(
@@ -205,6 +207,7 @@ class GroupsController extends Controller
 				'profile' => $user,
 				'relation' => $relation,
 				'members' => $members,
+				'group_tree' => $group_tree,
 				'projects' => $projects,
 			]
 		);

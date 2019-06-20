@@ -123,6 +123,30 @@ class Group extends Model
 	}
 
 	/**
+	 * グループのツリー構造を取得する
+	 * 
+	 * 権限の評価は行いません。
+	 */
+	static public function get_group_tree( $group_id, $r = null ){
+		$group = self::find($group_id);
+		if( !$group ){
+			return false;
+		}
+		if( !is_null($group->root_group_id) && is_null($r) ){
+			return self::get_group_tree($group->root_group_id);
+		}
+		$tmp_children = array();
+		$children = self::get_children( $group_id );
+		foreach( $children as $key=>$child ){
+			$group_child_tree = self::get_group_tree( $child->id, true );
+			if(!is_object($group_child_tree) || !$group_child_tree){ continue; }
+			array_push( $tmp_children, $group_child_tree );
+		}
+		$group->children = $tmp_children;
+		return $group;
+	}
+
+	/**
 	 * グループに対するユーザーの権限を取得する
 	 * 
 	 * グループの階層構造を、最上位から下へ向かって検証します。

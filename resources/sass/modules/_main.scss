@@ -1,26 +1,46 @@
 // 定義テーブル
 .table__dd{
-    th{
-        width: 30%;
-    }
-    td{
-        width: 70%;
-    }
+	th{
+		width: 30%;
+	}
+	td{
+		width: 70%;
+	}
 }
 
 // Bootstrap
 .invalid-feedback{
-    display: block;
+	display: block;
 }
 
 // icons
 .account-icon{
-    border: 1px solid #aaa;
-    border-radius: 50%;
+	border: 1px solid #aaa;
+	border-radius: 50%;
 }
 .group-icon{
-    border: 1px solid #aaa;
+	border: 1px solid #aaa;
 }
 .project-icon{
-    border: 1px solid #aaa;
+	border: 1px solid #aaa;
+}
+
+// Group Tree
+.group-tree{
+	.group-tree{
+		border-left: 1px solid #666;
+		padding-left: 0.5em;
+		.group-tree{
+			border-left: 1px solid #999;
+			.group-tree{
+				border-left: 1px solid #bbb;
+			}
+		}
+	}
+	ul{
+		padding: 0;
+		li{
+			list-style-type: none;
+		}
+	}
 }
