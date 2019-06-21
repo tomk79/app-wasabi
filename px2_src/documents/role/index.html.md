@@ -13,7 +13,7 @@ WASABIシステムにおける、権限の管理について説明します。
 
 ## 役割(role)の種類
 
-<table class="def">
+<table class="px2-table">
 <thead>
 <tr>
 <th>Role</th>

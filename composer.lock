@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ea9f215136ac05638299c56a8ce1d9ce",
+    "content-hash": "7fb54084b6dd892f96df706b72b4e8ca",
     "packages": [
         {
             "name": "broccoli-html-editor/broccoli-field-table",
@@ -113,87 +113,6 @@
                 "broccoli-html-editor"
             ],
             "time": "2019-06-19T15:13:20+00:00"
-        },
-        {
-            "name": "broccoli-html-editor/broccoli-module-fess",
-            "version": "0.1.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/broccoli-html-editor/broccoli-module-fess.git",
-                "reference": "0233a8ddf0e5e43911db4397e52a1c80956d42d6"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/broccoli-html-editor/broccoli-module-fess/zipball/0233a8ddf0e5e43911db4397e52a1c80956d42d6",
-                "reference": "0233a8ddf0e5e43911db4397e52a1c80956d42d6",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4.0"
-            },
-            "require-dev": {
-                "broccoli-html-editor/broccoli-module-plain-html-elements": "dev-develop",
-                "phpunit/phpunit": "4.1.*",
-                "pickles2/px-fw-2.x": "dev-develop",
-                "pickles2/px2-px2dthelper": "dev-develop",
-                "pickles2/px2-sitemapexcel": "dev-develop"
-            },
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Tomoya Koyanagi",
-                    "email": "tomk79@gmail.com"
-                }
-            ],
-            "description": "FESS modues for broccoli-html-editor.",
-            "keywords": [
-                "broccoli-html-editor"
-            ],
-            "time": "2018-05-03T11:41:24+00:00"
-        },
-        {
-            "name": "broccoli-html-editor/broccoli-module-plain-html-elements",
-            "version": "0.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/broccoli-html-editor/broccoli-module-plain-html-elements.git",
-                "reference": "7319d00aadd1562d734832d1741df10d108c4b07"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/broccoli-html-editor/broccoli-module-plain-html-elements/zipball/7319d00aadd1562d734832d1741df10d108c4b07",
-                "reference": "7319d00aadd1562d734832d1741df10d108c4b07",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "4.1.*",
-                "pickles2/px-fw-2.x": "dev-develop",
-                "pickles2/px2-px2dthelper": "dev-develop",
-                "pickles2/px2-sitemapexcel": "dev-develop"
-            },
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Tomoya Koyanagi",
-                    "email": "tomk79@gmail.com"
-                }
-            ],
-            "description": "Plain HTML Element modules for broccoli-html-editor.",
-            "keywords": [
-                "broccoli-html-editor"
-            ],
-            "time": "2018-05-03T11:40:12+00:00"
         },
         {
             "name": "defuse/php-encryption",
@@ -4591,6 +4510,48 @@
             "time": "2017-11-27T11:13:29+00:00"
         },
         {
+            "name": "tomk79/broccoli-module-std-document",
+            "version": "dev-develop",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tomk79/broccoli-module-std-document.git",
+                "reference": "8340927ae7efe021163b4b21d36fb82c02eedeef"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tomk79/broccoli-module-std-document/zipball/8340927ae7efe021163b4b21d36fb82c02eedeef",
+                "reference": "8340927ae7efe021163b4b21d36fb82c02eedeef",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "pickles2/px-fw-2.x": "^2.0",
+                "pickles2/px2-multitheme": "^2.0",
+                "pickles2/px2-px2dthelper": "^2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": []
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tomoya Koyanagi",
+                    "email": "tomk79@gmail.com"
+                }
+            ],
+            "keywords": [
+                "broccoli",
+                "pickles2"
+            ],
+            "time": "2019-06-19T15:47:34+00:00"
+        },
+        {
             "name": "tomk79/filesystem",
             "version": "1.0.8",
             "source": {
@@ -5065,16 +5026,16 @@
         },
         {
             "name": "filp/whoops",
-            "version": "2.3.1",
+            "version": "2.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filp/whoops.git",
-                "reference": "bc0fd11bc455cc20ee4b5edabc63ebbf859324c7"
+                "reference": "a28d5cef33627c069a2bd8fbb35ebe1a54881d35"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filp/whoops/zipball/bc0fd11bc455cc20ee4b5edabc63ebbf859324c7",
-                "reference": "bc0fd11bc455cc20ee4b5edabc63ebbf859324c7",
+                "url": "https://api.github.com/repos/filp/whoops/zipball/a28d5cef33627c069a2bd8fbb35ebe1a54881d35",
+                "reference": "a28d5cef33627c069a2bd8fbb35ebe1a54881d35",
                 "shasum": ""
             },
             "require": {
@@ -5122,7 +5083,7 @@
                 "throwable",
                 "whoops"
             ],
-            "time": "2018-10-23T09:00:00+00:00"
+            "time": "2019-06-21T09:00:00+00:00"
         },
         {
             "name": "fzaninotto/faker",
@@ -6712,7 +6673,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "tomk79/broccoli-module-std-document": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

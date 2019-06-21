@@ -12,8 +12,6 @@
         "laravel/framework": "5.8.*",
         "laravel/passport": "^7.3",
         "laravel/tinker": "^1.0",
-        "broccoli-html-editor/broccoli-module-fess": "^0.1",
-        "broccoli-html-editor/broccoli-module-plain-html-elements": "^0.1",
         "pickles2/px-fw-2.x": "^2.0",
         "pickles2/px2-dec": "^2.0",
         "pickles2/px2-multitheme": "^2.0",
@@ -22,7 +20,8 @@
         "pickles2/px2-remove-attr": "^2.0",
         "pickles2/px2-sitemapexcel": "^2.0",
         "pickles2/px2-publish-ex": "^2.0",
-        "pickles2/px2style": "^2.0"
+        "pickles2/px2style": "^2.0",
+		"tomk79/broccoli-module-std-document": "dev-develop"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
