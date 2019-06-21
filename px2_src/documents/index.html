@@ -1,0 +1,9 @@
+
+<ul>
+<?php
+$children = $px->site()->get_children();
+foreach($children as $child){
+    echo '<li>'.$px->mk_link($child).'</li>'."\n";
+}
+?>
+</ul>

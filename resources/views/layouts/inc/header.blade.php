@@ -44,6 +44,7 @@
 						</form>
 					</li>
 				@endguest
+				<li><a href="{{ url('/documents/') }}" data-name="documents">ドキュメント</a></li>
 			</ul>
 		</div>
 	</div>
