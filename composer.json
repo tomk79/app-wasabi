@@ -43,8 +43,8 @@
         "px2package": {
             "name": "proj - wasabi - documents",
             "type": "project",
-            "path": "px2_src/documents/.px_execute.php",
-            "path_homedir": "px2_src/documents/px-files/"
+            "path": "src_px2/documents/.px_execute.php",
+            "path_homedir": "src_px2/documents/px-files/"
         }
     },
     "autoload": {
