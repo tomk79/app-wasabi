@@ -35,6 +35,7 @@ class Kernel extends HttpKernel
 			\Illuminate\View\Middleware\ShareErrorsFromSession::class,
 			\App\Http\Middleware\VerifyCsrfToken::class,
 			\Illuminate\Routing\Middleware\SubstituteBindings::class,
+			\Laravel\Passport\Http\Middleware\CreateFreshApiToken::class, // https://readouble.com/laravel/5.4/ja/passport.html
 		],
 
 		'api' => [

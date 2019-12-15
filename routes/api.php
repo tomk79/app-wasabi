@@ -15,7 +15,8 @@ use App\Project;
 |
 */
 
-Route::middleware('auth:api')
+Route::middleware('auth:apikey,api')
+		// ↑config/auth.php で guards に登録した apikey を呼び出している。
 	->group(function(){
 
 		Route::get('/user', function (Request $request) {

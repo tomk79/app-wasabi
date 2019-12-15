@@ -21,7 +21,7 @@
 			<tr>
 				<th><label for="apikey">API Key</label></th>
 				<td>
-					<p><input type="text" name="apikey" value="{{ \Crypt::decryptString( $apikey->apikey ) }}" readonly="readonly" class="form-control" /></p>
+					<p><input type="text" name="apikey" value="{{ $apikey->id }}--{{ \Crypt::decryptString( $apikey->apikey ) }}" readonly="readonly" class="form-control" /></p>
 				</td>
 			</tr>
 		</tbody>

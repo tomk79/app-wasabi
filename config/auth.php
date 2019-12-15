@@ -46,6 +46,11 @@ return [
             'provider' => 'users',
             'hash' => false,
         ],
+
+        'apikey' => [
+            'driver' => 'apikey', // <- AuthServiceProvider.php の boot() に実装した Auth::viaRequest('apikey', func); を呼び出している。
+            'provider' => 'users',
+        ],
     ],
 
     /*
