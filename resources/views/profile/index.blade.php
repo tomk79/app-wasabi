@@ -73,10 +73,17 @@
 
 
 
+	<hr />
+
+
+	<h2>API Key</h2>
+	<div class="text-center">
+		<a href="{{ url('/settings/profile/apikeys') }}" class="btn btn-primary">API Key を管理する</a>
+	</div>
 
 	<h2>外部アプリケーション連携</h2>
 	<div class="text-center">
-		<a href="{{ url('/settings/profile/integration/oauth_apps') }}" class="btn btn-primary">OAuth アプリケーションを登録</a>
+		<a href="{{ url('/settings/profile/integration/oauth_apps') }}" class="btn btn-primary">OAuth アプリケーションを管理する</a>
 	</div>
 
 

@@ -34,6 +34,7 @@ Route::middleware(['boot'])
 		Route::get('settings/withdraw', 'WithdrawController@confirm');
 		Route::delete('settings/withdraw', 'WithdrawController@withdraw');
 		Route::resource('settings/profile/integration/oauth_apps', 'IntegrationPassportClientController');
+		Route::resource('settings/profile/apikeys', 'ProfileApiKeyController');
 
 		// グループ一覧
 		Route::get('settings/groups', 'GroupsController@index');
