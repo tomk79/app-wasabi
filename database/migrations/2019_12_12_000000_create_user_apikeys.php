@@ -18,7 +18,7 @@ class CreateUserApikeys extends Migration
 			$table->uuid('user_id', 36);
 			$table->string('name');
 			$table->string('description')->nullable();
-			$table->text('apikey');
+			$table->string('apikey', 510)->unique();
 			$table->timestamps();
 			$table->softDeletes();
 

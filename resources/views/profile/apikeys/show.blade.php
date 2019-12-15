@@ -33,5 +33,14 @@
 		<a href="{{ url('settings/profile/apikeys/'.urlencode($apikey->id).'/edit') }}" class="btn btn-primary">編集する</a>
 	</div>
 
+	<hr />
+	<div class="text-right">
+		<form action="{{ url('settings/profile/apikeys/'.urlencode($apikey->id)) }}" method="post">
+			@csrf
+			@method('DELETE')
+			<button type="submit" name="submit" class="btn btn-danger">削除する</button>
+		</form>
+	</div>
+
 </div>
 @endsection
