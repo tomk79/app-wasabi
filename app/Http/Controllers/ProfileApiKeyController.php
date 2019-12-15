@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 use App\UserApikey;
+use Ramsey\Uuid\Uuid;
 
 class ProfileApiKeyController extends Controller
 {
@@ -33,7 +34,7 @@ class ProfileApiKeyController extends Controller
 	{
 		$user = Auth::user();
 
-		$clients = UserApikey
+		$apikeys = UserApikey
 			::where(['user_id'=>$user->id])
 			->paginate(100);
 
@@ -41,7 +42,7 @@ class ProfileApiKeyController extends Controller
 		\helpers\wasabiHelper::push_breadclumb('プロフィール', '/settings/profile');
 		\helpers\wasabiHelper::push_breadclumb('API Keys', '/settings/profile/apikeys');
 
-		return view('profile.apikeys.index', ['clients'=>$clients, 'profile' => $user]);
+		return view('profile.apikeys.index', ['apikeys'=>$apikeys, 'profile' => $user]);
 	}
 
 	/**
@@ -76,25 +77,25 @@ class ProfileApiKeyController extends Controller
 		$request->validate([
 			'name' => [
 				'required',
+				'string',
 				'max:255',
 			],
-			'redirect' => [
-				'required',
-				'url',
+			'description' => [
+				'string',
+				'max:255',
 			],
 		]);
+
+		$new_apikey = md5($user->id.'-'.time()).'-'.Uuid::uuid4()->toString();
 
 		$user_apikey = new UserApikey;
 		$user_apikey->user_id = $user->id;
 		$user_apikey->name = $request->name;
-		$user_apikey->redirect = $request->redirect;
-		$user_apikey->secret = $secret;
-		$user_apikey->personal_access_client = 0;
-		$user_apikey->password_client = 0;
-		$user_apikey->revoked = 0;
+		$user_apikey->description = $request->description;
+		$user_apikey->apikey = \Crypt::encryptString($new_apikey);
 		$user_apikey->save();
 
-		return redirect('settings/profile/apikeys')->with('flash_message', '新しいアプリケーション '.$request->email.' を登録しました。');
+		return redirect('settings/profile/apikeys')->with('flash_message', '新しい API Key を登録しました。');
 	}
 
 	/**
@@ -107,14 +108,14 @@ class ProfileApiKeyController extends Controller
 	{
 		$user = Auth::user();
 
-		$client = UserApikey::find($id);
+		$apikey = UserApikey::find($id);
 
 		// パンくず
 		\helpers\wasabiHelper::push_breadclumb('プロフィール', '/settings/profile');
 		\helpers\wasabiHelper::push_breadclumb('API Keys', '/settings/profile/apikeys');
-		\helpers\wasabiHelper::push_breadclumb($client->name, '/settings/profile/apikeys/'.urlencode($client->id));
+		\helpers\wasabiHelper::push_breadclumb($apikey->name, '/settings/profile/apikeys/'.urlencode($apikey->id));
 
-		return view('profile.apikeys.show', ['client'=>$client, 'profile' => $user]);
+		return view('profile.apikeys.show', ['apikey'=>$apikey, 'profile' => $user]);
 	}
 
 	/**
@@ -126,13 +127,13 @@ class ProfileApiKeyController extends Controller
 	public function edit($id)
 	{
 		$user = Auth::user();
-		$client = UserApikey::find($id);
+		$apikey = UserApikey::find($id);
 		// パンくず
 		\helpers\wasabiHelper::push_breadclumb('プロフィール', '/settings/profile');
 		\helpers\wasabiHelper::push_breadclumb('API Keys', '/settings/profile/apikeys');
-		\helpers\wasabiHelper::push_breadclumb($client->name, '/settings/profile/apikeys/'.urlencode($client->id));
+		\helpers\wasabiHelper::push_breadclumb($apikey->name, '/settings/profile/apikeys/'.urlencode($apikey->id));
 		\helpers\wasabiHelper::push_breadclumb('編集');
-		return view('profile.apikeys.edit', ['client'=>$client, 'profile' => $user]);
+		return view('profile.apikeys.edit', ['apikey'=>$apikey, 'profile' => $user]);
 	}
 
 	/**
@@ -149,18 +150,21 @@ class ProfileApiKeyController extends Controller
 		$request->validate([
 			'name' => [
 				'required',
+				'string',
+				'max:255',
 			],
-			'redirect' => [
-				'required',
+			'description' => [
+				'string',
+				'max:255',
 			],
 		]);
 
-		$client = UserApikey::find($id);
-		$client->name = $request->name;
-		$client->redirect = $request->redirect;
-		$client->save();
+		$apikey = UserApikey::find($id);
+		$apikey->name = $request->name;
+		$apikey->description = $request->description;
+		$apikey->save();
 
-		return redirect('settings/profile/apikeys/'.urlencode($id))->with('flash_message', 'アプリケーション '.$client->name.' の情報を更新しました。');
+		return redirect('settings/profile/apikeys/'.urlencode($id))->with('flash_message', 'API Key '.$apikey->name.' の情報を更新しました。');
 	}
 
 	/**
@@ -172,9 +176,9 @@ class ProfileApiKeyController extends Controller
 	public function destroy($id)
 	{
 		$user = Auth::user();
-		$client = UserApikey::find($id);
-		$client->delete();
+		$apikey = UserApikey::find($id);
+		$apikey->delete();
 
-		return redirect('settings/profile/apikeys')->with('flash_message', 'アプリケーション '.$client->name.' を削除しました。');
+		return redirect('settings/profile/apikeys')->with('flash_message', 'API Key '.$apikey->name.' を削除しました。');
 	}
 }

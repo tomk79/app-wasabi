@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'API Key '.$client->name)
+@section('title', 'API Key '.$apikey->name)
 
 @section('content')
 <div class="container">
@@ -9,25 +9,19 @@
 			<tr>
 				<th><label for="name">名前</label></th>
 				<td>
-					<p>{{ $client->name }}</p>
+					<p>{{ $apikey->name }}</p>
 				</td>
 			</tr>
 			<tr>
-				<th><label for="redirect">リダイレクト先</label></th>
+				<th><label for="description">説明</label></th>
 				<td>
-					<p>{{ $client->redirect }}</p>
+					<p>{{ $apikey->description }}</p>
 				</td>
 			</tr>
 			<tr>
-				<th><label for="name">Client ID</label></th>
+				<th><label for="apikey">API Key</label></th>
 				<td>
-					<p>{{ $client->id }}</p>
-				</td>
-			</tr>
-			<tr>
-				<th><label for="secret">Client Secret</label></th>
-				<td>
-					<p>{{ $client->secret }}</p>
+					<p><input type="text" name="apikey" value="{{ \Crypt::decryptString( $apikey->apikey ) }}" readonly="readonly" class="form-control" /></p>
 				</td>
 			</tr>
 		</tbody>
@@ -36,7 +30,7 @@
 	<hr />
 	<div class="text-right">
 		<a href="{{ url('settings/profile/apikeys') }}" class="btn btn-default">一覧へ戻る</a>
-		<a href="{{ url('settings/profile/apikeys/'.urlencode($client->id).'/edit') }}" class="btn btn-primary">編集する</a>
+		<a href="{{ url('settings/profile/apikeys/'.urlencode($apikey->id).'/edit') }}" class="btn btn-primary">編集する</a>
 	</div>
 
 </div>

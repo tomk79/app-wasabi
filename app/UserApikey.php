@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
+use Ramsey\Uuid\Uuid;
 
 class UserApikey extends Model
 {
@@ -24,5 +25,16 @@ class UserApikey extends Model
 	 * @var array
 	 */
 	protected $dates = ['deleted_at'];
+
+	/**
+	 * Constructor
+	 */
+	public function __construct(array $attributes = [])
+	{
+		parent::__construct($attributes);
+
+		// newした時に自動的にuuidを設定する。
+		$this->attributes['id'] = Uuid::uuid4()->toString();
+	}
 
 }

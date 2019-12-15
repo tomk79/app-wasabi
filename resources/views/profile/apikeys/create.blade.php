@@ -24,13 +24,13 @@
 					</td>
 				</tr>
 				<tr>
-					<th><label for="redirect">リダイレクト先</label></th>
+					<th><label for="description">説明</label></th>
 					<td>
-						<input id="redirect" type="redirect" class="form-control{{ $errors->has('redirect') ? ' is-invalid' : '' }}" name="redirect" value="{{ old('redirect') }}" required autofocus>
+						<input id="description" type="description" class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }}" name="description" value="{{ old('description') }}" required autofocus>
 
-							@if ($errors->has('redirect'))
+							@if ($errors->has('description'))
 								<span class="invalid-feedback" role="alert">
-									{{ $errors->first('redirect') }}
+									{{ $errors->first('description') }}
 								</span>
 							@endif
 					</td>

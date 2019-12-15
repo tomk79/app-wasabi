@@ -4,7 +4,7 @@
 @section('content')
 <div class="container">
 
-	<form action="{{ url('settings/profile/apikeys/'.urlencode($client->id)) }}" method="post">
+	<form action="{{ url('settings/profile/apikeys/'.urlencode($apikey->id)) }}" method="post">
 		@csrf
 		@method('PUT')
 
@@ -13,7 +13,7 @@
 				<tr>
 					<th><label for="name">名前</label></th>
 					<td>
-						<input id="name" type="text" class="form-control @if ($errors->has('name')) is-invalid @endif" name="name" value="{{ old('name', $client->name) }}" autofocus>
+						<input id="name" type="text" class="form-control @if ($errors->has('name')) is-invalid @endif" name="name" value="{{ old('name', $apikey->name) }}" autofocus>
 							@if ($errors->has('name'))
 								<span class="invalid-feedback" role="alert">
 									{{ $errors->first('name') }}
@@ -22,12 +22,12 @@
 					</td>
 				</tr>
 				<tr>
-					<th><label for="redirect">リダイレクト</label></th>
+					<th><label for="description">説明</label></th>
 					<td>
-						<input id="redirect" type="text" class="form-control @if ($errors->has('redirect')) is-invalid @endif" name="redirect" value="{{ old('redirect', $client->redirect) }}" autofocus>
-							@if ($errors->has('redirect'))
+						<input id="description" type="text" class="form-control @if ($errors->has('description')) is-invalid @endif" name="description" value="{{ old('description', $apikey->description) }}" autofocus>
+							@if ($errors->has('description'))
 								<span class="invalid-feedback" role="alert">
-									{{ $errors->first('redirect') }}
+									{{ $errors->first('description') }}
 								</span>
 							@endif
 					</td>
@@ -40,7 +40,7 @@
 
 	<hr />
 	<div class="text-right">
-		<a href="{{ url('settings/profile/apikeys/'.urlencode($client->id)) }}" class="btn btn-default">キャンセル</a>
+		<a href="{{ url('settings/profile/apikeys/'.urlencode($apikey->id)) }}" class="btn btn-default">キャンセル</a>
 	</div>
 
 </div>

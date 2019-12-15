@@ -8,7 +8,7 @@
 		<a href="{{ url('settings/profile/apikeys/create') }}" class="btn btn-primary">新しい API Key を登録</a>
 	</div>
 
-	@empty($clients)
+	@empty($apikeys)
 
 	<p>API Key は登録されていません。</p>
 
@@ -19,40 +19,32 @@
 			<thead>
 				<tr>
 					<th>名前</th>
-					<th>リダイレクト先</th>
+					<th>説明</th>
 					<th></th>
 					<th></th>
 				</tr>
 			</thead>
 			<tbody>
-			@foreach ($clients as $client)
+			@foreach ($apikeys as $apikey)
 				<tr>
-					<td><a href="{{ url('settings/profile/apikeys/'.urlencode($client->id)) }}">{{ $client->name }}</a></td>
-					<td>{{ $client->redirect }}</td>
+					<td><a href="{{ url('settings/profile/apikeys/'.urlencode($apikey->id)) }}">{{ $apikey->name }}</a></td>
+					<td>{{ $apikey->description }}</td>
 					<td>
-						@if (Auth::user()->email != $client->email)
-						<a href="{{ url('settings/profile/apikeys/'.urlencode($client->id).'/edit') }}" class="btn btn-primary">編集</a>
-						@else
-						---
-						@endif
+						<a href="{{ url('settings/profile/apikeys/'.urlencode($apikey->id).'/edit') }}" class="btn btn-primary">編集</a>
 					</td>
 					<td>
-						@if (Auth::user()->email != $client->email)
-						<form action="{{ url('settings/profile/apikeys/'.urlencode($client->id)) }}" method="post">
+						<form action="{{ url('settings/profile/apikeys/'.urlencode($apikey->id)) }}" method="post">
 							@csrf
 							@method('DELETE')
 							<button type="submit" name="submit" class="btn btn-danger">削除する</button>
 						</form>
-						@else
-						---
-						@endif
 					</td>
 				</tr>
 			@endforeach
 			</tbody>
 		</table>
 	</div>
-	{{ $clients->links() }}
+	{{ $apikeys->links() }}
 
 	@endempty
 
