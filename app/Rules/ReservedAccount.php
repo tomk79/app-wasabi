@@ -60,6 +60,11 @@ class ReservedAccount implements Rule
 			case 'group':
 			case 'groups':
 			case 'g':
+			case 'pj':
+			case 'proj':
+			case 'projs':
+			case 'project':
+			case 'projects':
 
 			// サービスアカウント
 			case 'admin':
