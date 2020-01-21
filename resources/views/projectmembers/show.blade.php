@@ -41,8 +41,8 @@
 
 	<hr />
 	<div class="text-right">
-		<a href="{{ url('settings/projects/'.urlencode($project->id).'/members') }}" class="btn btn-default">一覧へ戻る</a>
-		<a href="{{ url('settings/projects/'.urlencode($project->id).'/members/'.urlencode($user->id).'/edit') }}" class="btn btn-primary">編集する</a>
+		<a href="{{ url('pj/'.urlencode($project->id).'/members') }}" class="btn btn-default">一覧へ戻る</a>
+		<a href="{{ url('pj/'.urlencode($project->id).'/members/'.urlencode($user->id).'/edit') }}" class="btn btn-primary">編集する</a>
 	</div>
 
 </div>

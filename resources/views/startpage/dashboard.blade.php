@@ -69,7 +69,7 @@
 			<h2>参加しているプロジェクト</h2>
 			<ul>
 			@foreach ($projects as $project)
-				<li><a href="/settings/projects/{{ $project->id }}">{{ $project->name }}</a></li>
+				<li><a href="/pj/{{ $project->id }}">{{ $project->name }}</a></li>
 			@endforeach
 			</ul>
 

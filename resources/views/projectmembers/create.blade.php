@@ -4,7 +4,7 @@
 @section('content')
 <div class="container">
 
-	<form action="{{ url('settings/projects/'.urlencode($project_id).'/members') }}" method="post">
+	<form action="{{ url('pj/'.urlencode($project_id).'/members') }}" method="post">
 		@csrf
 		@method('POST')
 
@@ -49,7 +49,7 @@
 
 	<hr />
 	<div class="text-right">
-		<a href="{{ url('settings/projects/'.urlencode($project_id).'/members') }}" class="btn btn-default">キャンセル</a>
+		<a href="{{ url('pj/'.urlencode($project_id).'/members') }}" class="btn btn-default">キャンセル</a>
 	</div>
 
 </div>

@@ -15,7 +15,7 @@
 			<tr>
 				<th><label for="name">プロジェクト名</label></th>
 				<td>
-					<p>{{ $project->name }}</p>
+					<p><a href="{{ url('pj/'.urlencode($project->id)) }}">{{ $project->name }}</a></p>
 				</td>
 			</tr>
 			<tr>
@@ -29,7 +29,7 @@
 				<td>
 					<ul>
 					@foreach( $members as $member )
-						<li><a href="{{ url('settings/projects/'.urlencode($project->id).'/members/'.urlencode($member->id)) }}">{!! helpers\wasabiHelper::icon_img($member->icon, null, '2em') !!} {{ $member->name }}</a> ({{ helpers\wasabiHelper::roleLabel($member->role) }})</li>
+						<li><a href="{{ url('pj/'.urlencode($project->id).'/members/'.urlencode($member->id)) }}">{!! helpers\wasabiHelper::icon_img($member->icon, null, '2em') !!} {{ $member->name }}</a> ({{ helpers\wasabiHelper::roleLabel($member->role) }})</li>
 					@endforeach
 					</ul>
 				</td>
@@ -40,8 +40,8 @@
 	<hr />
 	<div class="text-right">
 		<a href="{{ url('/settings/projects') }}" class="btn btn-default">一覧へ戻る</a>
-		<a href="{{ url('/settings/projects/'.urlencode($project->id).'/members') }}" class="btn btn-default">メンバー一覧</a>
-		<a href="{{ url('/settings/projects/'.urlencode($project->id).'/edit') }}" class="btn btn-primary">編集する</a>
+		<a href="{{ url('/pj/'.urlencode($project->id).'/members') }}" class="btn btn-default">メンバー一覧</a>
+		<a href="{{ url('/pj/'.urlencode($project->id).'/edit') }}" class="btn btn-primary">編集する</a>
 	</div>
 
 </div>

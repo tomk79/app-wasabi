@@ -180,7 +180,7 @@ class ProjectsController extends Controller
 			$project->icon = url('/common/images/nophoto_project.png');
 		}
 
-		\helpers\wasabiHelper::push_breadclumb($project->name, '/settings/projects/'.urlencode($project->id));
+		\helpers\wasabiHelper::push_breadclumb($project->name, '/pj/'.urlencode($project->id));
 		\helpers\wasabiHelper::push_breadclumb('編集');
 
 		$group = Group::find($project->group_id);
@@ -235,7 +235,7 @@ class ProjectsController extends Controller
 		}
 		$project->save();
 
-		return redirect('settings/projects/'.urlencode($project->id))->with('flash_message', 'アカウント情報を更新しました。');
+		return redirect('pj/'.urlencode($project->id))->with('flash_message', 'アカウント情報を更新しました。');
 	}
 
 }

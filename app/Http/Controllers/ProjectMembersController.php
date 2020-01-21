@@ -52,8 +52,8 @@ class ProjectMembersController extends Controller
 			return abort(404);
 		}
 
-		\helpers\wasabiHelper::push_breadclumb($project->name, '/settings/projects/'.urlencode($project->id));
-		\helpers\wasabiHelper::push_breadclumb('メンバー', '/settings/projects/'.urlencode($project->id).'/members');
+		\helpers\wasabiHelper::push_breadclumb($project->name, '/pj/'.urlencode($project->id));
+		\helpers\wasabiHelper::push_breadclumb('メンバー', '/pj/'.urlencode($project->id).'/members');
 
 		$members = UserProjectRelation
 			::where(['project_id'=>$project->id])
@@ -90,8 +90,8 @@ class ProjectMembersController extends Controller
 		// パンくず
 		\helpers\wasabiHelper::push_breadclumb('プロジェクト', '/settings/projects');
 		$project = Project::find($project_id);
-		\helpers\wasabiHelper::push_breadclumb($project->name, '/settings/projects/'.urlencode($project->id));
-		\helpers\wasabiHelper::push_breadclumb('メンバー', '/settings/projects/'.urlencode($project->id).'/members');
+		\helpers\wasabiHelper::push_breadclumb($project->name, '/pj/'.urlencode($project->id));
+		\helpers\wasabiHelper::push_breadclumb('メンバー', '/pj/'.urlencode($project->id).'/members');
 		\helpers\wasabiHelper::push_breadclumb('新規');
 
 		return view('projectmembers.create', ['project_id'=>$project_id, 'profile' => $user]);
@@ -152,7 +152,7 @@ class ProjectMembersController extends Controller
 		$userProjectRelation->role = $request->role;
 		$userProjectRelation->save();
 
-		return redirect('settings/projects/'.urlencode($project_id).'/members')->with('flash_message', '新しいメンバー '.$request->email.' を招待しました。');
+		return redirect('pj/'.urlencode($project_id).'/members')->with('flash_message', '新しいメンバー '.$request->email.' を招待しました。');
 	}
 
 	/**
@@ -195,8 +195,8 @@ class ProjectMembersController extends Controller
 
 		// パンくず
 		\helpers\wasabiHelper::push_breadclumb('プロジェクト', '/settings/projects');
-		\helpers\wasabiHelper::push_breadclumb($project->name, '/settings/projects/'.urlencode($project->id));
-		\helpers\wasabiHelper::push_breadclumb('メンバー', '/settings/projects/'.urlencode($project->id).'/members');
+		\helpers\wasabiHelper::push_breadclumb($project->name, '/pj/'.urlencode($project->id));
+		\helpers\wasabiHelper::push_breadclumb('メンバー', '/pj/'.urlencode($project->id).'/members');
 		\helpers\wasabiHelper::push_breadclumb($invited_user->name);
 
 		return view('projectmembers.show', ['relation'=>$relation, 'project'=>$project, 'user' => $invited_user, 'profile' => $user]);
@@ -251,9 +251,9 @@ class ProjectMembersController extends Controller
 
 		// パンくず
 		\helpers\wasabiHelper::push_breadclumb('プロジェクト', '/settings/projects');
-		\helpers\wasabiHelper::push_breadclumb($project->name, '/settings/projects/'.urlencode($project->id));
-		\helpers\wasabiHelper::push_breadclumb('メンバー', '/settings/projects/'.urlencode($project->id).'/members');
-		\helpers\wasabiHelper::push_breadclumb($invited_user->name, '/settings/projects/'.urlencode($project->id).'/members/'.urlencode($invited_user->id));
+		\helpers\wasabiHelper::push_breadclumb($project->name, '/pj/'.urlencode($project->id));
+		\helpers\wasabiHelper::push_breadclumb('メンバー', '/pj/'.urlencode($project->id).'/members');
+		\helpers\wasabiHelper::push_breadclumb($invited_user->name, '/pj/'.urlencode($project->id).'/members/'.urlencode($invited_user->id));
 		\helpers\wasabiHelper::push_breadclumb('編集');
 
 		return view('projectmembers.edit', ['relation'=>$relation, 'project'=>$project, 'user' => $invited_user, 'profile' => $user]);
@@ -309,7 +309,7 @@ class ProjectMembersController extends Controller
 			->where('project_id', $project->id)
 			->update(['role' => $request->role]);
 
-		return redirect('settings/projects/'.urlencode($project->id).'/members')->with('flash_message', 'メンバー '.$invited_user->email.' の情報を更新しました。');
+		return redirect('pj/'.urlencode($project->id).'/members')->with('flash_message', 'メンバー '.$invited_user->email.' の情報を更新しました。');
 	}
 
 	/**
@@ -354,6 +354,6 @@ class ProjectMembersController extends Controller
 			::where(['user_id' => $invited_user_id, 'project_id' => $project_id])
 			->delete();
 
-		return redirect('settings/projects/'.urlencode($project_id).'/members')->with('flash_message', 'メンバー '.$invited_user->email.' をメンバーから外しました。');
+		return redirect('pj/'.urlencode($project_id).'/members')->with('flash_message', 'メンバー '.$invited_user->email.' をメンバーから外しました。');
 	}
 }

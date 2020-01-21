@@ -30,8 +30,8 @@
 				<tr>
 					<td>{{ $project->name }}</td>
 					<td>{{ helpers\wasabiHelper::roleLabel($project->role) }}</td>
-					<td><a href="{{ url('settings/projects/'.urlencode($project->id)) }}" class="btn btn-primary">詳細</a></td>
-					<td><a href="{{ url('settings/projects/'.urlencode($project->id).'/edit') }}" class="btn btn-primary">編集</a></td>
+					<td><a href="{{ url('pj/'.urlencode($project->id)) }}" class="btn btn-primary">詳細</a></td>
+					<td><a href="{{ url('pj/'.urlencode($project->id).'/edit') }}" class="btn btn-primary">編集</a></td>
 				</tr>
 			@endforeach
 			</tbody>

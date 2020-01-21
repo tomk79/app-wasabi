@@ -51,19 +51,18 @@ Route::middleware(['boot'])
 		Route::get('settings/projects', 'ProjectsController@index');
 		Route::get('settings/projects/create', 'ProjectsController@create');
 		Route::post('settings/projects/create', 'ProjectsController@store');
-		Route::get('settings/projects/{project_id}', 'ProjectsController@show');
-		Route::get('settings/projects/{project_id}/edit', 'ProjectsController@edit');
-		Route::post('settings/projects/{project_id}/edit', 'ProjectsController@update');
+		Route::get('pj/{project_id}', 'ProjectsController@show');
+		Route::get('pj/{project_id}/edit', 'ProjectsController@edit');
+		Route::post('pj/{project_id}/edit', 'ProjectsController@update');
 
 		// プロジェクト: メンバー管理
-		Route::resource('settings/projects/{project_id}/members', 'ProjectMembersController');
+		Route::resource('pj/{project_id}/members', 'ProjectMembersController');
 
-		// グループ: ホームページ
+		// グループ: ホームページ(公開プロフィール)
 		Route::get('g/{account}', 'HomeController@group');
 
-		// アカウント: ホームページ
+		// アカウント: ホームページ(公開プロフィール)
 		Route::get('{account}', 'HomeController@index');
-
 	});
 
 });

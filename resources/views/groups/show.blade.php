@@ -66,7 +66,7 @@
 						<td>
 							<ul>
 							@foreach( $projects as $project )
-								<li><a href="{{ url('settings/projects/'.urlencode($project->id)) }}">{{ $project->name }}</a></li>
+								<li><a href="{{ url('pj/'.urlencode($project->id)) }}">{{ $project->name }}</a></li>
 							@endforeach
 							</ul>
 						</td>
