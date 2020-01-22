@@ -238,4 +238,15 @@ class ProjectsController extends Controller
 		return redirect('pj/'.urlencode($project->id))->with('flash_message', 'アカウント情報を更新しました。');
 	}
 
+	/**
+	 * アプリケーション統合
+	 */
+	public function appIntegration($project_id, $app_name, $params = null, Request $request)
+	{
+		ob_start();
+		var_dump($project_id, $app_name, $params);
+		$fin = ob_get_clean();
+		return $fin;
+	}
+
 }

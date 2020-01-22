@@ -55,6 +55,18 @@ Route::middleware(['boot'])
 		Route::get('pj/{project_id}/edit', 'ProjectsController@edit');
 		Route::post('pj/{project_id}/edit', 'ProjectsController@update');
 
+		// WASABI App Integration
+		Route::match(
+			['get', 'post'],
+			'pj/{project_id}/app/{app_name}',
+			'ProjectsController@appIntegration'
+		);
+		Route::match(
+			['get', 'post'],
+			'pj/{project_id}/app/{app_name}/{params}',
+			'ProjectsController@appIntegration'
+		)->where('params', '.+');
+
 		// プロジェクト: メンバー管理
 		Route::resource('pj/{project_id}/members', 'ProjectMembersController');
 
