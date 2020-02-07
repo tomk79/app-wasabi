@@ -32,7 +32,7 @@ class ProjectsController extends Controller
 	public function index()
 	{
 		// パンくず
-		\helpers\wasabiHelper::push_breadclumb('プロジェクト', '/settings/projects');
+		\App\Helpers\wasabiHelper::push_breadclumb('プロジェクト', '/settings/projects');
 
 		$user = Auth::user();
 		$projects = UserProjectRelation::where('user_id', $user->id)
@@ -50,8 +50,8 @@ class ProjectsController extends Controller
 	public function create(Request $request)
 	{
 		// パンくず
-		\helpers\wasabiHelper::push_breadclumb('プロジェクト', '/settings/projects');
-		\helpers\wasabiHelper::push_breadclumb('新規プロジェクト');
+		\App\Helpers\wasabiHelper::push_breadclumb('プロジェクト', '/settings/projects');
+		\App\Helpers\wasabiHelper::push_breadclumb('新規プロジェクト');
 
 		$user = Auth::user();
 		$groups = UserGroupRelation::where('user_id', $user->id)
@@ -100,7 +100,7 @@ class ProjectsController extends Controller
 	public function show($project_id, Request $request)
 	{
 		// パンくず
-		\helpers\wasabiHelper::push_breadclumb('プロジェクト', '/settings/projects');
+		\App\Helpers\wasabiHelper::push_breadclumb('プロジェクト', '/settings/projects');
 
 		$user = Auth::user();
 
@@ -120,7 +120,7 @@ class ProjectsController extends Controller
 			$project->icon = url('/common/images/nophoto_project.png');
 		}
 
-		\helpers\wasabiHelper::push_breadclumb($project->name);
+		\App\Helpers\wasabiHelper::push_breadclumb($project->name);
 
 		$group = Group::find($project->group_id);
 
@@ -156,7 +156,7 @@ class ProjectsController extends Controller
 	public function edit($project_id)
 	{
 		// パンくず
-		\helpers\wasabiHelper::push_breadclumb('プロジェクト', '/settings/projects');
+		\App\Helpers\wasabiHelper::push_breadclumb('プロジェクト', '/settings/projects');
 
 		$user = Auth::user();
 
@@ -180,8 +180,8 @@ class ProjectsController extends Controller
 			$project->icon = url('/common/images/nophoto_project.png');
 		}
 
-		\helpers\wasabiHelper::push_breadclumb($project->name, '/pj/'.urlencode($project->id));
-		\helpers\wasabiHelper::push_breadclumb('編集');
+		\App\Helpers\wasabiHelper::push_breadclumb($project->name, '/pj/'.urlencode($project->id));
+		\App\Helpers\wasabiHelper::push_breadclumb('編集');
 
 		$group = Group::find($project->group_id);
 		$groups = UserGroupRelation::where('user_id', $user->id)
@@ -241,10 +241,14 @@ class ProjectsController extends Controller
 	/**
 	 * アプリケーション統合
 	 */
-	public function appIntegration($project_id, $app_name, $params = null, Request $request)
+	public function appIntegration($project_id, $app_id, $params = null, Request $request)
 	{
+		$wasabi_app = \App\Helpers\wasabiHelper::create_wasabi_app($app_id);
+
 		ob_start();
-		var_dump($project_id, $app_name, $params);
+		var_dump($project_id, $app_id, $params);
+		var_dump(\App\Helpers\wasabiHelper::get_app_list());
+		var_dump($wasabi_app);
 		$fin = ob_get_clean();
 		return $fin;
 	}

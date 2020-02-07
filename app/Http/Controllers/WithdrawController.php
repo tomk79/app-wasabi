@@ -27,8 +27,8 @@ class WithdrawController extends Controller
     public function confirm()
     {
         $user = Auth::user();
-		\helpers\wasabiHelper::push_breadclumb('プロフィール', '/settings/profile');
-		\helpers\wasabiHelper::push_breadclumb('退会');
+		\App\Helpers\wasabiHelper::push_breadclumb('プロフィール', '/settings/profile');
+		\App\Helpers\wasabiHelper::push_breadclumb('退会');
         return view('withdraw.confirm', ['profile' => $user]);
     }
 

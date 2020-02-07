@@ -39,8 +39,8 @@ class ProfileApiKeyController extends Controller
 			->paginate(100);
 
 		// パンくず
-		\helpers\wasabiHelper::push_breadclumb('プロフィール', '/settings/profile');
-		\helpers\wasabiHelper::push_breadclumb('API Keys', '/settings/profile/apikeys');
+		\App\Helpers\wasabiHelper::push_breadclumb('プロフィール', '/settings/profile');
+		\App\Helpers\wasabiHelper::push_breadclumb('API Keys', '/settings/profile/apikeys');
 
 		return view('profile.apikeys.index', ['apikeys'=>$apikeys, 'profile' => $user]);
 	}
@@ -55,9 +55,9 @@ class ProfileApiKeyController extends Controller
 		$user = Auth::user();
 
 		// パンくず
-		\helpers\wasabiHelper::push_breadclumb('プロフィール', '/settings/profile');
-		\helpers\wasabiHelper::push_breadclumb('API Keys', '/settings/profile/apikeys');
-		\helpers\wasabiHelper::push_breadclumb('新規');
+		\App\Helpers\wasabiHelper::push_breadclumb('プロフィール', '/settings/profile');
+		\App\Helpers\wasabiHelper::push_breadclumb('API Keys', '/settings/profile/apikeys');
+		\App\Helpers\wasabiHelper::push_breadclumb('新規');
 
 		return view('profile.apikeys.create', ['profile' => $user]);
 	}
@@ -111,9 +111,9 @@ class ProfileApiKeyController extends Controller
 		$apikey = UserApikey::find($id);
 
 		// パンくず
-		\helpers\wasabiHelper::push_breadclumb('プロフィール', '/settings/profile');
-		\helpers\wasabiHelper::push_breadclumb('API Keys', '/settings/profile/apikeys');
-		\helpers\wasabiHelper::push_breadclumb($apikey->name, '/settings/profile/apikeys/'.urlencode($apikey->id));
+		\App\Helpers\wasabiHelper::push_breadclumb('プロフィール', '/settings/profile');
+		\App\Helpers\wasabiHelper::push_breadclumb('API Keys', '/settings/profile/apikeys');
+		\App\Helpers\wasabiHelper::push_breadclumb($apikey->name, '/settings/profile/apikeys/'.urlencode($apikey->id));
 
 		return view('profile.apikeys.show', ['apikey'=>$apikey, 'profile' => $user]);
 	}
@@ -129,10 +129,10 @@ class ProfileApiKeyController extends Controller
 		$user = Auth::user();
 		$apikey = UserApikey::find($id);
 		// パンくず
-		\helpers\wasabiHelper::push_breadclumb('プロフィール', '/settings/profile');
-		\helpers\wasabiHelper::push_breadclumb('API Keys', '/settings/profile/apikeys');
-		\helpers\wasabiHelper::push_breadclumb($apikey->name, '/settings/profile/apikeys/'.urlencode($apikey->id));
-		\helpers\wasabiHelper::push_breadclumb('編集');
+		\App\Helpers\wasabiHelper::push_breadclumb('プロフィール', '/settings/profile');
+		\App\Helpers\wasabiHelper::push_breadclumb('API Keys', '/settings/profile/apikeys');
+		\App\Helpers\wasabiHelper::push_breadclumb($apikey->name, '/settings/profile/apikeys/'.urlencode($apikey->id));
+		\App\Helpers\wasabiHelper::push_breadclumb('編集');
 		return view('profile.apikeys.edit', ['apikey'=>$apikey, 'profile' => $user]);
 	}
 

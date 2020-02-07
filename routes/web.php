@@ -58,12 +58,12 @@ Route::middleware(['boot'])
 		// WASABI App Integration
 		Route::match(
 			['get', 'post'],
-			'pj/{project_id}/app/{app_name}',
+			'pj/{project_id}/app/{app_id}',
 			'ProjectsController@appIntegration'
 		);
 		Route::match(
 			['get', 'post'],
-			'pj/{project_id}/app/{app_name}/{params}',
+			'pj/{project_id}/app/{app_id}/{params}',
 			'ProjectsController@appIntegration'
 		)->where('params', '.+');
 

@@ -27,7 +27,7 @@ class boot
 		}
 		if( !property_exists($global, 'breadcrumb') || !is_array( $global->breadcrumb ) ){
 			$global->breadcrumb = array();
-			\helpers\wasabiHelper::push_breadclumb( (Auth::user() ? 'Dashboard' : 'Home'), '/' );
+			\App\Helpers\wasabiHelper::push_breadclumb( (Auth::user() ? 'Dashboard' : 'Home'), '/' );
 		}
 
 		$user = Auth::user();

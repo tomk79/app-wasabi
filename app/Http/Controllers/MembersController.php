@@ -64,12 +64,12 @@ class MembersController extends Controller
 			->paginate(100);
 
 		// パンくず
-		\helpers\wasabiHelper::push_breadclumb('グループ', '/settings/groups');
+		\App\Helpers\wasabiHelper::push_breadclumb('グループ', '/settings/groups');
 		$logical_path = Group::get_logical_path($group_id);
 		foreach( $logical_path as $logical_path_group ){
-			\helpers\wasabiHelper::push_breadclumb($logical_path_group->name, '/settings/groups/'.urlencode($logical_path_group->id));
+			\App\Helpers\wasabiHelper::push_breadclumb($logical_path_group->name, '/settings/groups/'.urlencode($logical_path_group->id));
 		}
-		\helpers\wasabiHelper::push_breadclumb('メンバー', '/settings/groups/'.urlencode($group->id).'/members');
+		\App\Helpers\wasabiHelper::push_breadclumb('メンバー', '/settings/groups/'.urlencode($group->id).'/members');
 
 		return view('members.index', ['group'=>$group, 'members'=>$members, 'profile' => $user]);
 	}
@@ -96,13 +96,13 @@ class MembersController extends Controller
 		$group = Group::find($group_id);
 
 		// パンくず
-		\helpers\wasabiHelper::push_breadclumb('グループ', '/settings/groups');
+		\App\Helpers\wasabiHelper::push_breadclumb('グループ', '/settings/groups');
 		$logical_path = Group::get_logical_path($group_id);
 		foreach( $logical_path as $logical_path_group ){
-			\helpers\wasabiHelper::push_breadclumb($logical_path_group->name, '/settings/groups/'.urlencode($logical_path_group->id));
+			\App\Helpers\wasabiHelper::push_breadclumb($logical_path_group->name, '/settings/groups/'.urlencode($logical_path_group->id));
 		}
-		\helpers\wasabiHelper::push_breadclumb('メンバー', '/settings/groups/'.urlencode($group->id).'/members');
-		\helpers\wasabiHelper::push_breadclumb('新規');
+		\App\Helpers\wasabiHelper::push_breadclumb('メンバー', '/settings/groups/'.urlencode($group->id).'/members');
+		\App\Helpers\wasabiHelper::push_breadclumb('新規');
 
 		return view('members.create', ['group_id'=>$group_id, 'profile' => $user]);
 	}
@@ -213,13 +213,13 @@ class MembersController extends Controller
 		}
 
 		// パンくず
-		\helpers\wasabiHelper::push_breadclumb('グループ', '/settings/groups');
+		\App\Helpers\wasabiHelper::push_breadclumb('グループ', '/settings/groups');
 		$logical_path = Group::get_logical_path($group->id);
 		foreach( $logical_path as $logical_path_group ){
-			\helpers\wasabiHelper::push_breadclumb($logical_path_group->name, '/settings/groups/'.urlencode($logical_path_group->id));
+			\App\Helpers\wasabiHelper::push_breadclumb($logical_path_group->name, '/settings/groups/'.urlencode($logical_path_group->id));
 		}
-		\helpers\wasabiHelper::push_breadclumb('メンバー', '/settings/groups/'.urlencode($group->id).'/members');
-		\helpers\wasabiHelper::push_breadclumb($invited_user->name, '/settings/groups/'.urlencode($group->id).'/members/'.urlencode($invited_user->id));
+		\App\Helpers\wasabiHelper::push_breadclumb('メンバー', '/settings/groups/'.urlencode($group->id).'/members');
+		\App\Helpers\wasabiHelper::push_breadclumb($invited_user->name, '/settings/groups/'.urlencode($group->id).'/members/'.urlencode($invited_user->id));
 
 		return view('members.show', ['relation'=>$relation, 'group'=>$group, 'user' => $invited_user, 'profile' => $user]);
 	}
@@ -278,14 +278,14 @@ class MembersController extends Controller
 		}
 
 		// パンくず
-		\helpers\wasabiHelper::push_breadclumb('グループ', '/settings/groups');
+		\App\Helpers\wasabiHelper::push_breadclumb('グループ', '/settings/groups');
 		$logical_path = Group::get_logical_path($group->id);
 		foreach( $logical_path as $logical_path_group ){
-			\helpers\wasabiHelper::push_breadclumb($logical_path_group->name, '/settings/groups/'.urlencode($logical_path_group->id));
+			\App\Helpers\wasabiHelper::push_breadclumb($logical_path_group->name, '/settings/groups/'.urlencode($logical_path_group->id));
 		}
-		\helpers\wasabiHelper::push_breadclumb('メンバー', '/settings/groups/'.urlencode($group->id).'/members');
-		\helpers\wasabiHelper::push_breadclumb($invited_user->name, '/settings/groups/'.urlencode($group->id).'/members/'.urlencode($invited_user->id));
-		\helpers\wasabiHelper::push_breadclumb('編集');
+		\App\Helpers\wasabiHelper::push_breadclumb('メンバー', '/settings/groups/'.urlencode($group->id).'/members');
+		\App\Helpers\wasabiHelper::push_breadclumb($invited_user->name, '/settings/groups/'.urlencode($group->id).'/members/'.urlencode($invited_user->id));
+		\App\Helpers\wasabiHelper::push_breadclumb('編集');
 
 		return view('members.edit', ['relation'=>$relation, 'group'=>$group, 'user' => $invited_user, 'profile' => $user]);
 	}

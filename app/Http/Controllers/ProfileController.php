@@ -38,7 +38,7 @@ class ProfileController extends Controller
 	public function index()
 	{
 		// パンくず
-		\helpers\wasabiHelper::push_breadclumb('プロフィール', '/settings/profile');
+		\App\Helpers\wasabiHelper::push_breadclumb('プロフィール', '/settings/profile');
 
 		$user = Auth::user();
 		if( !$user->icon ){
@@ -58,8 +58,8 @@ class ProfileController extends Controller
 	public function edit()
 	{
 		// パンくず
-		\helpers\wasabiHelper::push_breadclumb('プロフィール', '/settings/profile');
-		\helpers\wasabiHelper::push_breadclumb('編集');
+		\App\Helpers\wasabiHelper::push_breadclumb('プロフィール', '/settings/profile');
+		\App\Helpers\wasabiHelper::push_breadclumb('編集');
 
 		$user = Auth::user();
 		if( !$user->icon ){
@@ -123,8 +123,8 @@ class ProfileController extends Controller
 	public function edit_email()
 	{
 		// パンくず
-		\helpers\wasabiHelper::push_breadclumb('プロフィール', '/settings/profile');
-		\helpers\wasabiHelper::push_breadclumb('メールアドレス変更');
+		\App\Helpers\wasabiHelper::push_breadclumb('プロフィール', '/settings/profile');
+		\App\Helpers\wasabiHelper::push_breadclumb('メールアドレス変更');
 
 		$user = Auth::user();
 		return view('profile.edit_email', ['profile' => $user]);
