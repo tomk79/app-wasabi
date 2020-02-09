@@ -6,6 +6,6 @@ class pickles2{
 	}
 	public static function cli(){
 	}
-	public static function register(){
+	public static function web(){
 	}
 }

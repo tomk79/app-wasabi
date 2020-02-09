@@ -33,7 +33,7 @@
 			<tr>
 				<th><label for="role">役割</label></th>
 				<td>
-					<p>{{ helpers\wasabiHelper::roleLabel($relation->role) }}</p>
+					<p>{{ App\Helpers\wasabiHelper::roleLabel($relation->role) }}</p>
 				</td>
 			</tr>
 		</tbody>

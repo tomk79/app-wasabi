@@ -48,7 +48,7 @@
 					<tr>
 						<th><label for="role">あなたの役割</label></th>
 						<td>
-							<p>{{ $relation ? helpers\wasabiHelper::roleLabel($relation->role) : '---' }}</p>
+							<p>{{ $relation ? App\Helpers\wasabiHelper::roleLabel($relation->role) : '---' }}</p>
 						</td>
 					</tr>
 					<tr>
@@ -76,7 +76,7 @@
 						<td>
 							<ul>
 							@foreach( $members as $member )
-								<li><a href="{{ url('settings/groups/'.urlencode($group->id).'/members/'.urlencode($member->id)) }}">{!! helpers\wasabiHelper::icon_img($member->icon, null, '2em') !!} {{ $member->name }}</a> ({{ helpers\wasabiHelper::roleLabel($member->role) }})</li>
+								<li><a href="{{ url('settings/groups/'.urlencode($group->id).'/members/'.urlencode($member->id)) }}">{!! App\Helpers\wasabiHelper::icon_img($member->icon, null, '2em') !!} {{ $member->name }}</a> ({{ App\Helpers\wasabiHelper::roleLabel($member->role) }})</li>
 							@endforeach
 							</ul>
 						</td>

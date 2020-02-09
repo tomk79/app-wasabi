@@ -29,7 +29,7 @@
 			@foreach ($projects as $project)
 				<tr>
 					<td>{{ $project->name }}</td>
-					<td>{{ helpers\wasabiHelper::roleLabel($project->role) }}</td>
+					<td>{{ App\Helpers\wasabiHelper::roleLabel($project->role) }}</td>
 					<td><a href="{{ url('pj/'.urlencode($project->id)) }}" class="btn btn-primary">詳細</a></td>
 					<td><a href="{{ url('pj/'.urlencode($project->id).'/edit') }}" class="btn btn-primary">編集</a></td>
 				</tr>

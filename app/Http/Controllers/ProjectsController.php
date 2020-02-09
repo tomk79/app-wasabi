@@ -244,13 +244,23 @@ class ProjectsController extends Controller
 	public function appIntegration($project_id, $app_id, $params = null, Request $request)
 	{
 		$wasabi_app = \App\Helpers\wasabiHelper::create_wasabi_app($app_id);
+		if( !$wasabi_app->check_app_api('web') ){
+			return view(
+				'projects.app.error',
+				['error_message'=>'この App は利用できません。']
+			);
+		}
 
 		ob_start();
 		var_dump($project_id, $app_id, $params);
 		var_dump(\App\Helpers\wasabiHelper::get_app_list());
 		var_dump($wasabi_app);
 		$fin = ob_get_clean();
-		return $fin;
+
+		return view(
+			'projects.app.error',
+			['main'=>$fin]
+		);
 	}
 
 }

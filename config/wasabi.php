@@ -3,9 +3,9 @@
 return [
     "app" => [
         'pickles2' => [
-            'migration' => 'App\\Wasabi\\pickles2::migrate',
+            'migrate' => 'App\\Wasabi\\pickles2::migrate',
             'cli' => 'App\\Wasabi\\pickles2::cli',
-            'web' => 'App\\Wasabi\\pickles2::register',
+            'web' => 'App\\Wasabi\\pickles2::web',
         ],
     ],
 ];

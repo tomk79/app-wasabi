@@ -13,7 +13,7 @@
 <div class="container">
 	<div class="row">
 		<div class="col-4">
-			<p>{!! helpers\wasabiHelper::icon_img($account->icon, 'group', '100%') !!}</p>
+			<p>{!! App\Helpers\wasabiHelper::icon_img($account->icon, 'group', '100%') !!}</p>
 		</div>
 		<div class="col">
 			<table class="table table__dd">

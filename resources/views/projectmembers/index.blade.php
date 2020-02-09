@@ -32,7 +32,7 @@
 					<td><img src="{{ $member->icon ? $member->icon : url('/common/images/nophoto.png') }}" alt="" class="account-icon" style="width:1.5em; height:1.5em;" /></td>
 					<td><a href="{{ url('pj/'.urlencode($project->id).'/members/'.urlencode($member->id)) }}">{{ $member->name }}</a></td>
 					<td>{{ $member->email }}</td>
-					<td>{{ helpers\wasabiHelper::roleLabel($member->role) }}</td>
+					<td>{{ App\Helpers\wasabiHelper::roleLabel($member->role) }}</td>
 					<td>
 						@if (Auth::user()->email != $member->email)
 						<a href="{{ url('pj/'.urlencode($project->id).'/members/'.urlencode($member->id).'/edit') }}" class="btn btn-primary">編集</a>
