@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace App\Wasabi\Pickles2;
 
 use Illuminate\Support\ServiceProvider;
 

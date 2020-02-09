@@ -1,5 +1,5 @@
 <?php
-namespace App\Wasabi;
+namespace App\Wasabi\Pickles2;
 
 class pickles2{
 	public static function migrate(){
