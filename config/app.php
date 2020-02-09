@@ -175,6 +175,11 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        /*
+         * Wasabi Apps Service Providers...
+         */
+        App\Providers\WasabiAppPickles2ServiceProvider::class,
+
     ],
 
     /*

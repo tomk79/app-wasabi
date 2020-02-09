@@ -258,7 +258,7 @@ class ProjectsController extends Controller
 		$fin = ob_get_clean();
 
 		return view(
-			'projects.app.error',
+			'projects.app.index',
 			['main'=>$fin]
 		);
 	}
