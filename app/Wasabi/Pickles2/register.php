@@ -11,6 +11,7 @@ class register{
 		return [
 			'id' => 'pickles2',
 			'name' => 'Pickles 2 Integration',
+			'api' => 'App\\Wasabi\\Pickles2\\register::api',
 			'web' => 'App\\Wasabi\\Pickles2\\register::web',
 		];
 	}
@@ -18,7 +19,7 @@ class register{
 	/**
 	 * Wasabi App: ウェブページを実行する
 	 */
-	public static function web($requestm, $project_id, $params){
+	public static function web($request, $project_id, $params){
 		ob_start();
 		var_dump($project_id, $params);
 		$fin = ob_get_clean();
@@ -27,6 +28,19 @@ class register{
 			'App\Wasabi\Pickles2::index',
 			['main'=>$fin]
 		);
+	}
+
+	/**
+	 * Wasabi App: APIを実行する
+	 */
+	public static function api($request, $project_id, $params){
+		ob_start();
+		var_dump($project_id, $params);
+		$fin = ob_get_clean();
+
+		return [
+			'fin' => $fin,
+		];
 	}
 
 }

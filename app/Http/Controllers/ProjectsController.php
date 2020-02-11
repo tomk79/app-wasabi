@@ -269,4 +269,30 @@ class ProjectsController extends Controller
 		return $wasabi_app->execute_web($request, $project_id, $params);
 	}
 
+	/**
+	 * アプリケーション統合
+	 */
+	public function appIntegrationApi($project_id, $app_id, $params = null, Request $request)
+	{
+		$project = Project::find($project_id);
+		if( !$project ){
+			// 条件に合うレコードが存在しない場合
+			// = ログインユーザー自身が指定のプロジェクトに参加していない。
+			return abort(404);
+		}
+
+		$wasabi_app = \App\Helpers\wasabiHelper::create_wasabi_app($app_id);
+		if( !$wasabi_app->check_app_api('api') ){
+			return json_encode(
+				[
+					'app_id' => $app_id,
+					'app_name' => null,
+					'error_message'=>'この App は利用できません。'
+				]
+			);
+		}
+
+		return $wasabi_app->execute_api($request, $project_id, $params);
+	}
+
 }

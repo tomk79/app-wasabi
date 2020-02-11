@@ -44,5 +44,17 @@ Route::middleware('auth:apikey,api')
 			return Project::get_user_permissions($project->id);
 		});
 
+		// WASABI App Integration
+		Route::match(
+			['get', 'post'],
+			'projects/{project_id}/app/{app_id}',
+			'ProjectsController@appIntegrationApi'
+		);
+		Route::match(
+			['get', 'post'],
+			'projects/{project_id}/app/{app_id}/{params}',
+			'ProjectsController@appIntegrationApi'
+		)->where('params', '.+');
+
 	})
 ;

@@ -55,4 +55,20 @@ class wasabiApp{
 			]
 		);
 	}
+
+	/**
+	 * APIを実行する
+	 */
+	public function execute_api($requestm, $project_id, $params){
+		$params = trim($params);
+		// $params = preg_replace('/\/+/s', '/', $params);
+		$params = preg_replace('/^\/+/s', '', $params);
+		$params = preg_replace('/\/+$/s', '', $params);
+		$params = explode('/', $params);
+
+		$rtn = call_user_func_array( $this->app_settings->api, array($requestm, $project_id, $params) );
+		return json_encode(
+			$rtn
+		);
+	}
 }
