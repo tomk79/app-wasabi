@@ -55,6 +55,8 @@ Route::middleware(['boot'])
 		Route::get('settings/projects/{project_id}/edit', 'ProjectsController@edit');
 		Route::post('settings/projects/{project_id}/edit', 'ProjectsController@update');
 		Route::resource('settings/projects/{project_id}/members', 'ProjectMembersController');
+		Route::get('settings/projects/{project_id}/wasabiapps', 'ProjectWasabiAppsController@index');
+		Route::post('settings/projects/{project_id}/wasabiapps/update', 'ProjectWasabiAppsController@update');
 
 		// プロジェクト: ホームページ(公開プロフィール)
 		Route::get('pj/{project_id}', 'HomeController@project');

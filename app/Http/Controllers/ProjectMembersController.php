@@ -52,8 +52,8 @@ class ProjectMembersController extends Controller
 			return abort(404);
 		}
 
-		\App\Helpers\wasabiHelper::push_breadclumb($project->name, '/pj/'.urlencode($project->id));
-		\App\Helpers\wasabiHelper::push_breadclumb('メンバー', '/pj/'.urlencode($project->id).'/members');
+		\App\Helpers\wasabiHelper::push_breadclumb($project->name, '/settings/projects/'.urlencode($project->id));
+		\App\Helpers\wasabiHelper::push_breadclumb('メンバー', '/settings/projects/'.urlencode($project->id).'/members');
 
 		$members = UserProjectRelation
 			::where(['project_id'=>$project->id])
@@ -90,8 +90,8 @@ class ProjectMembersController extends Controller
 		// パンくず
 		\App\Helpers\wasabiHelper::push_breadclumb('プロジェクト', '/settings/projects');
 		$project = Project::find($project_id);
-		\App\Helpers\wasabiHelper::push_breadclumb($project->name, '/pj/'.urlencode($project->id));
-		\App\Helpers\wasabiHelper::push_breadclumb('メンバー', '/pj/'.urlencode($project->id).'/members');
+		\App\Helpers\wasabiHelper::push_breadclumb($project->name, '/settings/projects/'.urlencode($project->id));
+		\App\Helpers\wasabiHelper::push_breadclumb('メンバー', '/settings/projects/'.urlencode($project->id).'/members');
 		\App\Helpers\wasabiHelper::push_breadclumb('新規');
 
 		return view('projectmembers.create', ['project_id'=>$project_id, 'profile' => $user]);
@@ -195,8 +195,8 @@ class ProjectMembersController extends Controller
 
 		// パンくず
 		\App\Helpers\wasabiHelper::push_breadclumb('プロジェクト', '/settings/projects');
-		\App\Helpers\wasabiHelper::push_breadclumb($project->name, '/pj/'.urlencode($project->id));
-		\App\Helpers\wasabiHelper::push_breadclumb('メンバー', '/pj/'.urlencode($project->id).'/members');
+		\App\Helpers\wasabiHelper::push_breadclumb($project->name, '/settings/projects/'.urlencode($project->id));
+		\App\Helpers\wasabiHelper::push_breadclumb('メンバー', '/settings/projects/'.urlencode($project->id).'/members');
 		\App\Helpers\wasabiHelper::push_breadclumb($invited_user->name);
 
 		return view('projectmembers.show', ['relation'=>$relation, 'project'=>$project, 'user' => $invited_user, 'profile' => $user]);
@@ -251,9 +251,9 @@ class ProjectMembersController extends Controller
 
 		// パンくず
 		\App\Helpers\wasabiHelper::push_breadclumb('プロジェクト', '/settings/projects');
-		\App\Helpers\wasabiHelper::push_breadclumb($project->name, '/pj/'.urlencode($project->id));
-		\App\Helpers\wasabiHelper::push_breadclumb('メンバー', '/pj/'.urlencode($project->id).'/members');
-		\App\Helpers\wasabiHelper::push_breadclumb($invited_user->name, '/pj/'.urlencode($project->id).'/members/'.urlencode($invited_user->id));
+		\App\Helpers\wasabiHelper::push_breadclumb($project->name, '/settings/projects/'.urlencode($project->id));
+		\App\Helpers\wasabiHelper::push_breadclumb('メンバー', '/settings/projects/'.urlencode($project->id).'/members');
+		\App\Helpers\wasabiHelper::push_breadclumb($invited_user->name, '/settings/projects/'.urlencode($project->id).'/members/'.urlencode($invited_user->id));
 		\App\Helpers\wasabiHelper::push_breadclumb('編集');
 
 		return view('projectmembers.edit', ['relation'=>$relation, 'project'=>$project, 'user' => $invited_user, 'profile' => $user]);

@@ -44,6 +44,7 @@
 	<div class="text-right">
 		<a href="{{ url('/settings/projects') }}" class="btn btn-default">一覧へ戻る</a>
 		<a href="{{ url('/settings/projects/'.urlencode($project->id).'/members') }}" class="btn btn-default">メンバー一覧</a>
+		<a href="{{ url('/settings/projects/'.urlencode($project->id).'/wasabiapps') }}" class="btn btn-default">アプリケーション統合</a>
 		<a href="{{ url('/settings/projects/'.urlencode($project->id).'/edit') }}" class="btn btn-primary">編集する</a>
 	</div>
 
