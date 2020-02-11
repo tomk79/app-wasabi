@@ -40,7 +40,12 @@ class wasabiApp{
 		// $params = preg_replace('/\/+/s', '/', $params);
 		$params = preg_replace('/^\/+/s', '', $params);
 		$params = preg_replace('/\/+$/s', '', $params);
-		$params = explode('/', $params);
+		$params = trim($params);
+		if( strlen($params) ){
+			$params = explode('/', $params);
+		}else{
+			$params = array();
+		}
 
 		$rtn = call_user_func_array( $this->app_settings->web, array($requestm, $project_id, $params) );
 		if( preg_match( '/^\s*\<\!doctype/si', $rtn ) ){
@@ -64,7 +69,12 @@ class wasabiApp{
 		// $params = preg_replace('/\/+/s', '/', $params);
 		$params = preg_replace('/^\/+/s', '', $params);
 		$params = preg_replace('/\/+$/s', '', $params);
-		$params = explode('/', $params);
+		$params = trim($params);
+		if( strlen($params) ){
+			$params = explode('/', $params);
+		}else{
+			$params = array();
+		}
 
 		$rtn = call_user_func_array( $this->app_settings->api, array($requestm, $project_id, $params) );
 		return json_encode(
