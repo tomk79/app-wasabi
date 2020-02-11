@@ -22,7 +22,7 @@ class CreateLogsTable extends Migration
 			$table->text('group_name')->nullable();
 			$table->uuid('project_id', 36)->nullable();
 			$table->text('project_name')->nullable();
-			$table->char('wasabiapp_id', 256)->nullable();
+			$table->char('wasabiapp_id', 255)->nullable();
 			$table->ipAddress('ip_address')->nullable();
 			$table->text('target')->nullable();
 			$table->text('action')->nullable();
