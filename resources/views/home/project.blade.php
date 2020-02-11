@@ -27,11 +27,32 @@
 			<tr>
 				<th>メンバー</th>
 				<td>
-					<ul>
-					@foreach( $members as $member )
-						<li><a href="{{ url(urlencode($member->account)) }}">{!! App\Helpers\wasabiHelper::icon_img($member->icon, null, '2em') !!} {{ $member->name }}</a> ({{ App\Helpers\wasabiHelper::roleLabel($member->role) }})</li>
-					@endforeach
-					</ul>
+					@empty ($members)
+						<p>メンバーはいません。</p>
+					@else
+						<ul>
+						@foreach( $members as $member )
+							<li><a href="{{ url(urlencode($member->account)) }}">{!! App\Helpers\wasabiHelper::icon_img($member->icon, null, '2em') !!} {{ $member->name }}</a> ({{ App\Helpers\wasabiHelper::roleLabel($member->role) }})</li>
+						@endforeach
+						</ul>
+					@endempty
+				</td>
+			</tr>
+			<tr>
+				<th>アプリケーション</th>
+				<td>
+					@empty ($wasabiApps)
+						<p>アプリケーションは登録されていません。</p>
+					@else
+						<ul>
+						@foreach( $wasabiApps as $wasabiApp )
+							@php
+							$wasabiApp = (object) $wasabiApp;
+							@endphp
+							<li><a href="{{ url('pj/'.urlencode($project->id).'/app/'.$wasabiApp->id) }}">{{ $wasabiApp->name }}</a></li>
+						@endforeach
+						</ul>
+					@endempty
 				</td>
 			</tr>
 		</tbody>

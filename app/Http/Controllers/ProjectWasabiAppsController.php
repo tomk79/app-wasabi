@@ -114,24 +114,25 @@ class ProjectWasabiAppsController extends Controller
 		$wasabiApps = \App\Helpers\wasabiHelper::get_app_list();
 		foreach( $wasabiApps as $wasabiApp ){
 			$wasabiApp = (object) $wasabiApp;
-			$rec = ProjectWasabiappRelation::where(['project_id'=>$project->id, 'wasabiapp_id' => $wasabiApp->id])
+			$relation = ProjectWasabiappRelation::where(['project_id'=>$project->id, 'wasabiapp_id' => $wasabiApp->id])
 				->first();
 			if( $request->get($wasabiApp->id) ){
-				if( !$rec ){
-					$rec = new ProjectWasabiappRelation();
-					$rec->project_id = $project->id;
-					$rec->wasabiapp_id = $wasabiApp->id;
+				if( !$relation ){
+					$relation = new ProjectWasabiappRelation();
+					$relation->project_id = $project->id;
+					$relation->wasabiapp_id = $wasabiApp->id;
 				}
-				$rec->save();
+				$relation->save();
 			}else{
-				if( $rec ){
-					// $rec->delete();
+				if( $relation ){
+					// $relation->delete();
 					ProjectWasabiappRelation::where(['project_id'=>$project->id, 'wasabiapp_id' => $wasabiApp->id])->delete();
 				}
 			}
 		}
 
-		return redirect('settings/projects/'.urlencode($project->id).'/wasabiapps')->with('flash_message', 'アプリケーション統合を更新しました。');
+		return redirect('settings/projects/'.urlencode($project->id).'/wasabiapps')
+			->with('flash_message', 'アプリケーション統合を更新しました。');
 	}
 
 	/**

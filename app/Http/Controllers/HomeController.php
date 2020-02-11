@@ -11,6 +11,7 @@ use App\UserGroupRelation;
 use App\Http\Requests\StoreGroup;
 use App\Project;
 use App\UserProjectRelation;
+use App\ProjectWasabiappRelation;
 use Illuminate\Support\Facades\DB;
 
 
@@ -126,6 +127,22 @@ class HomeController extends Controller
 			->orderBy('users.email')
 			->get();
 
+		$wasabiApps = \App\Helpers\wasabiHelper::get_app_list();
+		$projectWasabiAppRelations = ProjectWasabiappRelation
+			::where(['project_id'=>$project->id])
+			->get();
+		$relations = array();
+		foreach( $projectWasabiAppRelations as $projectWasabiAppRelation ){
+			$relations[$projectWasabiAppRelation->wasabiapp_id] = 1;
+		}
+		foreach( $wasabiApps as $num => $wasabiApp ){
+			$wasabiApp = (object) $wasabiApp;
+			if( array_key_exists($wasabiApp->id, $relations) && $relations[$wasabiApp->id] ){
+				continue;
+			}
+			unset($wasabiApps[$num]);
+		}
+
 		return view(
 			'home.project',
 			[
@@ -133,6 +150,7 @@ class HomeController extends Controller
 				'group'=>$group,
 				'profile' => $user,
 				'relation' => $relation,
+				'wasabiApps' => $wasabiApps,
 				'members' => $members,
 			]
 		);
