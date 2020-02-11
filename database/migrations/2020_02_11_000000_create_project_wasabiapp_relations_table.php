@@ -15,7 +15,7 @@ class CreateProjectWasabiappRelationsTable extends Migration
 	{
 		Schema::create('project_wasabiapp_relations', function (Blueprint $table) {
 			$table->uuid('project_id', 36);
-			$table->char('wasabiapp_id', 256);
+			$table->char('wasabiapp_id', 255);
 			$table->timestamps();
 
 			$table->foreign('project_id')->references('id')->on('projects'); // foreignkey制約
