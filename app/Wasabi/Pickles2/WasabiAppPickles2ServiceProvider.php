@@ -23,6 +23,6 @@ class WasabiAppPickles2ServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->loadViewsFrom(__DIR__.'/views', 'pickles2');
     }
 }

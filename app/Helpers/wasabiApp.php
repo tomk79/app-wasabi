@@ -13,10 +13,13 @@ class wasabiApp{
 		$this->app_id = $app_id;
 		$list = wasabiHelper::get_app_list();
 		$this->app_settings = false;
-		if( !array_key_exists( $app_id, $list ) ){
-			return;
+		foreach( $list as $row ){
+			$row = (object) $row;
+			if( $row->id == $app_id ){
+				$this->app_settings = $row;
+				break;
+			}
 		}
-		$this->app_settings = $list[$app_id];
 	}
 
 	/**
@@ -26,7 +29,26 @@ class wasabiApp{
 		if( !$this->app_settings ){
 			return false;
 		}
-		return array_key_exists($api_name, $this->app_settings);
+		return property_exists($this->app_settings, $api_name);
 	}
 
+	/**
+	 * Webページを実行する
+	 */
+	public function execute_web($requestm, $project_id, $params){
+		$params = trim($params);
+		// $params = preg_replace('/\/+/s', '/', $params);
+		$params = preg_replace('/^\/+/s', '', $params);
+		$params = preg_replace('/\/+$/s', '', $params);
+		$params = explode('/', $params);
+
+		$rtn = call_user_func_array( $this->app_settings->web, array($requestm, $project_id, $params) );
+		if( preg_match( '/^\s*\<\!doctype/si', $rtn ) ){
+			return $rtn;
+		}
+		return view(
+			'projects.app.index',
+			['main'=>$rtn]
+		);
+	}
 }

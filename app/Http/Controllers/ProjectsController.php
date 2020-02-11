@@ -251,16 +251,7 @@ class ProjectsController extends Controller
 			);
 		}
 
-		ob_start();
-		var_dump($project_id, $app_id, $params);
-		var_dump(\App\Helpers\wasabiHelper::get_app_list());
-		var_dump($wasabi_app);
-		$fin = ob_get_clean();
-
-		return view(
-			'projects.app.index',
-			['main'=>$fin]
-		);
+		return $wasabi_app->execute_web($request, $project_id, $params);
 	}
 
 }

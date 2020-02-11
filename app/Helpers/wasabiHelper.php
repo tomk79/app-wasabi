@@ -101,10 +101,11 @@ class wasabiHelper{
 	 */
 	public static function create_wasabi_app($app_id){
 		$list = self::get_app_list();
-		if( !array_key_exists($app_id, $list) ){
-			return false;
-		}
+		// if( !array_key_exists($app_id, $list) ){
+		// 	return false;
+		// }
 		$wasabi_app = new wasabiApp($app_id);
 		return $wasabi_app;
 	}
+
 }
