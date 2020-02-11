@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\View;
 use App\User;
 use App\UsersEmailChange;
 use App\UserSubEmail;
+use App\Log;
 use App\Http\Requests\StoreUser;
 use App\Http\Requests\StoreUserSubEmail;
 use App\Mail\UsersEmailChange as UsersEmailChangeMail;
@@ -79,6 +80,7 @@ class ProfileController extends Controller
 	public function update(Request $request)
 	{
 		$user = Auth::user();
+		$user_befre = json_decode(json_encode($user));
 		$userStore = new StoreUser();
 
 		$iconBase64 = null;
@@ -111,6 +113,18 @@ class ProfileController extends Controller
 			$user->icon = $iconBase64;
 		}
 		$user->save();
+
+		$log = new Log();
+		$log->user_id = $user->id;
+		$log->user_name = $user->name;
+		$log->action = 'update';
+		$log->target_name = 'user_profile';
+		$log->target_value = json_encode(array(
+			'before' => $user_befre,
+			'after' => $user,
+		));
+		$log->save();
+
 		return redirect('settings/profile')->with('flash_message', 'プロフィールを更新しました。');
 	}
 

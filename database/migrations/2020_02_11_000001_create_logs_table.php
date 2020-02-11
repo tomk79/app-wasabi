@@ -24,10 +24,15 @@ class CreateLogsTable extends Migration
 			$table->text('project_name')->nullable();
 			$table->char('wasabiapp_id', 255)->nullable();
 			$table->ipAddress('ip_address')->nullable();
-			$table->text('target')->nullable();
+			$table->text('via')->nullable();
 			$table->text('action')->nullable();
+			$table->text('target_name')->nullable();
+			$table->text('target_value')->nullable();
 			$table->json('options')->nullable();
 			$table->text('comment')->nullable();
+			$table->text('http_method')->nullable();
+			$table->text('http_user_agent')->nullable();
+			$table->text('request_uri')->nullable();
 			$table->timestamps();
 		});
 

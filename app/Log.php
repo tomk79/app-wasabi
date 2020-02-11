@@ -3,9 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use App\UserProjectRelation;
 use Ramsey\Uuid\Uuid;
-use Illuminate\Support\Facades\Auth;
 
 class Log extends Model
 {
@@ -24,6 +22,19 @@ class Log extends Model
 
 		// newした時に自動的にuuidを設定する。
 		$this->attributes['id'] = Uuid::uuid4()->toString();
+		$this->attributes['via'] = 'web';
+		if( array_key_exists('REMOTE_ADDR', $_SERVER) ){
+			$this->attributes['ip_address'] = $_SERVER['REMOTE_ADDR'];
+		}
+		if( array_key_exists('REQUEST_METHOD', $_SERVER) ){
+			$this->attributes['http_method'] = $_SERVER['REQUEST_METHOD'];
+		}
+		if( array_key_exists('HTTP_USER_AGENT', $_SERVER) ){
+			$this->attributes['http_user_agent'] = $_SERVER['HTTP_USER_AGENT'];
+		}
+		if( array_key_exists('REQUEST_URI', $_SERVER) ){
+			$this->attributes['request_uri'] = $_SERVER['REQUEST_URI'];
+		}
 	}
 
 }
