@@ -111,7 +111,7 @@ class ProjectsController extends Controller
 		}
 
 		$project = Project::find($project_id);
-		if( !$project->count() ){
+		if( !$project ){
 			// 条件に合うレコードが存在しない場合
 			// = ログインユーザー自身が指定のプロジェクトに参加していない。
 			return abort(404);
@@ -171,7 +171,7 @@ class ProjectsController extends Controller
 		}
 
 		$project = Project::find($project_id);
-		if( !$project->count() ){
+		if( !$project ){
 			// 条件に合うレコードが存在しない場合
 			// = ログインユーザー自身が指定のプロジェクトに参加していない。
 			return abort(404);
@@ -216,7 +216,7 @@ class ProjectsController extends Controller
 		}
 
 		$project = Project::find($project_id);
-		if( !$project->count() ){
+		if( !$project ){
 			// 条件に合うレコードが存在しない場合
 			// = ログインユーザー自身が指定のプロジェクトに参加していない。
 			return abort(404);
@@ -243,11 +243,26 @@ class ProjectsController extends Controller
 	 */
 	public function appIntegration($project_id, $app_id, $params = null, Request $request)
 	{
+		$project = Project::find($project_id);
+		if( !$project ){
+			// 条件に合うレコードが存在しない場合
+			// = ログインユーザー自身が指定のプロジェクトに参加していない。
+			return abort(404);
+		}
+
+		\App\Helpers\wasabiHelper::push_breadclumb('プロジェクト', '/settings/projects');
+		\App\Helpers\wasabiHelper::push_breadclumb($project->name, '/pj/'.urlencode($project->id));
+		\App\Helpers\wasabiHelper::push_breadclumb('アプリケーション統合');
+
 		$wasabi_app = \App\Helpers\wasabiHelper::create_wasabi_app($app_id);
 		if( !$wasabi_app->check_app_api('web') ){
 			return view(
 				'projects.app.error',
-				['error_message'=>'この App は利用できません。']
+				[
+					'app_id' => $app_id,
+					'app_name' => null,
+					'error_message'=>'この App は利用できません。'
+				]
 			);
 		}
 

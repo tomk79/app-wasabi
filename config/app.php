@@ -178,7 +178,7 @@ return [
         /*
          * Wasabi Apps Service Providers...
          */
-        App\Wasabi\Pickles2\WasabiAppPickles2ServiceProvider::class,
+        App\Wasabi\Pickles2\ServiceProvider::class,
 
     ],
 

@@ -1,8 +1,8 @@
 @extends('layouts.app')
-@section('title', 'Wasabi App')
+@section('title', (strlen($app_name) ? $app_name : 'Wasabi App: '.$app_id))
 
 @section('content')
 <div class="container">
-{{ $error_message }}
+<p>{{ $error_message }}</p>
 </div>
 @endsection

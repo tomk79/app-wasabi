@@ -48,7 +48,11 @@ class wasabiApp{
 		}
 		return view(
 			'projects.app.index',
-			['main'=>$rtn]
+			[
+				'app_id'=>$this->app_settings->id,
+				'app_name'=>$this->app_settings->name,
+				'main'=>$rtn,
+			]
 		);
 	}
 }

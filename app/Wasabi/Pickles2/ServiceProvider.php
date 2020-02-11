@@ -2,9 +2,7 @@
 
 namespace App\Wasabi\Pickles2;
 
-use Illuminate\Support\ServiceProvider;
-
-class WasabiAppPickles2ServiceProvider extends ServiceProvider
+class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
     /**
      * Register services.
@@ -23,6 +21,7 @@ class WasabiAppPickles2ServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadViewsFrom(__DIR__.'/views', 'pickles2');
+        // ビューを登録
+        $this->loadViewsFrom(__DIR__.'/views', 'App\Wasabi\Pickles2');
     }
 }
