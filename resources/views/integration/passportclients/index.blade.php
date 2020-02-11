@@ -4,6 +4,16 @@
 @section('content')
 <div class="container">
 
+	<p>
+		{{ env('APP_NAME') }} アカウントでOAuthログインできる外部のアプリケーションを管理します。<br />
+	</p>
+	<p>
+		あなたが開発する外部のアプリケーションに、 {{ env('APP_NAME') }} アカウントでログインできるようにしたい場合は、ここでアプリケーションを登録してください。<br />
+	</p>
+	<p>
+		ここで登録されたアプリケーションは、 OAuthログインしたユーザーの権限で {{ env('APP_NAME') }} API にアクセスできるようになります。<br />
+	</p>
+
 	<div class="text-right mb-3">
 		<a href="{{ url('settings/profile/integration/oauth_apps/create') }}" class="btn btn-primary">新しいアプリケーションを登録</a>
 	</div>

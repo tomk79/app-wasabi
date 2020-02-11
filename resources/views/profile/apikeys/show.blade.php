@@ -21,6 +21,7 @@
 			<tr>
 				<th><label for="apikey">API Key</label></th>
 				<td>
+					<p>{{ env('APP_NAME') }} の API Key に対応したアプリケーションに、この文字列を入力してください。</p>
 					<p><textarea name="apikey" readonly="readonly" class="form-control">{{ $apikey->id }}--{{ \Crypt::decryptString( $apikey->apikey ) }}</textarea></p>
 				</td>
 			</tr>

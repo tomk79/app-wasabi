@@ -62,7 +62,7 @@
 			<h2>参加しているグループ</h2>
 			<ul>
 			@foreach ($groups as $group)
-				<li><a href="/settings/groups/{{ $group->id }}">{{ $group->name }}</a></li>
+				<li><a href="/g/{{ $group->account }}">{{ $group->name }}</a></li>
 			@endforeach
 			</ul>
 

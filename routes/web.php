@@ -51,24 +51,26 @@ Route::middleware(['boot'])
 		Route::get('settings/projects', 'ProjectsController@index');
 		Route::get('settings/projects/create', 'ProjectsController@create');
 		Route::post('settings/projects/create', 'ProjectsController@store');
-		Route::get('pj/{project_id}', 'ProjectsController@show');
-		Route::get('pj/{project_id}/edit', 'ProjectsController@edit');
-		Route::post('pj/{project_id}/edit', 'ProjectsController@update');
+		Route::get('settings/projects/{project_id}', 'ProjectsController@show');
+		Route::get('settings/projects/{project_id}/edit', 'ProjectsController@edit');
+		Route::post('settings/projects/{project_id}/edit', 'ProjectsController@update');
+		Route::resource('settings/projects/{project_id}/members', 'ProjectMembersController');
+
+		// プロジェクト: ホームページ(公開プロフィール)
+		Route::get('pj/{project_id}', 'HomeController@project');
+
 
 		// WASABI App Integration
 		Route::match(
 			['get', 'post'],
 			'pj/{project_id}/app/{app_id}',
-			'ProjectsController@appIntegration'
+			'ProjectWasabiAppsController@appIntegration'
 		);
 		Route::match(
 			['get', 'post'],
 			'pj/{project_id}/app/{app_id}/{params}',
-			'ProjectsController@appIntegration'
+			'ProjectWasabiAppsController@appIntegration'
 		)->where('params', '.+');
-
-		// プロジェクト: メンバー管理
-		Route::resource('pj/{project_id}/members', 'ProjectMembersController');
 
 		// グループ: ホームページ(公開プロフィール)
 		Route::get('g/{account}', 'HomeController@group');

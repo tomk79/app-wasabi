@@ -19,7 +19,7 @@
 			<table class="table table__dd">
 				<tbody>
 					<tr>
-						<th>ユーザー名</th>
+						<th>グループ名</th>
 						<td>{{ $account->name }}</td>
 					</tr>
 					<tr>

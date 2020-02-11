@@ -4,6 +4,10 @@
 @section('content')
 <div class="container">
 
+	<p>
+		API Key は、外部のアプリケーションから {{ env('APP_NAME') }} の API にアクセスする認証方法の1つです。<br />
+	</p>
+
 	<div class="text-right mb-3">
 		<a href="{{ url('settings/profile/apikeys/create') }}" class="btn btn-primary">新しい API Key を登録</a>
 	</div>

@@ -48,12 +48,12 @@ Route::middleware('auth:apikey,api')
 		Route::match(
 			['get', 'post'],
 			'projects/{project_id}/app/{app_id}',
-			'ProjectsController@appIntegrationApi'
+			'ProjectWasabiAppsController@appIntegrationApi'
 		);
 		Route::match(
 			['get', 'post'],
 			'projects/{project_id}/app/{app_id}/{params}',
-			'ProjectsController@appIntegrationApi'
+			'ProjectWasabiAppsController@appIntegrationApi'
 		)->where('params', '.+');
 
 	})

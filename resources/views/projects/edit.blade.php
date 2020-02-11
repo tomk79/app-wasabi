@@ -4,7 +4,7 @@
 @section('content')
 <div class="container">
 
-	<form action="{{ url('/pj/'.urlencode($project->id).'/edit') }}" method="post" enctype="multipart/form-data">
+	<form action="{{ url('/settings/projects/'.urlencode($project->id).'/edit') }}" method="post" enctype="multipart/form-data">
 		@csrf
 		@method('POST')
 
@@ -69,7 +69,7 @@
 
 	<hr />
 	<div class="text-right">
-		<a href="{{ url('/pj/'.urlencode($project->id)) }}" class="btn btn-default">キャンセル</a>
+		<a href="{{ url('/settings/projects/'.urlencode($project->id)) }}" class="btn btn-default">キャンセル</a>
 	</div>
 
 </div>

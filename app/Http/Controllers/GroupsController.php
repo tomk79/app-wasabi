@@ -166,7 +166,7 @@ class GroupsController extends Controller
 		}
 
 		$group = Group::find($group_id);
-		if( !$group->count() ){
+		if( !$group ){
 			// 条件に合うレコードが存在しない場合
 			// = ログインユーザー自身が指定のグループに参加していない。
 			return abort(404);

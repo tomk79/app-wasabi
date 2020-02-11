@@ -9,7 +9,11 @@ use App\User;
 use App\Group;
 use App\UserGroupRelation;
 use App\Http\Requests\StoreGroup;
+use App\Project;
+use App\UserProjectRelation;
 use Illuminate\Support\Facades\DB;
+
+
 
 class HomeController extends Controller
 {
@@ -36,7 +40,7 @@ class HomeController extends Controller
 		$account = User
 			::where(['account'=>$account])
 			->first();
-		if( !$account->count() ){
+		if( !$account ){
 			// 条件に合うレコードが存在しない場合
 			// = ログインユーザー自身が指定のグループに参加していない。
 			return abort(404);
@@ -45,6 +49,8 @@ class HomeController extends Controller
 			$account->icon = url('/common/images/nophoto.png');
 		}
 
+		// パンくず
+		\App\Helpers\wasabiHelper::push_breadclumb($account->name);
 
 		return view('home.account', [
 			'account' => $account,
@@ -61,7 +67,7 @@ class HomeController extends Controller
 		$group = Group
 			::where('account', $account)
 			->first();
-		if( !$group->count() ){
+		if( !$group ){
 			// 条件に合うレコードが存在しない場合
 			return abort(404);
 		}
@@ -69,10 +75,68 @@ class HomeController extends Controller
 			$group->icon = url('/common/images/nophoto_group.png');
 		}
 
+		// パンくず
+		\App\Helpers\wasabiHelper::push_breadclumb($group->name);
+
 		return view('home.group', [
 			'account'=>$group,
 			'profile' => $user
 		]);
 	}
+
+	/**
+	 * プロジェクトホーム画面
+	 */
+	public function project($project_id)
+	{
+		$user = Auth::user();
+
+		$user_permissions = Project::get_user_permissions($project_id, $user->id);
+		if( $user_permissions === false ){
+			// ユーザーは所属していない
+			return abort(404);
+		}
+
+		$project = Project::find($project_id);
+		if( !$project ){
+			// 条件に合うレコードが存在しない場合
+			// = ログインユーザー自身が指定のプロジェクトに参加していない。
+			return abort(404);
+		}
+		if( !$project->icon ){
+			$project->icon = url('/common/images/nophoto_project.png');
+		}
+
+		// パンくず
+		\App\Helpers\wasabiHelper::push_breadclumb($project->name);
+
+		$group = Group::find($project->group_id);
+
+		$relation = UserProjectRelation::where(['user_id' => $user->id, 'project_id' => $project->id])
+			->leftJoin('projects', 'user_project_relations.project_id', '=', 'projects.id')
+			->orderBy('projects.name')
+			->first();
+
+		$members = UserProjectRelation::where(['project_id' => $project->id])
+			->leftJoin('users', function ($join) {
+				$join->on('users.id', '=', 'user_project_relations.user_id')
+					->whereNull('users.deleted_at');
+			})
+			->whereNotNull('users.email')
+			->orderBy('users.email')
+			->get();
+
+		return view(
+			'home.project',
+			[
+				'project'=>$project,
+				'group'=>$group,
+				'profile' => $user,
+				'relation' => $relation,
+				'members' => $members,
+			]
+		);
+	}
+
 
 }
