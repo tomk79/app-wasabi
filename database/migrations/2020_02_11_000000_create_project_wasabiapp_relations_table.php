@@ -15,12 +15,11 @@ class CreateProjectWasabiappRelationsTable extends Migration
 	{
 		Schema::create('project_wasabiapp_relations', function (Blueprint $table) {
 			$table->uuid('project_id', 36);
-			$table->char('wasabiapp_id', 255);
+			$table->char('wasabiapp_id', 32);
 			$table->timestamps();
 
 			$table->foreign('project_id')->references('id')->on('projects'); // foreignkey制約
-			$table->primary(['project_id', 'wasabiapp_id'])->name("project_wasabiapp_relations_unique"); // 複合unique制約
-			$table->unique(['project_id', 'wasabiapp_id'])->name("project_wasabiapp_relations_unique"); // 複合unique制約
+			$table->primary(['project_id', 'wasabiapp_id'])->name("wsb_proj_app_rels_projid_appid_primary"); // 複合unique制約
 		});
 
 	}

@@ -3,12 +3,16 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Ramsey\Uuid\Uuid;
 use App\UserGroupRelation;
+use Ramsey\Uuid\Uuid;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Group extends Model
 {
+
+	use SoftDeletes;
+
 	/** プライマリーキーの型 */
 	protected $keyType = 'string';
 

@@ -6,9 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 use App\UserProjectRelation;
 use Ramsey\Uuid\Uuid;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Project extends Model
 {
+
+	use SoftDeletes;
+
 	/** プライマリーキーの型 */
 	protected $keyType = 'string';
 
