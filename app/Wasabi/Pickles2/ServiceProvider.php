@@ -23,5 +23,6 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     {
         // ビューを登録
         $this->loadViewsFrom(__DIR__.'/views', 'App\Wasabi\Pickles2');
+        $this->loadMigrationsFrom(__DIR__.'/migrations');
     }
 }
