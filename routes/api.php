@@ -20,11 +20,16 @@ Route::middleware('auth:apikey,api')
 	->group(function(){
 
 		Route::get('/user', function (Request $request) {
-			return $request->user();
+			$rtn = (array) $request->user();
+			$rtn['result'] = true;
+			$rtn['error_message'] = null;
+			return $rtn;
 		});
 
 		Route::get('/user_info', function (Request $request) {
 			$rtn = array();
+			$rtn['result'] = true;
+			$rtn['error_message'] = null;
 			$rtn['user'] = $request->user();
 			$rtn['groups'] = Group::get_user_groups( $rtn['user']->id );
 			$rtn['root_groups'] = Group::get_user_root_groups( $rtn['user']->id );
@@ -33,15 +38,24 @@ Route::middleware('auth:apikey,api')
 		});
 
 		Route::get('/groups/{group}/permissions', function (Group $group, Request $request) {
-			return Group::get_user_permissions($group->id);
+			$rtn = (array) Group::get_user_permissions($group->id);
+			$rtn['result'] = true;
+			$rtn['error_message'] = null;
+			return $rtn;
 		});
 
 		Route::get('/groups/{group}/tree', function (Group $group, Request $request) {
-			return Group::get_group_tree($group->id);
+			$rtn = (array) Group::get_group_tree($group->id);
+			$rtn['result'] = true;
+			$rtn['error_message'] = null;
+			return $rtn;
 		});
 
 		Route::get('/projects/{project}/permissions', function (Project $project, Request $request) {
-			return Project::get_user_permissions($project->id);
+			$rtn = (array) Project::get_user_permissions($project->id);
+			$rtn['result'] = true;
+			$rtn['error_message'] = null;
+			return $rtn;
 		});
 
 		// WASABI App Integration

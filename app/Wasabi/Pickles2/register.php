@@ -39,6 +39,8 @@ class register{
 		$fin = ob_get_clean();
 
 		return [
+			'result' => true,
+			'error_message' => null,
 			'fin' => $fin,
 		];
 	}
