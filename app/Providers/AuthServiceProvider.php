@@ -38,7 +38,7 @@ class AuthServiceProvider extends ServiceProvider
 		// config/auth.php で guards に登録した apikey から呼び出されている。
 		Auth::viaRequest('apikey', function($request) {
 
-			$apikey_str = $request->input('apikey');
+			$apikey_str = $request->header('x-wasabi-apikey');
 			$user = null;
 			if( strlen($apikey_str) && preg_match('/^([a-zA-Z0-9\-]{36})\-\-(.+)$/is', $apikey_str, $matched) ){
 				$apikey_id = $matched[1];
