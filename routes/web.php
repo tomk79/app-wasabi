@@ -63,16 +63,13 @@ Route::middleware(['boot'])
 
 
 		// WASABI App Integration
-		Route::match(
-			['get', 'post'],
-			'pj/{project_id}/app/{app_id}',
-			'ProjectWasabiAppsController@appIntegration'
-		);
-		Route::match(
-			['get', 'post'],
-			'pj/{project_id}/app/{app_id}/{params}',
-			'ProjectWasabiAppsController@appIntegration'
-		)->where('params', '.+');
+		Route::prefix('pj/{project_id}/app/{app_id}')->group(function () {
+			Route::match(
+				['get', 'post'],
+				'{params?}',
+				'ProjectWasabiAppsController@appIntegration'
+			)->where('params', '.+');
+		});
 
 		// グループ: ホームページ(公開プロフィール)
 		Route::get('g/{account}', 'HomeController@group');

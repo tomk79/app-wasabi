@@ -15,7 +15,7 @@ use App\Project;
 |
 */
 
-Route::middleware('auth:apikey,api')
+Route::middleware('auth:apikey,api', 'throttle:60,1')
 		// ↑config/auth.php で guards に登録した apikey を呼び出している。
 	->group(function(){
 
@@ -59,16 +59,23 @@ Route::middleware('auth:apikey,api')
 		});
 
 		// WASABI App Integration
-		Route::match(
-			['get', 'post'],
-			'projects/{project_id}/app/{app_id}',
-			'ProjectWasabiAppsController@appIntegrationApi'
-		);
-		Route::match(
-			['get', 'post'],
-			'projects/{project_id}/app/{app_id}/{params}',
-			'ProjectWasabiAppsController@appIntegrationApi'
-		)->where('params', '.+');
+		Route::prefix('projects/{project_id}/app/{app_id}')->group(function () {
+			Route::match(
+				['get', 'post'],
+				'{params?}',
+				'ProjectWasabiAppsController@appIntegrationApi'
+			)->where('params', '.+');
+		});
 
 	})
 ;
+
+Route::fallback(
+	function(Request $request){
+		http_response_code(404);
+		$rtn = array();
+		$rtn['result'] = false;
+		$rtn['error_message'] = 'API not found.';
+		return $rtn;
+	}
+);
