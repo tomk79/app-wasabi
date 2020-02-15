@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use App\Group;
 use App\Project;
+use App\UserProjectRelation;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +20,7 @@ Route::middleware('auth:apikey,api', 'throttle:60,1')
 		// ↑config/auth.php で guards に登録した apikey を呼び出している。
 	->group(function(){
 
+		// User
 		Route::get('/user', function (Request $request) {
 			$rtn = (array) $request->user();
 			$rtn['result'] = true;
@@ -37,6 +39,7 @@ Route::middleware('auth:apikey,api', 'throttle:60,1')
 			return $rtn;
 		});
 
+		// Group
 		Route::get('/groups/{group}/permissions', function (Group $group, Request $request) {
 			$rtn = (array) Group::get_user_permissions($group->id);
 			$rtn['result'] = true;
@@ -51,10 +54,33 @@ Route::middleware('auth:apikey,api', 'throttle:60,1')
 			return $rtn;
 		});
 
+		// Project
 		Route::get('/projects/{project}/permissions', function (Project $project, Request $request) {
 			$rtn = (array) Project::get_user_permissions($project->id);
 			$rtn['result'] = true;
 			$rtn['error_message'] = null;
+			return $rtn;
+		});
+
+		Route::get('/projects/{project}/members', function (Project $project, Request $request) {
+			$members = UserProjectRelation::where(['project_id' => $project->id])
+				->leftJoin('users', 'users.id', '=', 'user_project_relations.user_id')
+				->get();
+			$rtn = array();
+			$rtn['result'] = true;
+			$rtn['error_message'] = null;
+			$rtn['members'] = array();
+			foreach($members as $member){
+				$row = array();
+				$row['name'] = $member['name'];
+				$row['user_id'] = $member['id'];
+				$row['role'] = $member['role'];
+				$row['icon'] = $member['icon'];
+				$row['email'] = $member['email'];
+				$row['lang'] = $member['lang'];
+				array_push($rtn['members'], $row);
+
+			}
 			return $rtn;
 		});
 
