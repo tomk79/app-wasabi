@@ -17,7 +17,7 @@ class CreateWasabiappPickles2PagesTable extends Migration
 			$table->char('path_md5',32);
 			$table->text('path');
 			$table->uuid('project_id', 36);
-			$table->uuid('asignee_id', 36)->nullable();
+			$table->uuid('assignee_id', 36)->nullable();
 			$table->text('title')->nullable();
 			$table->char('status',32)->nullable();
 			$table->dateTimeTz('end_date')->nullable();
@@ -25,7 +25,7 @@ class CreateWasabiappPickles2PagesTable extends Migration
 			$table->softDeletes();
 
 			$table->foreign('project_id')->references('id')->on('projects'); // foreignkey制約
-			$table->foreign('asignee_id')->references('id')->on('users'); // foreignkey制約
+			$table->foreign('assignee_id')->references('id')->on('users'); // foreignkey制約
 			$table->primary(['project_id', 'path_md5']); // 複合unique制約
 		});
 
