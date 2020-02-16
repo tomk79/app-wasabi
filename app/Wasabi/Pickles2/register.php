@@ -75,7 +75,7 @@ class register{
 
 			$assigned_user = null;
 			if( strlen($rtn['assignee_id']) ){
-				$assigned_user = new User($rtn['assignee_id']);
+				$assigned_user = User::find($rtn['assignee_id']);
 			}
 			$rtn['assignee'] = array();
 			$rtn['assignee']['id'] = ( $assigned_user ? $assigned_user->id : null );
