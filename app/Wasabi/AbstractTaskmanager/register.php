@@ -1,8 +1,8 @@
 <?php
-namespace App\Wasabi\Pickles2;
+namespace App\Wasabi\AbstractTaskmanager;
 
 use App\User;
-use App\Wasabi\Pickles2\Models\WasabiappPickles2Page;
+use App\Wasabi\AbstractTaskmanager\Models\WasabiappAbstractTaskmanagerPage;
 
 class register{
 
@@ -12,10 +12,10 @@ class register{
 	 */
 	public static function config(){
 		return [
-			'id' => 'Pickles2',
-			'name' => 'Pickles 2 Integration',
-			'api' => 'App\\Wasabi\\Pickles2\\register::api',
-			'web' => 'App\\Wasabi\\Pickles2\\register::web',
+			'id' => 'AbstractTaskmanager',
+			'name' => 'Task Manager',
+			'api' => 'App\\Wasabi\\AbstractTaskmanager\\register::api',
+			'web' => 'App\\Wasabi\\AbstractTaskmanager\\register::web',
 		];
 	}
 
@@ -28,7 +28,7 @@ class register{
 		$fin = ob_get_clean();
 
 		return view(
-			'App\Wasabi\Pickles2::index',
+			'App\Wasabi\AbstractTaskmanager::index',
 			['main'=>$fin]
 		);
 	}

@@ -1,8 +1,8 @@
 <?php
-namespace App\Wasabi\Pickles2;
+namespace App\Wasabi\CostManager;
 
 use App\User;
-use App\Wasabi\Pickles2\Models\WasabiappPickles2Page;
+use App\Wasabi\CostManager\Models\WasabiappCostManagerPage;
 
 class register{
 
@@ -12,10 +12,10 @@ class register{
 	 */
 	public static function config(){
 		return [
-			'id' => 'Pickles2',
-			'name' => 'Pickles 2 Integration',
-			'api' => 'App\\Wasabi\\Pickles2\\register::api',
-			'web' => 'App\\Wasabi\\Pickles2\\register::web',
+			'id' => 'CostManager',
+			'name' => 'Cost Manager',
+			'api' => 'App\\Wasabi\\CostManager\\register::api',
+			'web' => 'App\\Wasabi\\CostManager\\register::web',
 		];
 	}
 
@@ -28,7 +28,7 @@ class register{
 		$fin = ob_get_clean();
 
 		return view(
-			'App\Wasabi\Pickles2::index',
+			'App\Wasabi\CostManager::index',
 			['main'=>$fin]
 		);
 	}
