@@ -179,6 +179,7 @@ return [
          * Wasabi Apps Service Providers...
          */
         App\Wasabi\Pickles2\ServiceProvider::class,
+        App\Wasabi\AbstractTaskmanager\ServiceProvider::class,
 
     ],
 

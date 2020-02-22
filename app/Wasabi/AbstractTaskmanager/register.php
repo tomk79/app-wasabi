@@ -2,7 +2,7 @@
 namespace App\Wasabi\AbstractTaskmanager;
 
 use App\User;
-use App\Wasabi\AbstractTaskmanager\Models\WasabiappAbstractTaskmanagerPage;
+use App\Wasabi\AbstractTaskmanager\Models\WasabiappAbstractTaskmanagerAuth;
 
 class register{
 
