@@ -14,7 +14,7 @@
 				<tr>
 					<th><label for="name">名前</label></th>
 					<td>
-						<input id="name" type="name" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}" required autofocus>
+						<input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}" required autofocus>
 
 							@if ($errors->has('name'))
 								<span class="invalid-feedback" role="alert">
@@ -26,7 +26,7 @@
 				<tr>
 					<th><label for="description">説明</label></th>
 					<td>
-						<input id="description" type="description" class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }}" name="description" value="{{ old('description') }}" required autofocus>
+						<input id="description" type="text" class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }}" name="description" value="{{ old('description') }}" required autofocus>
 
 							@if ($errors->has('description'))
 								<span class="invalid-feedback" role="alert">

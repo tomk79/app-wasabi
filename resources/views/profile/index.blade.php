@@ -86,6 +86,11 @@
 		<a href="{{ url('/settings/profile/integration/oauth_apps') }}" class="btn btn-primary">OAuth アプリケーションを管理する</a>
 	</div>
 
+	<h2>外部アカウント連携</h2>
+	<div class="text-center">
+		<a href="{{ url('/settings/profile/foreign_accounts') }}" class="btn btn-primary">外部アカウント連携を管理する</a>
+	</div>
+
 
 	<hr />
 
