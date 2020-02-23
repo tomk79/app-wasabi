@@ -2,7 +2,7 @@
 namespace App\Wasabi\AbstractTaskmanager;
 
 use App\User;
-use App\Wasabi\AbstractTaskmanager\Models\WasabiappAbstractTaskmanagerAuth;
+use App\Wasabi\AbstractTaskmanager\Taskmanager;
 
 class register{
 
@@ -23,7 +23,11 @@ class register{
 	 * Wasabi App: ウェブページを実行する
 	 */
 	public static function web($request, $project_id, $params){
+		$taskmanager = new Taskmanager($project_id);
+		$user_info = $taskmanager->get_foreign_user_info();
+
 		ob_start();
+		var_dump(json_decode($user_info));
 		var_dump($project_id, $params);
 		$fin = ob_get_clean();
 

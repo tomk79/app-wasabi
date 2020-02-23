@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Wasabi\Pickles2\Models;
+namespace App\Wasabi\AbstractTaskmanager\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Ramsey\Uuid\Uuid;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class WasabiappPickles2Page extends Model
+class WasabiappAbstractTaskmanagerProjectConf extends Model
 {
 
 	use SoftDeletes;

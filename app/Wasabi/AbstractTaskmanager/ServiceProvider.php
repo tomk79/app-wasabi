@@ -23,6 +23,6 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     {
         // ビューを登録
         $this->loadViewsFrom(__DIR__.'/views', 'App\Wasabi\AbstractTaskmanager');
-        // $this->loadMigrationsFrom(__DIR__.'/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/migrations');
     }
 }

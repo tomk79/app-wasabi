@@ -377,7 +377,7 @@ class MembersController extends Controller
 
 		$invited_user = User::find($invited_user_id);
 
-		if( !$invited_user->count() ){
+		if( !$invited_user ){
 			// 条件に合うレコードが存在しない場合
 			return abort(403);
 		}
