@@ -46,7 +46,8 @@ class Taskmanager
 		$auth_info = json_decode($this->foreignAccount->auth_info);
 
 		if( $this->projectConf->foreign_service_id == 'backlog' ){
-			$url = $this->projectConf->space.$api_path.'?apiKey='.urlencode($auth_info->apikey);
+			$url = $this->projectConf->space.$api_path;
+			$url .= (!preg_match('/\?/',$url) ? '?' : '&').'apiKey='.urlencode($auth_info->apikey);
 		}else{
 			return false;
 		}
@@ -67,7 +68,7 @@ class Taskmanager
 			if( !$orig_json ){
 				return false;
 			}
-			if( property_exists( $orig_json, 'errors' ) ){
+			if( is_object($orig_json) && property_exists( $orig_json, 'errors' ) ){
 				return false;
 			}
 		}
@@ -114,6 +115,7 @@ class Taskmanager
 			$foreign_project_info->id = $orig_proj_info->projectKey;
 			$foreign_project_info->name = $orig_proj_info->name;
 			$foreign_project_info->foreign_service_id = $this->projectConf->foreign_service_id;
+			$foreign_project_info->foreign_project_id = $orig_proj_info->id;
 		}else{
 			return false;
 		}
@@ -139,6 +141,7 @@ class Taskmanager
 			$foreign_user_info->email = $orig_foreign_user_info->mailAddress;
 			$foreign_user_info->foreign_service_id = $this->projectConf->foreign_service_id;
 			$foreign_user_info->space = $this->projectConf->space;
+			$foreign_user_info->foreign_user_id = $orig_foreign_user_info->id;
 		}else{
 			return false;
 		}
@@ -146,6 +149,37 @@ class Taskmanager
 		$foreign_user_info->orig = $orig_foreign_user_info;
 
 		return $foreign_user_info;
+	}
+
+	/**
+	 * チケットの一覧を得る
+	 */
+	public function get_ticket_list(){
+		$ticket_list = new \stdClass();
+		$user_info = $this->get_foreign_user_info();
+		$proj_info = $this->get_foreign_project_info();
+
+		$orig_ticket_list = null;
+		if( $this->projectConf->foreign_service_id == 'backlog' ){
+			$orig_ticket_list = $this->call_foreign_api(
+				'/api/v2/issues'
+					.'?projectId[]='.urlencode($proj_info->foreign_project_id)
+					.'&assigneeId[]='.urlencode($user_info->foreign_user_id)
+			);
+			if(!$orig_ticket_list){
+				return false;
+			}
+			// $ticket_list->name = $orig_ticket_list->name;
+			// $ticket_list->email = $orig_ticket_list->mailAddress;
+			// $ticket_list->foreign_service_id = $this->projectConf->foreign_service_id;
+			// $ticket_list->space = $this->projectConf->space;
+		}else{
+			return false;
+		}
+
+		$ticket_list->orig = $orig_ticket_list;
+
+		return $ticket_list;
 	}
 
 }

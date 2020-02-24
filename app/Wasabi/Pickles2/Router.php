@@ -22,6 +22,7 @@ class Router{
 				var_dump($taskmanager->get_foreign_user_info());
 				var_dump($taskmanager->get_foreign_space_info());
 				var_dump($taskmanager->get_foreign_project_info());
+				var_dump($taskmanager->get_ticket_list());
 				$fin = ob_get_clean();
 
 				\App\Helpers\wasabiHelper::push_breadclumb('Pickles 2');
