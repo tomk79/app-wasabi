@@ -90,8 +90,6 @@ class ProfileForeignAccountController extends Controller
 			],
 		]);
 
-		$new_foreign_accounts = md5($user->id.'-'.time()).'-'.Uuid::uuid4()->toString();
-
 		$user_foreign_accounts = new UserForeignAccount;
 		$user_foreign_accounts->user_id = $user->id;
 		$user_foreign_accounts->foreign_service_id = $request->foreign_service_id;

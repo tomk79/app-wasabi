@@ -42,21 +42,14 @@ class HomeController extends \App\Http\Controllers\Controller
 			$pjconf->foreign_project_id = '';
 		}
 		$taskmanager = new Taskmanager($project_id);
-		$user_info = $taskmanager->get_foreign_user_info();
 
 		\App\Helpers\wasabiHelper::push_breadclumb('Task Manager');
-
-		ob_start();
-		var_dump(json_decode($user_info));
-		var_dump($project_id, $params);
-		$fin = ob_get_clean();
 
 		$rtn = view(
 			'App\Wasabi\AbstractTaskmanager::index',
 			[
 				'project'=>$project,
 				'pjconf'=>$pjconf,
-				'main'=>$fin,
 			]
 		);
 

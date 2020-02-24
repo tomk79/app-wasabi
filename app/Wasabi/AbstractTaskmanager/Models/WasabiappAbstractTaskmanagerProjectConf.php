@@ -10,10 +10,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class WasabiappAbstractTaskmanagerProjectConf extends Model
 {
 
-	use SoftDeletes;
+	// use SoftDeletes;
 
 	/** プライマリーキーの型 */
 	protected $keyType = 'string';
+
+	/**
+	 * 主キーが複合
+	 */
+	protected $primaryKey = 'project_id';
 
 	/** プライマリーキーは自動連番か？ */
 	public $incrementing = false;

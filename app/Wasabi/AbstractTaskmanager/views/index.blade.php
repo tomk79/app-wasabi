@@ -1,51 +1,26 @@
 <div>
-    <form action="{{ url('pj/'.urlencode($project->id).'/app/AbstractTaskmanager') }}" method="post">
-        @csrf
-        @method('POST')
+	<table class="table table__dd">
+		<tbody>
+			<tr>
+				<th><label for="foreign_service_id">サービス名</label></th>
+				<td>
+					<div>{{ $pjconf->foreign_service_id }}</div>
+				</td>
+			</tr>
+			<tr>
+				<th><label for="space">スペース</label></th>
+				<td>
+					<div>{{ $pjconf->space }}</div>
+				</td>
+			</tr>
+			<tr>
+				<th><label for="foreign_project_id">外部サービス上のプロジェクトID</label></th>
+				<td>
+					<div>{{ $pjconf->{'foreign_project_id'} }}</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
 
-		<table class="table table__dd">
-			<tbody>
-				<tr>
-					<th><label for="foreign_service_id">サービス名</label></th>
-					<td>
-						<select name="foreign_service_id" class="form-control{{ $errors->has('foreign_service_id') ? ' is-invalid' : '' }}" required autofocus>
-							<option value="backlog" @if ( old('foreign_service_id', $pjconf->foreign_service_id) == 'backlog') selected @endif>Backlog</option>
-						</select>
-							@if ($errors->has('foreign_service_id'))
-								<span class="invalid-feedback" role="alert">
-									{{ $errors->first('foreign_service_id') }}
-								</span>
-							@endif
-					</td>
-				</tr>
-				<tr>
-					<th><label for="space">スペース</label></th>
-					<td>
-						<input id="space" type="text" class="form-control @if ($errors->has('space')) is-invalid @endif" name="space" value="{{ old('space', $pjconf->space) }}" autofocus>
-							@if ($errors->has('space'))
-								<span class="invalid-feedback" role="alert">
-									{{ $errors->first('space') }}
-								</span>
-							@endif
-					</td>
-				</tr>
-				<tr>
-					<th><label for="foreign_project_id">外部サービス上のプロジェクトID</label></th>
-					<td>
-						<input id="foreign_project_id" type="text" class="form-control{{ $errors->has('foreign_project_id') ? ' is-invalid' : '' }}" name="foreign_project_id" value="{{ old('foreign_project_id', $pjconf->{'foreign_project_id'}) }}" required autofocus>
-
-							@if ($errors->has('foreign_project_id'))
-								<span class="invalid-feedback" role="alert">
-									{{ $errors->first('foreign_project_id') }}
-								</span>
-							@endif
-					</td>
-				</tr>
-			</tbody>
-		</table>
-
-        <button type="submit" name="submit" class="btn btn-primary">送信</button>
-    </form>
+	<a href="{{ url('pj/'.urlencode($project->id).'/app/AbstractTaskmanager/project_conf/edit') }}">編集</a>
 </div>
-
-<pre><code>{{ $main }}</code></pre>
