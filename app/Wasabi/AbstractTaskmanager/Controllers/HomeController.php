@@ -42,6 +42,8 @@ class HomeController extends \App\Http\Controllers\Controller
 			$pjconf->foreign_project_id = '';
 		}
 		$taskmanager = new Taskmanager($project_id);
+		$foreign_space_info = $taskmanager->get_foreign_space_info();
+		$foreign_project_info = $taskmanager->get_foreign_project_info();
 
 		\App\Helpers\wasabiHelper::push_breadclumb('Task Manager');
 
@@ -50,6 +52,8 @@ class HomeController extends \App\Http\Controllers\Controller
 			[
 				'project'=>$project,
 				'pjconf'=>$pjconf,
+				'foreign_space_info' => $foreign_space_info,
+				'foreign_project_info' => $foreign_project_info,
 			]
 		);
 

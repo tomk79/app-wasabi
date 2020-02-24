@@ -91,6 +91,7 @@ class Taskmanager
 			$foreign_space_info->id = $orig_space_info->spaceKey;
 			$foreign_space_info->name = $orig_space_info->name;
 			$foreign_space_info->foreign_service_id = $this->projectConf->foreign_service_id;
+			$foreign_space_info->url = $this->projectConf->space.'/';
 		}else{
 			return false;
 		}
@@ -116,6 +117,7 @@ class Taskmanager
 			$foreign_project_info->name = $orig_proj_info->name;
 			$foreign_project_info->foreign_service_id = $this->projectConf->foreign_service_id;
 			$foreign_project_info->foreign_project_id = $orig_proj_info->id;
+			$foreign_project_info->url = $this->projectConf->space.'/projects/'.urlencode($orig_proj_info->projectKey);
 		}else{
 			return false;
 		}
@@ -156,6 +158,8 @@ class Taskmanager
 	 */
 	public function get_ticket_list(){
 		$ticket_list = new \stdClass();
+		$ticket_list->list = array();
+
 		$user_info = $this->get_foreign_user_info();
 		$proj_info = $this->get_foreign_project_info();
 
@@ -169,15 +173,27 @@ class Taskmanager
 			if(!$orig_ticket_list){
 				return false;
 			}
-			// $ticket_list->name = $orig_ticket_list->name;
-			// $ticket_list->email = $orig_ticket_list->mailAddress;
-			// $ticket_list->foreign_service_id = $this->projectConf->foreign_service_id;
-			// $ticket_list->space = $this->projectConf->space;
+			foreach( $orig_ticket_list as $orig_ticket ){
+				$row = new \stdClass();
+				$row->ticket_id = $orig_ticket->keyId;
+				$row->title = $orig_ticket->summary;
+				$row->description = $orig_ticket->description;
+				$row->status = $orig_ticket->status->name;
+				$row->assignee = new \stdClass();
+				$row->assignee->name = $orig_ticket->assignee->name;
+				$row->assignee->email = $orig_ticket->assignee->mailAddress;
+				$row->assignee->start_date = $orig_ticket->startDate;
+				$row->assignee->due_date = $orig_ticket->dueDate;
+				$row->url = $this->projectConf->space.'/view/'.urlencode($orig_ticket->issueKey);
+				$row->orig = $orig_ticket;
+
+				array_push($ticket_list->list, $row);
+			}
 		}else{
 			return false;
 		}
 
-		$ticket_list->orig = $orig_ticket_list;
+		// $ticket_list->orig = $orig_ticket_list;
 
 		return $ticket_list;
 	}

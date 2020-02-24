@@ -1,7 +1,7 @@
 <div>
-    <form action="{{ url('pj/'.urlencode($project->id).'/app/AbstractTaskmanager/project_conf/edit') }}" method="post">
-        @csrf
-        @method('POST')
+	<form action="{{ url('pj/'.urlencode($project->id).'/app/AbstractTaskmanager/project_conf/edit') }}" method="post">
+		@csrf
+		@method('POST')
 
 		<table class="table table__dd">
 			<tbody>
@@ -44,6 +44,10 @@
 			</tbody>
 		</table>
 
-        <button type="submit" name="submit" class="btn btn-primary">送信</button>
-    </form>
+		<button type="submit" name="submit" class="btn btn-primary">変更を保存する</button>
+	</form>
+	<hr />
+	<div class="text-right">
+		<a href="{{ url('/pj/'.urlencode($project->id).'/app/AbstractTaskmanager') }}" class="btn btn-default">キャンセル</a>
+	</div>
 </div>
