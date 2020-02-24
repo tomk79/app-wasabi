@@ -17,10 +17,11 @@ class Router{
 			'/',
 			function(Request $request, $project_id, $app_id){
 				$taskmanager = new Taskmanager($project_id);
-				$foreignUserInfo = $taskmanager->get_foreign_user_info();
 				ob_start();
 				var_dump($project_id, $app_id);
-				var_dump($foreignUserInfo);
+				var_dump($taskmanager->get_foreign_user_info());
+				var_dump($taskmanager->get_foreign_space_info());
+				var_dump($taskmanager->get_foreign_project_info());
 				$fin = ob_get_clean();
 
 				\App\Helpers\wasabiHelper::push_breadclumb('Pickles 2');

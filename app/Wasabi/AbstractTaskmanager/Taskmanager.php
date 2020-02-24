@@ -9,49 +9,140 @@ use App\Wasabi\AbstractTaskmanager\Models\WasabiappAbstractTaskmanagerProjectCon
 class Taskmanager
 {
 
+	private $user;
 	private $project_id;
+	private $projectConf;
+	private $foreignAccount;
 
 	public function __construct($project_id){
+		$this->user = Auth::user();
 		$this->project_id = $project_id;
+
+		$this->projectConf = WasabiappAbstractTaskmanagerProjectConf::where([
+			'project_id'=>$this->project_id,
+		])->first();
+
+		$this->foreignAccount = null;
+		if($this->projectConf){
+			$this->foreignAccount = UserForeignAccount::where([
+				'user_id'=>$this->user->id,
+				'foreign_service_id'=>$this->projectConf->foreign_service_id,
+				'space'=>$this->projectConf->space,
+			])->first();
+		}
+	}
+
+	/**
+	 * APIリクエストを送る
+	 */
+	private function call_foreign_api( $api_path ){
+		if( !$this->projectConf ){
+			return false;
+		}
+		if( !$this->foreignAccount ){
+			return false;
+		}
+
+		$auth_info = json_decode($this->foreignAccount->auth_info);
+
+		if( $this->projectConf->foreign_service_id == 'backlog' ){
+			$url = $this->projectConf->space.$api_path.'?apiKey='.urlencode($auth_info->apikey);
+		}else{
+			return false;
+		}
+
+		$content = file_get_contents(
+			$url,
+			false,
+			stream_context_create(array(
+				'http' => array(
+					'method' => 'GET',
+					'ignore_errors' => true,
+				))
+			)
+		);
+		$orig_json = json_decode($content);
+
+		if( $this->projectConf->foreign_service_id == 'backlog' ){
+			if( !$orig_json ){
+				return false;
+			}
+			if( property_exists( $orig_json, 'errors' ) ){
+				return false;
+			}
+		}
+
+		return $orig_json;
+	}
+
+	/**
+	 * 接続先サービス上のプロジェクト情報を得る
+	 */
+	public function get_foreign_space_info(){
+		$foreign_space_info = new \stdClass();
+
+		$orig_space_info = null;
+		if( $this->projectConf->foreign_service_id == 'backlog' ){
+			$orig_space_info = $this->call_foreign_api('/api/v2/space');
+			if(!$orig_space_info){
+				return false;
+			}
+			$foreign_space_info->id = $orig_space_info->spaceKey;
+			$foreign_space_info->name = $orig_space_info->name;
+			$foreign_space_info->foreign_service_id = $this->projectConf->foreign_service_id;
+		}else{
+			return false;
+		}
+
+		$foreign_space_info->orig = $orig_space_info;
+
+		return $foreign_space_info;
+	}
+
+	/**
+	 * 接続先サービス上のプロジェクト情報を得る
+	 */
+	public function get_foreign_project_info(){
+		$foreign_project_info = new \stdClass();
+
+		$orig_proj_info = null;
+		if( $this->projectConf->foreign_service_id == 'backlog' ){
+			$orig_proj_info = $this->call_foreign_api('/api/v2/projects/'.urlencode($this->projectConf->foreign_project_id));
+			if(!$orig_proj_info){
+				return false;
+			}
+			$foreign_project_info->id = $orig_proj_info->projectKey;
+			$foreign_project_info->name = $orig_proj_info->name;
+			$foreign_project_info->foreign_service_id = $this->projectConf->foreign_service_id;
+		}else{
+			return false;
+		}
+
+		$foreign_project_info->orig = $orig_proj_info;
+
+		return $foreign_project_info;
 	}
 
 	/**
 	 * 接続先サービス上のユーザー情報を得る
 	 */
 	public function get_foreign_user_info(){
-		$user = Auth::user();
+		$foreign_user_info = new \stdClass();
 
-		$project_conf = WasabiappAbstractTaskmanagerProjectConf::where([
-			'project_id'=>$this->project_id,
-		])->first();
-		if( !$project_conf ){
-			return false;
-		}
-
-		$account = UserForeignAccount::where([
-			'user_id'=>$user->id,
-			'foreign_service_id'=>$project_conf->foreign_service_id,
-			'space'=>$project_conf->space,
-		])->first();
-		if( !$account ){
-			return false;
-		}
-		$auth_info = json_decode($account->auth_info);
-
-		if( $project_conf->foreign_service_id == 'backlog' ){
-			$url = $project_conf->space.'/api/v2/users/myself?apiKey='.urlencode($auth_info->apikey);
+		$orig_foreign_user_info = null;
+		if( $this->projectConf->foreign_service_id == 'backlog' ){
+			$orig_foreign_user_info = $this->call_foreign_api('/api/v2/users/myself');
+			if(!$orig_foreign_user_info){
+				return false;
+			}
+			$foreign_user_info->name = $orig_foreign_user_info->name;
+			$foreign_user_info->email = $orig_foreign_user_info->mailAddress;
+			$foreign_user_info->foreign_service_id = $this->projectConf->foreign_service_id;
+			$foreign_user_info->space = $this->projectConf->space;
 		}else{
 			return false;
 		}
 
-		$content = file_get_contents($url);
-		$orig_foreign_user_info = json_decode($content);
-
-		$foreign_user_info = new \stdClass();
-		$foreign_user_info->name = $orig_foreign_user_info->name;
-		$foreign_user_info->email = $orig_foreign_user_info->mailAddress;
-		$foreign_user_info->foreign_service_id = $project_conf->foreign_service_id;
-		$foreign_user_info->space = $project_conf->space;
 		$foreign_user_info->orig = $orig_foreign_user_info;
 
 		return $foreign_user_info;
