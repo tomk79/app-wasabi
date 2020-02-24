@@ -17,6 +17,7 @@ class CreateWasabiappAbstractTaskmanagerProjectConfsTable extends Migration
 			$table->uuid('project_id', 36);
 			$table->char('foreign_service_id', 255);
 			$table->text('space')->nullable();
+			$table->char('foreign_project_id', 255);
 			$table->timestamps();
 			$table->softDeletes();
 

@@ -1,8 +1,15 @@
 <?php
 namespace App\Helpers;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Auth;
+use App\Group;
+use App\UserGroupRelation;
+use App\Project;
+use App\UserProjectRelation;
+use App\ProjectWasabiappRelation;
+use App\Http\Requests\StoreProject;
 
 class wasabiHelper{
 
@@ -94,6 +101,65 @@ class wasabiHelper{
 	public static function get_app_list(){
 		$list = (array) config('wasabi.app');
 		return $list;
+	}
+
+	/**
+	 * WASABI App のルーティング: web
+	 */
+	public static function route_app_integration_web(){
+		$request_path = $_SERVER['REQUEST_URI'];
+		$project_id = null;
+		$app_id = null;
+		if(preg_match('/^.*?\/pj\/([a-zA-Z0-9\-\_]+)\/app\/([a-zA-Z0-9\-\_]+)/s', $request_path, $matched)){
+			$project_id = $matched[1];
+			$app_id = $matched[2];
+		}
+		if( !strlen($project_id) || !strlen($app_id) ){
+			return;
+		}
+
+		$wasabi_app = \App\Helpers\wasabiHelper::create_wasabi_app($app_id);
+		if( !$wasabi_app->check_app_api('web') ){
+			return view(
+				'projects.app.error',
+				[
+					'app_id' => $app_id,
+					'app_name' => null,
+					'error_message'=>'この App は利用できません。'
+				]
+			);
+		}
+
+		return $wasabi_app->execute_web($project_id, $app_id);
+	}
+
+	/**
+	 * WASABI App のルーティング: api
+	 */
+	public static function route_app_integration_api(){
+		$request_path = $_SERVER['REQUEST_URI'];
+		$project_id = null;
+		$app_id = null;
+		if(preg_match('/^.*?\/projects\/([a-zA-Z0-9\-\_]+)\/app\/([a-zA-Z0-9\-\_]+)/s', $request_path, $matched)){
+			$project_id = $matched[1];
+			$app_id = $matched[2];
+		}
+		if( !strlen($project_id) || !strlen($app_id) ){
+			return;
+		}
+
+		$wasabi_app = \App\Helpers\wasabiHelper::create_wasabi_app($app_id);
+		if( !$wasabi_app->check_app_api('api') ){
+			return json_encode(
+				[
+					'app_id' => $app_id,
+					'app_name' => null,
+					'error_message'=>'この App は利用できません。'
+				]
+			);
+		}
+
+		return $wasabi_app->execute_api($project_id, $app_id);
 	}
 
 	/**

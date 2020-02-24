@@ -64,13 +64,47 @@ Route::middleware(['boot'])
 
 
 		// WASABI App Integration
-		Route::prefix('pj/{project_id}/app/{app_id}')->group(function () {
-			Route::match(
-				['get', 'post'],
-				'{params?}',
-				'ProjectWasabiAppsController@appIntegration'
-			)->where('params', '.+');
-		});
+		Route::middleware(function($request, Closure $next){
+			$request_path = $_SERVER['REQUEST_URI'];
+			$project_id = null;
+			$app_id = null;
+			if(preg_match('/^.*?\/pj\/([a-zA-Z0-9\-\_]+)\/app\/([a-zA-Z0-9\-\_]+)/s', $request_path, $matched)){
+				$project_id = $matched[1];
+				$app_id = $matched[2];
+			}
+			if( !strlen($project_id) || !strlen($app_id) ){
+				return;
+			}
+
+			$project = \App\Project::find($project_id);
+			if( !$project ){
+				// 条件に合うレコードが存在しない場合
+				// = ログインユーザー自身が指定のプロジェクトに参加していない。
+				return abort(404);
+			}
+
+			$user = \Illuminate\Support\Facades\Auth::user();
+			$user_permissions = \App\Project::get_user_permissions($project_id, $user->id);
+			if( $user_permissions === false ){
+				// ユーザーは所属していない
+				return abort(404);
+			}
+
+			$relation = \App\ProjectWasabiappRelation::where(['project_id'=>$project->id, 'wasabiapp_id' => $app_id])
+				->first();
+			if( !$relation ){
+				// このプロジェクトには統合されていない
+				return abort(404);
+			}
+
+			\App\Helpers\wasabiHelper::push_breadclumb($project->name, '/pj/'.urlencode($project->id));
+
+			return $next($request);
+		})
+			->prefix('pj/{project_id}/app/{app_id}')
+			->group(function () {
+				\App\Helpers\wasabiHelper::route_app_integration_web();
+			});
 
 		// グループ: ホームページ(公開プロフィール)
 		Route::get('g/{account}', 'HomeController@group');

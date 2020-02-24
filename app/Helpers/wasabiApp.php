@@ -35,48 +35,15 @@ class wasabiApp{
 	/**
 	 * Webページを実行する
 	 */
-	public function execute_web($requestm, $project_id, $params){
-		$params = trim($params);
-		// $params = preg_replace('/\/+/s', '/', $params);
-		$params = preg_replace('/^\/+/s', '', $params);
-		$params = preg_replace('/\/+$/s', '', $params);
-		$params = trim($params);
-		if( strlen($params) ){
-			$params = explode('/', $params);
-		}else{
-			$params = array();
-		}
-
-		$rtn = call_user_func_array( $this->app_settings->web, array($requestm, $project_id, $params) );
-		if( preg_match( '/^\s*\<\!doctype/si', $rtn ) ){
-			return $rtn;
-		}
-		return view(
-			'projects.app.index',
-			[
-				'app_id'=>$this->app_settings->id,
-				'app_name'=>$this->app_settings->name,
-				'main'=>$rtn,
-			]
-		);
+	public function execute_web($project_id, $app_id){
+		call_user_func_array( $this->app_settings->web, array($project_id, $app_id) );
 	}
 
 	/**
 	 * APIを実行する
 	 */
-	public function execute_api($requestm, $project_id, $params){
-		$params = trim($params);
-		// $params = preg_replace('/\/+/s', '/', $params);
-		$params = preg_replace('/^\/+/s', '', $params);
-		$params = preg_replace('/\/+$/s', '', $params);
-		$params = trim($params);
-		if( strlen($params) ){
-			$params = explode('/', $params);
-		}else{
-			$params = array();
-		}
-
-		$rtn = call_user_func_array( $this->app_settings->api, array($requestm, $project_id, $params) );
+	public function execute_api($project_id, $app_id){
+		$rtn = call_user_func_array( $this->app_settings->api, array($project_id, $app_id) );
 		return json_encode(
 			$rtn
 		);

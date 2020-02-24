@@ -2,6 +2,8 @@
 namespace App\Wasabi\AbstractTaskmanager;
 
 use App\User;
+use App\Project;
+use App\Wasabi\AbstractTaskmanager\Models\WasabiappAbstractTaskmanagerProjectConf;
 use App\Wasabi\AbstractTaskmanager\Taskmanager;
 
 class register{
@@ -14,122 +16,52 @@ class register{
 		return [
 			'id' => 'AbstractTaskmanager',
 			'name' => 'Task Manager',
-			'api' => 'App\\Wasabi\\AbstractTaskmanager\\register::api',
-			'web' => 'App\\Wasabi\\AbstractTaskmanager\\register::web',
+			'api' => 'App\\Wasabi\\AbstractTaskmanager\\register::apiroute',
+			'web' => 'App\\Wasabi\\AbstractTaskmanager\\register::webroute',
 		];
 	}
 
 	/**
 	 * Wasabi App: ウェブページを実行する
 	 */
-	public static function web($request, $project_id, $params){
-		$taskmanager = new Taskmanager($project_id);
-		$user_info = $taskmanager->get_foreign_user_info();
+	public static function webroute($project_id, $app_id){
 
-		ob_start();
-		var_dump(json_decode($user_info));
-		var_dump($project_id, $params);
-		$fin = ob_get_clean();
+		\Route::match(
+			['get', 'post'],
+			'/{params?}',
+			'\App\Wasabi\AbstractTaskmanager\Controllers\HomeController@index'
+		)->where('params', '.+');
 
-		return view(
-			'App\Wasabi\AbstractTaskmanager::index',
-			['main'=>$fin]
-		);
 	}
 
 	/**
 	 * Wasabi App: APIを実行する
 	 */
-	public static function api($request, $project_id, $params){
-		$apiName = null;
-		if( array_key_exists(0, $params) ){ $apiName = $params[0]; }
-		$method = null;
-		if( array_key_exists(1, $params) ){ $method = $params[1]; }
+	public static function apiroute($project_id, $app_id){
+		\Route::match(
+			['get', 'post'],
+			'/{params?}',
+			function(Request $request, $project_id, $app_id, $params = null){
+				$params = trim($params);
+				// $params = preg_replace('/\/+/s', '/', $params);
+				$params = preg_replace('/^\/+/s', '', $params);
+				$params = preg_replace('/\/+$/s', '', $params);
+				$params = trim($params);
+				if( strlen($params) ){
+					$params = explode('/', $params);
+				}else{
+					$params = array();
+				}
 
-		$path = null;
-		if( $request->has('path') ){
-			$path = $request->path;
-		}
-		$path_md5 = null;
-		if( is_string($path) && strlen($path) ){
-			$path_md5 = md5($path);
-		}
 
-		if($apiName == 'page'){
-			if( !strlen($path) ){
-				return [ 'result' => false, 'error_message' => 'Parameter "path" is required.' ];
+				return [
+					'result' => false,
+					'error_message' => 'API not found.',
+				];
+
 			}
+		)->where('params', '.+');
 
-			$page = WasabiappPickles2Page::where(['project_id'=>$project_id, 'path_md5'=>$path_md5])
-				->first();
-
-			$rtn = array();
-			$rtn['result'] = true;
-			$rtn['error_message'] = null;
-			if( !$page ){
-				$rtn['result'] = false;
-				$rtn['error_message'] = 'Page not found.';
-			}
-			$rtn['project_id'] = ( $page ? $page->project_id : null );
-			$rtn['path'] = ( $page ? $page->path : null );
-			$rtn['title'] = ( $page ? $page->title : null );
-			$rtn['assignee_id'] = ( $page ? $page->assignee_id : null );
-			$rtn['status'] = ( $page ? $page->status : null );
-			$rtn['end_date'] = ( $page ? $page->end_date : null );
-
-			$assigned_user = null;
-			if( strlen($rtn['assignee_id']) ){
-				$assigned_user = User::find($rtn['assignee_id']);
-			}
-			$rtn['assignee'] = array();
-			$rtn['assignee']['id'] = ( $assigned_user ? $assigned_user->id : null );
-			$rtn['assignee']['name'] = ( $assigned_user ? $assigned_user->name : null );
-
-			return $rtn;
-
-		}elseif($apiName == 'update_page'){
-			if( !strlen($path) ){
-				return [ 'result' => false, 'error_message' => 'Parameter "path" is required.' ];
-			}
-
-			// WasabiappPickles2Page
-			$page = WasabiappPickles2Page::where(['project_id'=>$project_id, 'path_md5'=>$path_md5])
-				->first();
-
-			if( !$page ){
-				// 新規
-				$page = new WasabiappPickles2Page();
-				$page->path_md5 = $path_md5;
-				$page->path = $path;
-				$page->project_id = $project_id;
-
-				$page->title = $request->get('title');
-				$page->assignee_id = $request->get('assignee_id');
-				$page->status = $request->get('status');
-				$page->end_date = $request->get('end_date');
-
-				$page->save();
-			}else{
-				// 更新
-				$values = array();
-				if( $request->has('title') ){ $values['title'] = $request->get('title'); }
-				if( $request->has('assignee_id') ){ $values['assignee_id'] = $request->get('assignee_id'); }
-				if( $request->has('status') ){ $values['status'] = $request->get('status'); }
-				if( $request->has('end_date') ){ $values['end_date'] = $request->get('end_date'); }
-
-				WasabiappPickles2Page::where(['project_id'=>$project_id, 'path_md5'=>$path_md5])->update($values);
-			}
-
-			return [
-				'result' => true,
-				'error_message' => null,
-			];
-		}
-
-		return [
-			'result' => false,
-			'error_message' => 'API not found.',
-		];
 	}
 
 }
