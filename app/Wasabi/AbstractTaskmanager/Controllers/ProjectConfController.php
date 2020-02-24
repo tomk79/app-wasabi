@@ -78,16 +78,38 @@ class ProjectConfController extends \App\Http\Controllers\Controller
 				'required',
 				'string',
 				'max:255',
+				function ($attribute, $value, $fail) {
+					switch ($value) {
+						case 'backlog':
+							break;
+						default:
+							$fail($attribute.' is invalid.');
+							break;
+					}
+				},
 			],
 			'space' => [
 				'string',
 				'max:255',
+				function ($attribute, $value, $fail) use ($request){
+					if($request->foreign_service_id == 'backlog'){
+						$parsed_url = parse_url($value);
+						if( !preg_match('/^[a-zA-Z0-9\-\_]*\.backlog\.(?:jp|com)$/s', $parsed_url['host']) ){
+							$fail($attribute.' is invalid.');
+							return;
+						}
+						if ($parsed_url['scheme'] !== 'https') {
+							$fail($attribute.' is invalid.');
+						}
+					}
+				},
 			],
 			'foreign_project_id' => [
 				'string',
 				'max:255',
 			],
 		]);
+
 
 		$project = Project::find($project_id)->first();
 		$pjconf = WasabiappAbstractTaskmanagerProjectConf::where(['project_id'=>$project->id])->first();

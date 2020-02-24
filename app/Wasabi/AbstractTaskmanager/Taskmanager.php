@@ -15,6 +15,9 @@ class Taskmanager
 		$this->project_id = $project_id;
 	}
 
+	/**
+	 * 接続先サービス上のユーザー情報を得る
+	 */
 	public function get_foreign_user_info(){
 		$user = Auth::user();
 
@@ -35,10 +38,23 @@ class Taskmanager
 		}
 		$auth_info = json_decode($account->auth_info);
 
-		$url = 'https://pickles2.backlog.com/api/v2/users/myself?apiKey='.urlencode($auth_info->apikey);
+		if( $project_conf->foreign_service_id == 'backlog' ){
+			$url = $project_conf->space.'/api/v2/users/myself?apiKey='.urlencode($auth_info->apikey);
+		}else{
+			return false;
+		}
 
 		$content = file_get_contents($url);
-		return $content;
+		$orig_foreign_user_info = json_decode($content);
+
+		$foreign_user_info = new \stdClass();
+		$foreign_user_info->name = $orig_foreign_user_info->name;
+		$foreign_user_info->email = $orig_foreign_user_info->mailAddress;
+		$foreign_user_info->foreign_service_id = $project_conf->foreign_service_id;
+		$foreign_user_info->space = $project_conf->space;
+		$foreign_user_info->orig = $orig_foreign_user_info;
+
+		return $foreign_user_info;
 	}
 
 }
