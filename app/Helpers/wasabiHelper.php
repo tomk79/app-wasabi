@@ -107,13 +107,9 @@ class wasabiHelper{
 	 * WASABI App のルーティング: web
 	 */
 	public static function route_app_integration_web(){
-		$request_path = $_SERVER['REQUEST_URI'];
-		$project_id = null;
-		$app_id = null;
-		if(preg_match('/^.*?\/pj\/([a-zA-Z0-9\-\_]+)\/app\/([a-zA-Z0-9\-\_]+)/s', $request_path, $matched)){
-			$project_id = $matched[1];
-			$app_id = $matched[2];
-		}
+		$parsed_ids = self::get_project_app_id_by_request_uri();
+		$project_id = $parsed_ids['project_id'];
+		$app_id = $parsed_ids['app_id'];
 		if( !strlen($project_id) || !strlen($app_id) ){
 			return;
 		}
@@ -137,13 +133,9 @@ class wasabiHelper{
 	 * WASABI App のルーティング: api
 	 */
 	public static function route_app_integration_api(){
-		$request_path = $_SERVER['REQUEST_URI'];
-		$project_id = null;
-		$app_id = null;
-		if(preg_match('/^.*?\/projects\/([a-zA-Z0-9\-\_]+)\/app\/([a-zA-Z0-9\-\_]+)/s', $request_path, $matched)){
-			$project_id = $matched[1];
-			$app_id = $matched[2];
-		}
+		$parsed_ids = self::get_project_app_id_by_request_uri();
+		$project_id = $parsed_ids['project_id'];
+		$app_id = $parsed_ids['app_id'];
 		if( !strlen($project_id) || !strlen($app_id) ){
 			return;
 		}
@@ -163,13 +155,27 @@ class wasabiHelper{
 	}
 
 	/**
+	 * Project ID と App ID を取得する
+	 */
+	public static function get_project_app_id_by_request_uri(){
+		$request_path = $_SERVER['REQUEST_URI'];
+		$project_id = null;
+		$app_id = null;
+		if(preg_match('/^.*?\/(?:projects|pj)\/([a-zA-Z0-9\-\_]+)\/app\/([a-zA-Z0-9\-\_]+)/s', $request_path, $matched)){
+			$project_id = $matched[1];
+			$app_id = $matched[2];
+		}
+		return array(
+			'project_id' => $project_id,
+			'app_id' => $app_id,
+		);
+	}
+
+	/**
 	 * WASABI App オブジェクトを生成する
 	 */
 	public static function create_wasabi_app($app_id){
 		$list = self::get_app_list();
-		// if( !array_key_exists($app_id, $list) ){
-		// 	return false;
-		// }
 		$wasabi_app = new wasabiApp($app_id);
 		return $wasabi_app;
 	}

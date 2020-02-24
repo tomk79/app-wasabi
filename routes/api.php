@@ -87,13 +87,10 @@ Route::middleware('auth:apikey,api', 'throttle:60,1')
 		// WASABI App Integration
 		Route::prefix('projects/{project_id}/app/{app_id}')
 			->middleware(function($request, Closure $next){
-				$request_path = $_SERVER['REQUEST_URI'];
-				$project_id = null;
-				$app_id = null;
-				if(preg_match('/^.*?\/projects\/([a-zA-Z0-9\-\_]+)\/app\/([a-zA-Z0-9\-\_]+)/s', $request_path, $matched)){
-					$project_id = $matched[1];
-					$app_id = $matched[2];
-				}
+				$parsed_ids = \App\Helpers\wasabiHelper::get_project_app_id_by_request_uri();
+				$project_id = $parsed_ids['project_id'];
+				$app_id = $parsed_ids['app_id'];
+
 				if( !strlen($project_id) || !strlen($app_id) ){
 					return;
 				}
