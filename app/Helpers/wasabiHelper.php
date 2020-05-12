@@ -158,7 +158,10 @@ class wasabiHelper{
 	 * Project ID と App ID を取得する
 	 */
 	public static function get_project_app_id_by_request_uri(){
-		$request_path = $_SERVER['REQUEST_URI'];
+		$request_path = null;
+		if( array_key_exists('REQUEST_URI', $_SERVER) ){
+			$request_path = $_SERVER['REQUEST_URI'];
+		}
 		$project_id = null;
 		$app_id = null;
 		if(preg_match('/^.*?\/(?:projects|pj)\/([a-zA-Z0-9\-\_]+)\/app\/([a-zA-Z0-9\-\_]+)/s', $request_path, $matched)){
