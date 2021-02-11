@@ -29,7 +29,7 @@
 			</div>
 		</div>
 		<div class="px2-header__shoulder-menu">
-			<button>≡</button>
+			<button><span class="px2-header__hamburger"></span></button>
 			<ul>
 				<li><a href="{{ url('/') }}" data-name="">ダッシュボード</a></li>
 				@guest
