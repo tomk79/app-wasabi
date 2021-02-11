@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.default')
 @section('title', '外部アプリケーション '.$client->name)
 
 @section('content')

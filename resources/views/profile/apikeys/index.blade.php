@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.default')
 @section('title', 'API Key 一覧')
 
 @section('content')

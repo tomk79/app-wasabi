@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.default')
 @section('title', 'メールアドレスを変更する')
 
 @section('content')

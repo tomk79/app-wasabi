@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.default')
 @section('title', 'API Key '.$foreign_account->foreign_service_id)
 
 @section('content')

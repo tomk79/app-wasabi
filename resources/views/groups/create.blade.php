@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.default')
 @section('title', (!$parent ? '新規グループを作成' : '新規サブグループを作成'))
 
 @section('content')

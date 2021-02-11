@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.default')
 @section('title', 'プロジェクト '.$project->name)
 
 @section('content')

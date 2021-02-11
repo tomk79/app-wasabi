@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.default')
 @section('title') {{ env('APP_NAME') }} @endsection
 
 @section('content')

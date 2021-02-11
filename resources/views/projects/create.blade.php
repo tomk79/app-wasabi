@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.default')
 @section('title', '新規プロジェクトを作成')
 
 @section('content')

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.default')
 @section('title', '外部アカウント 一覧')
 
 @section('content')

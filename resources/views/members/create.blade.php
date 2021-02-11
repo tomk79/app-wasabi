@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.default')
 @section('title', '新しいメンバーを招待する')
 
 @section('content')

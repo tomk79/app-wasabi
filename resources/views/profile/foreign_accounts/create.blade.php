@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.default')
 @section('title', '新しい アカウント を登録する')
 
 @section('content')
