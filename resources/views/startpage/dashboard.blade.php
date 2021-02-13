@@ -9,6 +9,9 @@
 </style>
 @endsection
 
+@php $content_fit_to_window = 0; @endphp
+@php $hide_h1_container = 1; @endphp
+
 @section('content')
 <div class="container">
 	<div class="row">

@@ -38,6 +38,9 @@ class boot
 		}
 		$global->user = $user;
 
+		View::share('content_fit_to_window', false);
+		View::share('hide_h1_container', false);
+
 		return $next($request);
 	}
 }

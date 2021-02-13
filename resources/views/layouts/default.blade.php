@@ -7,25 +7,22 @@
 
 	<title>{{ config('app.name') }} | @yield('title')</title>
 
-	<!-- Scripts -->
-	<script src="{{ asset('js/app.js') }}" defer></script>
-
-	<!-- Styles -->
-	<link href="{{ asset('css/app.css') }}" rel="stylesheet">
-
-	<!-- px2style -->
-	<script src="{{ asset('common/px2style/dist/scripts.js') }}"></script>
-	<link href="{{ asset('common/px2style/dist/styles.css') }}" rel="stylesheet">
+	@include("layouts.inc.head")
 
 	@yield('head')
 </head>
-<body>
+<body id="app" class="@if ($content_fit_to_window) theme-content-fit-to-window @endif @if ($hide_h1_container) theme-hide-h1-container @endif">
 
 	@include("layouts.inc.header")
 
-	{{-- main block --}}
-	<div class="theme-main-block">
-		<div class="theme-main-block__inner" id="app">
+	<div class="theme-h1-container">
+		<div class="theme-h1-container__heading">
+			<h1>@yield('title')</h1>
+		</div>
+	</div>
+	<div class="theme-main-container">
+
+		<div class="theme-main-container__header-info">
 			@if (count($global->breadcrumb) > 1)
 			<nav aria-label="breadcrumb">
 				<ol class="breadcrumb">
@@ -39,20 +36,16 @@
 				</ol>
 			</nav>
 			@endif
-			<main class="theme-main">
-				<h1>@yield('title')</h1>
 
-				@if (session('flash_message'))
-					<div class="alert alert-success" role="alert">
-						{{ session('flash_message') }}
-					</div>
-				@endif
+			@if (session('flash_message'))
+			<div class="alert alert-success" role="alert">
+				{{ session('flash_message') }}
+			</div>
+			@endif
+		</div>
 
-				<div class="contents">
-					@yield('content')
-				</div>
-			</main>
-
+		<div class="contents">
+			@yield('content')
 		</div>
 	</div>
 

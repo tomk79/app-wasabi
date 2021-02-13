@@ -55,7 +55,8 @@ class HomeController extends Controller
 
 		return view('home.account', [
 			'account' => $account,
-			'profile' => $user
+			'profile' => $user,
+			'current' => 'home.account',
 		]);
 	}
 
@@ -81,7 +82,8 @@ class HomeController extends Controller
 
 		return view('home.group', [
 			'account'=>$group,
-			'profile' => $user
+			'profile' => $user,
+			'current' => 'home.group',
 		]);
 	}
 
@@ -152,6 +154,7 @@ class HomeController extends Controller
 				'relation' => $relation,
 				'wasabiApps' => $wasabiApps,
 				'members' => $members,
+				'current' => 'home.project',
 			]
 		);
 	}

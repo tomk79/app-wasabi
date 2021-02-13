@@ -11,7 +11,15 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
+mix
+	/**
+	 * App Resources
+	 */
+	.js('resources/js/app.js', 'public/js')
 	.sass('resources/sass/app.scss', 'public/css')
+
+	/**
+	 * px2style
+	 */
 	.copyDirectory('vendor/pickles2/px2style/dist', 'public/common/px2style/dist')
 ;
