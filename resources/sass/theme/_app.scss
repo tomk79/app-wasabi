@@ -136,11 +136,22 @@ body.theme-hide-h1-container {
  * フッター
  */
 .theme-footer{
-	padding: 13px 10px;
+	padding: 13px 0;
 	margin: 0 auto;
 	border-top: 1px solid #ccc;
 	&__inner{
-		max-width: 1024px;
+		max-width: 1170px;
+		width: calc(100% - 57px - 57px);
+		box-sizing: border-box;
 		margin: 0 auto;
+		padding: 1em 0 0.5em;
+		@media all and (max-width: calc(1170px + 57px + 57px)) {
+			width: calc(100% - 57px - 15px);
+			margin: 0 auto 0 57px;
+		}
+		@media all and (max-width: 768px) {
+			width: calc(100% - 15px - 15px);
+			margin: 0 auto;
+		}
 	}
 }
