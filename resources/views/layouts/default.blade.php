@@ -17,7 +17,9 @@
 
 	<div class="theme-h1-container">
 		<div class="theme-h1-container__heading">
+			@hasSection('title')
 			<h1>@yield('title')</h1>
+			@endif
 		</div>
 	</div>
 	<div class="theme-main-container">

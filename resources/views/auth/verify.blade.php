@@ -1,4 +1,5 @@
 @extends('layouts.default')
+@section('title', __('Verify Your Email Address'))
 
 @section('content')
 <div class="container">

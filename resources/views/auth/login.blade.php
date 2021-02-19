@@ -1,4 +1,5 @@
 @extends('layouts.default')
+@section('title', __('Login'))
 
 @section('content')
 <div class="container">
