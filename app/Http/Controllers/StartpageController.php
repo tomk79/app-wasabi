@@ -27,6 +27,9 @@ class StartpageController extends Controller
 		if( !$user ){
 			return view('startpage.index');
 		}
+		if( !$user->email_verified_at ){
+			return view('auth.verify');
+		}
 
 		$subEmails = UserSubEmail::where(['user_id'=>$user->id])->get();
 
